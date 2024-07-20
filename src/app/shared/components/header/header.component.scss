@@ -1,0 +1,27 @@
+:host {
+    padding: 2rem;
+    display:block;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:99;
+
+    header {
+        max-width: 1900px;
+        width:95%;
+        display:flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 auto;
+        position: relative;
+
+        & app-logo {
+            max-width: 200px;
+            width: 25%;
+            display:block
+        }
+    }
+
+
+}

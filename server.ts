@@ -4,6 +4,7 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
+import apiRouter from './src/api/api';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -16,6 +17,12 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
+
+  server.use('/api', apiRouter);
+
+  server.get('/greetings', (req: express.Request, res: express.Response) => {
+    res.send({ message: 'Hello from Angular SSC!' });
+  });
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });

@@ -1,0 +1,153 @@
+@import '../../../../scss/import';
+
+:host {
+
+    @include mobile {
+        & nav {
+            & .icon {
+                .menu {
+                    background-color: transparent;
+                    border: none;
+                    cursor: pointer;
+                    display: flex;
+                    padding: 0;
+                }
+    
+                .line {
+                    fill: none;
+                    stroke: black;
+                    stroke-width: 6;
+                    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                        stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+                }
+    
+                .line1 {
+                    stroke-dasharray: 60 207;
+                    stroke-width: 6;
+                }
+    
+                .line2 {
+                    stroke-dasharray: 60 60;
+                    stroke-width: 6;
+                }
+    
+                .line3 {
+                    stroke-dasharray: 60 207;
+                    stroke-width: 6;
+                }
+    
+    
+                & svg {
+                    width: 32px;
+                    height: 32px;
+                }
+    
+                
+            }
+    
+            & .overlay {
+                position: fixed;
+                top:-100vh;
+                left:0;
+                height: 100%;
+                width:100%;
+                background-color: $color-overlays;
+                transition: top 0.3s ease;
+                padding: 10vh 5%;
+    
+            }
+    
+            & ul {
+                list-style: none;
+                padding: 0;
+                margin-top: 2rem;
+    
+                & li {
+    
+                    background-color: white;
+                    margin-top: .5rem;
+                    padding:10px;
+    
+                    & a {
+                        color: black;
+                        text-decoration: none;
+                        font-family: 'D-Din Bold';
+                    }
+    
+                    & svg {
+                        width: 32px;
+                        display: none;
+                    }
+    
+                    &.searchicon {
+                        display:none;
+                    }
+                }
+            }
+    
+            &.opened {
+                & .overlay {
+                    top:0;
+                    z-index:-1;
+    
+                }
+    
+                & .icon {
+                    & .line1 {
+                        stroke-dasharray: 90 207;
+                        stroke-dashoffset: -134;
+                        stroke-width: 6;
+                    }
+    
+                    & .line2 {
+                        stroke-dasharray: 1 60;
+                        stroke-dashoffset: -30;
+                        stroke-width: 6;
+                    }
+    
+                    & .line3 {
+                        stroke-dasharray: 90 207;
+                        stroke-dashoffset: -134;
+                        stroke-width: 6;
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    @include desktop {
+        & .icon {
+            display: none;
+        }
+
+        & .searchbar {
+            display:none;
+        }
+
+        & nav {
+            & ul {
+                list-style: none;
+                padding: 0;
+                display: flex;
+                gap: 2rem;
+
+                & li {
+
+                    & a {
+                        color: black;
+                        text-decoration: none;
+                        font-family: 'D-Din Bold';
+                    }
+
+                    & svg {
+                        width: 32px;
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+}

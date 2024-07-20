@@ -1,0 +1,14 @@
+<div class="grid">
+    @for(event of events; track event.url) {
+        <div class="item">
+            <div>
+                <img [src]="event.desktopEventImage.url" />
+            </div>
+            <div class="text">
+                <h1>{{event.title}}</h1>
+                <h2>{{event.subtitle}}</h2>
+                <p [innerHTML]="event.excerpt.html"></p>
+            </div>
+        </div>
+    }
+</div>

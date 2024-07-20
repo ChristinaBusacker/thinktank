@@ -1,0 +1,47 @@
+<nav [class.opened]="opened">
+    <div class="icon">
+        <button class="menu" aria-expanded="false"  (click)="opened = !opened">
+            <svg width="100" height="100" viewBox="0 0 100 100">
+              <path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+              <path class="line line2" d="M 20,50 H 80" />
+              <path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+            </svg>
+          </button>
+    </div>
+    <div class="overlay">
+        <div class="searchbar">
+            <input type="search" />
+        </div>
+        <ul>
+            <li>
+                <a [routerLink]="['/Blog']" routerLinkActive="router-link-active">Blog</a>
+            </li>
+            <li>
+                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">Schulungen</a>
+            </li>
+            <li>
+                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">Veranstaltungen</a>
+            </li>
+            <li>
+                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">Über uns</a>
+            </li>
+            <li>
+                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">Kontakt</a>
+            </li>
+            <li>
+                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">Impressum</a>
+            </li>
+            <li class="searchicon">
+                <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 28 28"
+                    style="enable-background:new 0 0 28 28;" xml:space="preserve">
+                    <path d="M27.8,25l-9.7-9.7c1-1.5,1.6-3.3,1.6-5.2c0-5.3-4.3-9.6-9.6-9.6c-5.3,0-9.6,4.3-9.6,9.6c0,5.3,4.3,9.6,9.6,9.6
+        c1.9,0,3.7-0.6,5.2-1.6l9.7,9.7L27.8,25z M2.4,10.1c0-4.2,3.4-7.6,7.6-7.6c4.2,0,7.6,3.4,7.6,7.6c0,4.2-3.4,7.6-7.6,7.6
+        C5.8,17.7,2.4,14.3,2.4,10.1z" />
+                </svg>
+    
+            </li>
+        </ul>
+    </div>
+
+</nav>

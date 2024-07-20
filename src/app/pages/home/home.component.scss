@@ -1,0 +1,23 @@
+@import '../../../scss/mixins/viewport.scss';
+
+:host {
+    & .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 40px;
+
+        @include desktop {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        & .item {
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: white;
+
+            & .text {
+                padding: 2rem;
+            }
+        }
+    }
+}
