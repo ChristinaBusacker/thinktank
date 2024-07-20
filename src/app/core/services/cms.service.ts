@@ -6,7 +6,7 @@ import { Events } from '../../../core/interfaces/cms.interfaces';
 })
 export class CmsService {
 
-  private baseUrl = 'http://localhost:4000/api/cms';
+  private baseUrl = window?.origin ? window.origin + '/api/cms' : 'http://localhost:4000/api/cms';
 
   constructor() { }
 
