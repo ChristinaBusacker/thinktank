@@ -30,4 +30,22 @@ export interface Event {
     desktopEventImage: EventImage;
 }
 
+export interface Post {
+    url: string;
+    title: string;
+    subtitle: string;
+    postDate: string;
+    postImage: EventImage;
+    desktopPostImage: EventImage;
+    text: TextContent;
+    excerpt: TextContent;
+}
+
+
+export type Posts = Post[];
+
 export type Events = Event[];
+
+export type GQLResponse<T> = {
+    data: { [key: string]: T }
+}

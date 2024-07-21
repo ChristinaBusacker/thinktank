@@ -15,6 +15,10 @@
             grid-template-columns: 1fr 1fr;
             background-color: white;
 
+            @media (max-width: 767px) {
+                grid-template-columns: 1fr;
+              }
+
             & .text {
                 padding: 2rem;
             }
