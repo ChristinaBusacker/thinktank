@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CmsService } from '../../core/services/cms.service';
-import { Events } from '../../../core/interfaces/cms.interfaces';
+import { Events, Posts } from '../../../core/interfaces/cms.interfaces';
 import { CommonModule } from '@angular/common';
+import { Select, Store } from '@ngxs/store';
+import { CMSState } from '../../core/state/cms/localization.state';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -10,13 +13,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
-
-  public events: Events = []
-
-  constructor(private cmsService: CmsService) { }
-
-  async ngOnInit(): Promise<void> {
-    this.events = await this.cmsService.fetchEvents()
-  }
+export class HomeComponent {
+  events$: Observable<Events> = inject(Store).select(CMSState.getEvents);
+  posts$: Observable<Posts> = inject(Store).select(CMSState.getPosts);
 }

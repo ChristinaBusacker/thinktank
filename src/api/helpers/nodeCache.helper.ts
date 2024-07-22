@@ -1,6 +1,5 @@
 import NodeCache from "node-cache";
 
-
 const cache = new NodeCache();
 
 export async function preferCacheEntries<T>(key: string, callback: () => T | Promise<T>): Promise<T | undefined> {

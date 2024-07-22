@@ -11,7 +11,7 @@ const cmsRouter = express.Router();
 
 cmsRouter.get('/event', async (req, res) => {
 
-    const locales = req.headers['locales'] || ["de", "en"]
+    const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
     const variables = { locales: locales };
 
     try {
@@ -28,7 +28,7 @@ cmsRouter.get('/event', async (req, res) => {
 
 cmsRouter.get('/event/:slug', async (req, res) => {
 
-    const locales = req.headers['locales'] || ["de", "en"]
+    const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
     const variables = { url: req.params.slug, locales: locales };
 
     try {
@@ -53,7 +53,7 @@ cmsRouter.get('/event/:slug', async (req, res) => {
 
 cmsRouter.get('/post', async (req, res) => {
 
-    const locales = req.headers['locales'] || ["de", "en"]
+    const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
     const variables = { locales: locales };
 
 
@@ -74,7 +74,7 @@ cmsRouter.get('/post', async (req, res) => {
 });
 
 cmsRouter.get('/post/:slug', async (req, res) => {
-    const locales = req.headers['locales'] || ["de", "en"]
+    const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
     const variables = { url: req.params.slug, locales: locales };
 
     try {

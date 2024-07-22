@@ -24,12 +24,9 @@ export function app(): express.Express {
   }
 
   server.use(cors(corsOptions))
+  server.use(express.json());
 
   server.use('/api', apiRouter);
-
-  server.get('/greetings', (req: express.Request, res: express.Response) => {
-    res.send({ message: 'Hello from Angular SSC!' });
-  });
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });

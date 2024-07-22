@@ -1,5 +1,5 @@
 <div class="grid">
-    @for(event of events; track event.url) {
+    @for(event of events$ | async; track event.url) {
         <div class="item">
             <div>
                 <img [src]="event.desktopEventImage.url" />
