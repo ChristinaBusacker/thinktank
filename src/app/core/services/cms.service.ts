@@ -9,7 +9,7 @@ import { SetEvents, SetPosts } from '../state/cms/cms.actions';
 })
 export class CmsService {
 
-  private baseUrl = 'http://localhost:4000/api/cms';
+  private baseUrl = 'https://cmbu.de/api/search';;
 
   constructor(private store: Store) { }
 

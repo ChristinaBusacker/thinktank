@@ -7,7 +7,7 @@ import { LocalizationState } from '../state/localization/localization.state';
 })
 export class SearchService {
 
-  private baseUrl = 'http://localhost:4000/api/search';
+  private baseUrl = 'https://cmbu.de/api/search';
 
   constructor(private store: Store) {
 
