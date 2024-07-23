@@ -109,6 +109,8 @@ cmsRouter.get('/clearcache', async (req, res) => {
         console.log(`delete cache for ${key}`)
         cache.del(key)
     });
+    cache.del(`de_posts`)
+    cache.del(`de_events`);
     cache.flushAll();
     console.log('flushed cache entries')
     res.json({ success: true });
