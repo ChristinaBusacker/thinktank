@@ -41,4 +41,32 @@
             }
         }
     }
+
+    & .results {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        margin-top: 1rem;
+        
+        & .item {
+            padding: 10px;
+            background-color: white;
+
+            @include mobile {
+                img {
+                    display:none;
+                }
+    
+                .text {
+                    -webkit-line-clamp: 3;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden; 
+                    font-size: 1.4rem;
+                }
+            }
+        }
+        
+
+    }
 }

@@ -1,0 +1,22 @@
+:host {
+
+
+
+    input {
+        display: none;
+    }
+
+    & .container {
+        overflow:hidden;
+    }
+
+    & .content {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows .4s ease;
+
+        &.open {
+            grid-template-rows: 1fr;
+        }
+    }
+}

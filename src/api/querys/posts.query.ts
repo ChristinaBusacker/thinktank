@@ -43,6 +43,7 @@ query Posts($locales: [Locale!]!) {
     }
     text {
       html
+      text
     }
     excerpt {
       html

@@ -3,7 +3,7 @@ import { CmsService } from '../../core/services/cms.service';
 import { Events, Posts } from '../../../core/interfaces/cms.interfaces';
 import { CommonModule } from '@angular/common';
 import { Select, Store } from '@ngxs/store';
-import { CMSState } from '../../core/state/cms/localization.state';
+import { CMSState } from '../../core/state/cms/cms.state';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

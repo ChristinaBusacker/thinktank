@@ -5,6 +5,7 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { NgxsModule } from '@ngxs/store';
 import { LocalizationState } from './core/state/localization/localization.state';
 import { SearchService } from './core/services/search.service';
+import { LanguagePickerComponent } from './shared/components/language-picker/language-picker.component';
 
 @Component({
   selector: 'app-root',

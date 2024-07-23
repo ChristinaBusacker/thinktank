@@ -4,7 +4,7 @@ import { fetchHygraphData } from './helpers/fetchHygraphData.helper';
 import { eventQuery, eventsQuery } from './querys/events.query';
 import { postQuery, postsQuery } from './querys/posts.query';
 import { preferCacheEntries } from './helpers/nodeCache.helper';
-import { Event, Events, Post, Posts } from '../core/interfaces/cms.interfaces';
+import { CMSObject, CMSObjectType, Event, Events, Post, Posts } from '../core/interfaces/cms.interfaces';
 
 
 const cmsRouter = express.Router();
@@ -117,7 +117,7 @@ cmsRouter.get('/clearcache', async (req, res) => {
     res.json({ success: true, ...cache.getStats() });
 });
 
-cmsRouter.post('search', async (req, res) => {
+cmsRouter.post('/search', async (req, res) => {
     const { query, option } = req.body;
 
     const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
@@ -134,13 +134,16 @@ cmsRouter.post('search', async (req, res) => {
     }) || [];
 
     // Kombinieren der Daten basierend auf den Optionen
-    let combinedData: Array<Event | Post> = [];
+    let combinedData: Array<CMSObject> = [];
     if (option === 'all') {
-        combinedData = [...events, ...posts];
+
+        combinedData = [
+            ...events.map(event => ({ type: CMSObjectType.event, data: event })),
+            ...posts.map(post => ({ type: CMSObjectType.post, data: post }))];
     } else if (option === 'events') {
-        combinedData = events;
+        combinedData = events.map(event => ({ type: CMSObjectType.event, data: event }));
     } else if (option === 'posts') {
-        combinedData = posts;
+        combinedData = posts.map(post => ({ type: CMSObjectType.post, data: post }));
     }
 
     // Funktion zur Berechnung des Scores
@@ -164,7 +167,7 @@ cmsRouter.post('search', async (req, res) => {
 
     let scoredData = combinedData.map(item => ({
         ...item,
-        score: calculateScore(item, query)
+        score: calculateScore(item.data, query)
     }));
 
     scoredData = scoredData.filter(data => data.score > 0)

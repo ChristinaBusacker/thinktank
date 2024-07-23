@@ -26,4 +26,29 @@
         <span>Events</span>
     </label>
 </div>
-<div class="suggestions"></div>
+<div class="results">
+    @for(result of results$ | async; track result.data.url) {
+        <div class="item">
+            <div>
+                <img [src]="getImageUrl(result)" />
+            </div>
+            <div class="text">
+                <span>
+                    <strong>{{result.data.title}}</strong> {{result.data.excerpt.text}}
+                </span>
+            </div>
+        </div>
+    }
+
+    @if((results$ | async); as results) {
+        @if(results.length < 1) {
+            <div class="item">
+                <div class="text">
+                    <span>
+                        Leider konnten keine Suchergebnisse gefunden werden.
+                    </span>
+                </div>
+            </div>
+        }
+    }
+</div>

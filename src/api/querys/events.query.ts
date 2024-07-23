@@ -6,9 +6,11 @@ export const eventsQuery = `
         url
         text {
           html
+          
         }
         excerpt {
           html
+          text
         }
         eventLocation {
           geoLocation {
@@ -46,6 +48,7 @@ export const eventQuery = `
         }
         excerpt {
           html
+          text
         }
         eventLocation {
           geoLocation {

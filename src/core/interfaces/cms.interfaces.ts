@@ -1,5 +1,6 @@
 export interface TextContent {
     html: string;
+    text?: string
 }
 
 export interface GeoLocation {
@@ -43,8 +44,22 @@ export interface Post {
 
 
 export type Posts = Post[];
-
 export type Events = Event[];
+
+export enum CMSObjectType {
+    post = "post",
+    event = "event"
+}
+
+export interface CMSObject {
+    type: CMSObjectType;
+    data: Post | Event
+}
+
+export interface CMSSearchResult extends CMSObject {
+    score?: string;
+}
+
 
 export type GQLResponse<T> = {
     data: { [key: string]: T }
