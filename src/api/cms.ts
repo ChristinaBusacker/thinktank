@@ -1,5 +1,5 @@
 import express from 'express';
-
+import NodeCache from "node-cache";
 import { fetchHygraphData } from './helpers/fetchHygraphData.helper';
 import { eventQuery, eventsQuery } from './querys/events.query';
 import { postQuery, postsQuery } from './querys/posts.query';
@@ -9,10 +9,15 @@ import { Event, Events, Posts } from '../core/interfaces/cms.interfaces';
 
 const cmsRouter = express.Router();
 
+
+const cache = new NodeCache();
+
+
 cmsRouter.get('/event', async (req, res) => {
 
     const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
-    const variables = { locales: locales };
+    console.log(req.headers['locales'])
+    const variables = { locales };
 
     try {
         const data = await preferCacheEntries<Events>('events', async () => {
@@ -95,5 +100,11 @@ cmsRouter.get('/post/:slug', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+cmsRouter.get('/clearcache', async (req, res) => {
+    cache.flushAll();
+});
+
+
 
 export default cmsRouter;
