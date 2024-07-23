@@ -4,7 +4,10 @@ const cache = new NodeCache();
 
 export async function preferCacheEntries<T>(key: string, callback: () => T | Promise<T>): Promise<T | undefined> {
     const data = cache.get<T>(key);
-    console.log(data)
+    if (Array.isArray(data)) {
+        console.log(data.length)
+    }
+
 
     if (!data) {
         const callbackData = await callback();
