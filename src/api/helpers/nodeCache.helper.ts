@@ -1,17 +1,11 @@
 import NodeCache from "node-cache";
 
-const cache = new NodeCache();
-
-export async function preferCacheEntries<T>(key: string, callback: () => T | Promise<T>): Promise<T | undefined> {
+export async function preferCacheEntries<T>(cache: NodeCache, key: string, callback: () => T | Promise<T>): Promise<T | undefined> {
     const data = cache.get<T>(key);
-    if (Array.isArray(data)) {
-        console.log(data.length)
-    }
-
 
     if (!data) {
         const callbackData = await callback();
-        if (setCacheEntry<T>(key, callbackData)) {
+        if (setCacheEntry<T>(cache, key, callbackData)) {
             console.log(`Filled cache entries for ${key}`);
             return callbackData
         } else {
@@ -25,6 +19,6 @@ export async function preferCacheEntries<T>(key: string, callback: () => T | Pro
     return data
 }
 
-export function setCacheEntry<T>(key: string, data: any): boolean {
+export function setCacheEntry<T>(cache: NodeCache, key: string, data: any): boolean {
     return cache.set<T>(key, data, 3600);
 }

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { LocalizationState } from '../state/localization/localization.state';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
 
-  private baseUrl = 'https://cmbu.app/api/search';
+  private baseUrl = environment.baseUrl + '/api/cms';
 
   constructor(private store: Store) {
 
@@ -16,7 +17,7 @@ export class SearchService {
 
   search(query: string, option: string) {
     const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
-    fetch(`${this.baseUrl}`, {
+    fetch(`${this.baseUrl}/search`, {
       method: 'POST',
       body: JSON.stringify({
         query, option

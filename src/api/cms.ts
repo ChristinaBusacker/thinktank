@@ -4,7 +4,7 @@ import { fetchHygraphData } from './helpers/fetchHygraphData.helper';
 import { eventQuery, eventsQuery } from './querys/events.query';
 import { postQuery, postsQuery } from './querys/posts.query';
 import { preferCacheEntries } from './helpers/nodeCache.helper';
-import { Event, Events, Posts } from '../core/interfaces/cms.interfaces';
+import { Event, Events, Post, Posts } from '../core/interfaces/cms.interfaces';
 
 
 const cmsRouter = express.Router();
@@ -20,7 +20,7 @@ cmsRouter.get('/event', async (req, res) => {
     const variables = { locales };
 
     try {
-        const data = await preferCacheEntries<Events>(`${loc}_events`, async () => {
+        const data = await preferCacheEntries<Events>(cache, `${loc}_events`, async () => {
             const response = await fetchHygraphData<Events>(eventsQuery, variables)
             return response.data['events']
         })
@@ -39,7 +39,7 @@ cmsRouter.get('/event/:slug', async (req, res) => {
 
     try {
 
-        const events = await preferCacheEntries<Events>(`${loc}_events`, async () => {
+        const events = await preferCacheEntries<Events>(cache, `${loc}_events`, async () => {
             const response = await fetchHygraphData<Events>(eventsQuery, variables)
             return response.data['events']
         })
@@ -65,7 +65,7 @@ cmsRouter.get('/post', async (req, res) => {
 
 
     try {
-        const posts = await preferCacheEntries<Events>(`${loc}_posts`, async () => {
+        const posts = await preferCacheEntries<Events>(cache, `${loc}_posts`, async () => {
             const response = await fetchHygraphData<Events>(postsQuery, variables)
             return response.data['posts']
         })
@@ -87,7 +87,7 @@ cmsRouter.get('/post/:slug', async (req, res) => {
     const variables = { url: req.params.slug, locales: locales };
 
     try {
-        const posts = await preferCacheEntries<Events>(`${loc}_posts`, async () => {
+        const posts = await preferCacheEntries<Events>(cache, `${loc}_posts`, async () => {
             const response = await fetchHygraphData<Events>(postsQuery, variables)
             return response.data['posts']
         })
@@ -109,15 +109,71 @@ cmsRouter.get('/clearcache', async (req, res) => {
         console.log(`delete cache for ${key}`)
         cache.del(key)
     });
-    cache.set(`de_posts`, undefined)
-    cache.set(`de_events`, undefined);
-    cache.set(`en_posts`, undefined)
-    cache.set(`en_events`, undefined);
+    console.log(cache.getStats())
+
     cache.flushAll();
-    console.log('flushed cache entries')
-    res.json({ success: true });
+
+    console.log('flushed cache entries', cache.get('de_events'))
+    res.json({ success: true, ...cache.getStats() });
 });
 
+cmsRouter.post('search', async (req, res) => {
+    const { query, option } = req.body;
+
+    const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
+    const variables = { locales: locales };
+
+    const events = await preferCacheEntries<Events>(cache, 'events', async () => {
+        const response = await fetchHygraphData<Events>(eventsQuery, variables);
+        return response.data['events'];
+    }) || [];
+
+    const posts = await preferCacheEntries<Posts>(cache, 'posts', async () => {
+        const response = await fetchHygraphData<Posts>(postsQuery, variables);
+        return response.data['posts'];
+    }) || [];
+
+    // Kombinieren der Daten basierend auf den Optionen
+    let combinedData: Array<Event | Post> = [];
+    if (option === 'all') {
+        combinedData = [...events, ...posts];
+    } else if (option === 'events') {
+        combinedData = events;
+    } else if (option === 'posts') {
+        combinedData = posts;
+    }
+
+    // Funktion zur Berechnung des Scores
+    function calculateScore(item, query) {
+        let score = 0;
+        const queryLower = query.toLowerCase();
+
+        if (item.title.toLowerCase().includes(queryLower)) {
+            score += 10;
+        }
+        if (item.subtitle && item.subtitle.toLowerCase().includes(queryLower)) {
+            score += 5;
+        }
+        if (item.text && item.text.html.toLowerCase().includes(queryLower)) {
+            score += 1;
+        }
+
+        return score;
+    }
+
+
+    let scoredData = combinedData.map(item => ({
+        ...item,
+        score: calculateScore(item, query)
+    }));
+
+    scoredData = scoredData.filter(data => data.score > 0)
+
+    // Sortieren der Daten nach Score
+    scoredData.sort((a, b) => b.score - a.score);
+
+    res.json(scoredData);
+});
 
 
 export default cmsRouter;

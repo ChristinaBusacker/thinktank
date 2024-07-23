@@ -8,6 +8,10 @@ import { fetchHygraphData } from './helpers/fetchHygraphData.helper';
 import { preferCacheEntries } from './helpers/nodeCache.helper';
 import { eventsQuery } from './querys/events.query';
 import { postsQuery } from './querys/posts.query';
+import NodeCache from 'node-cache';
+
+
+const cache = new NodeCache();
 
 searchRouter.post('*', async (req, res) => {
     const { query, option } = req.body;
@@ -15,12 +19,12 @@ searchRouter.post('*', async (req, res) => {
     const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
     const variables = { locales: locales };
 
-    const events = await preferCacheEntries<Events>('events', async () => {
+    const events = await preferCacheEntries<Events>(cache, 'events', async () => {
         const response = await fetchHygraphData<Events>(eventsQuery, variables);
         return response.data['events'];
     }) || [];
 
-    const posts = await preferCacheEntries<Posts>('posts', async () => {
+    const posts = await preferCacheEntries<Posts>(cache, 'posts', async () => {
         const response = await fetchHygraphData<Posts>(postsQuery, variables);
         return response.data['posts'];
     }) || [];

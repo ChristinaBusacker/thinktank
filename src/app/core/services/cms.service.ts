@@ -3,13 +3,14 @@ import { Events, Post, Posts, Event } from '../../../core/interfaces/cms.interfa
 import { Store } from '@ngxs/store';
 import { LocalizationState } from '../state/localization/localization.state';
 import { SetEvents, SetPosts } from '../state/cms/cms.actions';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CmsService {
 
-  private baseUrl = 'https://cmbu.app/api/cms';
+  private baseUrl = environment.baseUrl + '/api/cms';
 
   constructor(private store: Store) { }
 
@@ -79,4 +80,5 @@ export class CmsService {
       throw new Error(`Error on fetching post: ${error.message}`);
     }
   }
+
 }
