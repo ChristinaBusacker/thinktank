@@ -14,13 +14,13 @@ const cache = new NodeCache();
 
 
 cmsRouter.get('/event', async (req, res) => {
+    const loc = req.headers['locales'] || 'de';
+    const locales = loc === 'de' ? ["de", "en"] : ["en", "de"];
 
-    const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
-    console.log(req.headers['locales'])
     const variables = { locales };
 
     try {
-        const data = await preferCacheEntries<Events>('events', async () => {
+        const data = await preferCacheEntries<Events>(`${loc}_events`, async () => {
             const response = await fetchHygraphData<Events>(eventsQuery, variables)
             return response.data['events']
         })
@@ -33,12 +33,13 @@ cmsRouter.get('/event', async (req, res) => {
 
 cmsRouter.get('/event/:slug', async (req, res) => {
 
-    const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
+    const loc = req.headers['locales'] || 'de';
+    const locales = loc === 'de' ? ["de", "en"] : ["en", "de"];
     const variables = { url: req.params.slug, locales: locales };
 
     try {
 
-        const events = await preferCacheEntries<Events>('events', async () => {
+        const events = await preferCacheEntries<Events>(`${loc}_events`, async () => {
             const response = await fetchHygraphData<Events>(eventsQuery, variables)
             return response.data['events']
         })
@@ -58,15 +59,17 @@ cmsRouter.get('/event/:slug', async (req, res) => {
 
 cmsRouter.get('/post', async (req, res) => {
 
-    const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
+    const loc = req.headers['locales'] || 'de';
+    const locales = loc === 'de' ? ["de", "en"] : ["en", "de"];
     const variables = { locales: locales };
 
 
     try {
-        const posts = await preferCacheEntries<Posts>('posts', async () => {
-            const response = await fetchHygraphData<Posts>(postsQuery, variables)
+        const posts = await preferCacheEntries<Events>(`${loc}_posts`, async () => {
+            const response = await fetchHygraphData<Events>(eventsQuery, variables)
             return response.data['posts']
         })
+
         if (posts) {
             res.json(posts);
         } else {
@@ -79,15 +82,15 @@ cmsRouter.get('/post', async (req, res) => {
 });
 
 cmsRouter.get('/post/:slug', async (req, res) => {
-    const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
+    const loc = req.headers['locales'] || 'de';
+    const locales = loc === 'de' ? ["de", "en"] : ["en", "de"];
     const variables = { url: req.params.slug, locales: locales };
 
     try {
-        const posts = await preferCacheEntries<Posts>('posts', async () => {
-            const response = await fetchHygraphData<Posts>(postsQuery, variables)
+        const posts = await preferCacheEntries<Events>(`${loc}_posts`, async () => {
+            const response = await fetchHygraphData<Events>(postsQuery, variables)
             return response.data['posts']
         })
-
         const post = posts?.find(post => post.url === variables.url);
 
         if (!post) {
