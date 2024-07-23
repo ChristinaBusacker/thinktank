@@ -66,7 +66,7 @@ cmsRouter.get('/post', async (req, res) => {
 
     try {
         const posts = await preferCacheEntries<Events>(`${loc}_posts`, async () => {
-            const response = await fetchHygraphData<Events>(eventsQuery, variables)
+            const response = await fetchHygraphData<Events>(postsQuery, variables)
             return response.data['posts']
         })
 
