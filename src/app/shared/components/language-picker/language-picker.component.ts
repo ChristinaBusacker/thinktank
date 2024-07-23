@@ -5,6 +5,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { LocalizationState } from '../../../core/state/localization/localization.state';
 import { SetLanguage } from '../../../core/state/localization/localization.actions';
+import { CmsService } from '../../../core/services/cms.service';
 
 @Component({
   selector: 'app-language-picker',
@@ -19,12 +20,13 @@ export class LanguagePickerComponent implements OnInit {
 
   public open = false;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private cmsService: CmsService) { }
 
   ngOnInit(): void {
     this.lang$.subscribe((lang) => {
-      console.log('Set language ' + lang)
       this.control.patchValue(lang, { emitEvent: false })
+      this.cmsService.fetchEvents();
+      this.cmsService.fetchPosts();
     });
 
     this.control.valueChanges.subscribe((lang: string) => {
