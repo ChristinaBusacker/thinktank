@@ -105,10 +105,7 @@ cmsRouter.get('/post/:slug', async (req, res) => {
 });
 
 cmsRouter.get('/clearcache', async (req, res) => {
-    cache.keys().forEach(key => {
-        cache.del(key)
-    });
-    cache.flushAll();
+    cache.set('dirty', true)
     console.log('flushed cache entries')
     res.json({ success: true });
 });
