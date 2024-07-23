@@ -43,6 +43,9 @@ export class SearchComponent implements OnInit {
 
     });
 
+
+    this.optionControl.setValue('all', { emitEvent: true });
+
     this.results$.subscribe(results => console.log(results))
   }
 
