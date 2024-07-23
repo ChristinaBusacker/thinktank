@@ -3,11 +3,10 @@ import NodeCache from "node-cache";
 const cache = new NodeCache();
 
 export async function preferCacheEntries<T>(key: string, callback: () => T | Promise<T>): Promise<T | undefined> {
-
-    const dirty = cache.get('dirty');
     const data = cache.get<T>(key);
+    console.log(data)
 
-    if (!data || dirty) {
+    if (!data) {
         const callbackData = await callback();
         if (setCacheEntry<T>(key, callbackData)) {
             console.log(`Filled cache entries for ${key}`);
