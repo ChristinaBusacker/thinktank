@@ -16,7 +16,8 @@ import { CmsService } from '../../../core/services/cms.service';
 })
 export class LanguagePickerComponent implements OnInit {
   public control = new FormControl()
-  lang$: Observable<string> = inject(Store).select(LocalizationState.getLanguage);
+  lang$: Observable<'de' | 'en'> = inject(Store).select(LocalizationState.getLanguage);
+  public lang: 'de' | 'en' = 'de';
 
   public open = false;
 
@@ -27,9 +28,10 @@ export class LanguagePickerComponent implements OnInit {
       this.control.patchValue(lang, { emitEvent: false })
       this.cmsService.fetchEvents();
       this.cmsService.fetchPosts();
+      this.lang = lang
     });
 
-    this.control.valueChanges.subscribe((lang: string) => {
+    this.control.valueChanges.subscribe((lang: 'de' | 'en') => {
       this.store.dispatch(new SetLanguage(lang))
     })
   }

@@ -1,3 +1,5 @@
+@import '../../../../scss/import';
+
 :host {
     padding: 2rem 2.5%;
     display: block;
@@ -5,7 +7,7 @@
     top: 0;
     left: 50%;
     z-index: 99;
-    max-width: 1900px;
+    max-width: calc(1900px + 5%);
     width: 100%;
     transform: translateX(-50%);
 
@@ -20,7 +22,20 @@
             max-width: 200px;
             height: 50px;
             width: 100%;
-            display: block
+            display: block;
+            cursor: pointer;
+        }
+    }
+
+    app-language-picker {
+        position: absolute;
+        right:0;
+        top: 52px;
+        padding: 5px 15px;
+        background-color: white;
+
+        @include mobile {
+            display:none;
         }
     }
 

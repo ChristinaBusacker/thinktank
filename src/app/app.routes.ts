@@ -8,5 +8,15 @@ export const routes: Routes = [
         path: '',
         component: HomeComponent,
         resolve: { events: eventsResolver, posts: postsResolver }
+    },
+    {
+        path: 'blog',
+        component: HomeComponent,
+        resolve: { events: eventsResolver, posts: postsResolver }
+    },
+    {
+        path: 'events',
+        component: HomeComponent,
+        resolve: { events: eventsResolver, posts: postsResolver }
     }
 ];

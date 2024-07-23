@@ -4,7 +4,7 @@
     & .grid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 18px;
 
         @include desktop {
             grid-template-columns: 1fr 1fr;
@@ -20,7 +20,7 @@
               }
 
             & .text {
-                padding: 2rem;
+                padding: 1rem;
             }
         }
     }

@@ -1,9 +1,16 @@
+@import '../scss/import';
+
 :host {
     main {
         max-width: 1900px;
         width:95%;
         display:block;
         margin: 0 auto;
-        margin-top: 100px;
+        margin-top: 120px;
+
+
+        @include mobile {
+            margin-top: 100px;
+        }
     }
 }

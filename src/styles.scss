@@ -1,3 +1,6 @@
+
+
+
 html {
     font-size: 67.5%;
 }
@@ -17,4 +20,20 @@ img {
     display: block;
 }
 
+@import './scss/import';
+@include desktop {
+    img[data-target="m"] {
+        display:none!important;
+    }
+}
+
+@include mobile {
+    img[data-target="d"]{
+        display:none!important;
+    }
+}
+
+
+
 @import url('./scss/typography.scss');
+

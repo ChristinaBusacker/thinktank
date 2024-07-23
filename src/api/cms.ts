@@ -120,15 +120,16 @@ cmsRouter.get('/clearcache', async (req, res) => {
 cmsRouter.post('/search', async (req, res) => {
     const { query, option } = req.body;
 
-    const locales = req.headers['locales'] === 'de' ? ["de", "en"] : ["en", "de"];
+    const loc = req.headers['locales'] || 'de';
+    const locales = loc === 'de' ? ["de", "en"] : ["en", "de"];
     const variables = { locales: locales };
 
-    const events = await preferCacheEntries<Events>(cache, 'events', async () => {
+    const events = await preferCacheEntries<Events>(cache, `${loc}_events`, async () => {
         const response = await fetchHygraphData<Events>(eventsQuery, variables);
         return response.data['events'];
     }) || [];
 
-    const posts = await preferCacheEntries<Posts>(cache, 'posts', async () => {
+    const posts = await preferCacheEntries<Posts>(cache, `${loc}_posts`, async () => {
         const response = await fetchHygraphData<Posts>(postsQuery, variables);
         return response.data['posts'];
     }) || [];

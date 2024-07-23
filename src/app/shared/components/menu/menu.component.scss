@@ -55,6 +55,8 @@
                 background-color: $color-overlays;
                 transition: top 0.3s ease;
                 padding: 10vh 5%;
+                display:flex;
+                flex-direction: column;
     
             }
     
@@ -114,6 +116,12 @@
                 }
             }
         }
+
+        app-language-picker {
+            background-color: white;
+            padding:10px;
+            align-self: end;
+        }
     }
 
 
@@ -155,6 +163,10 @@
                     }
                 }
             }
+        }
+
+        app-language-picker {
+            display:none;
         }
     }
 

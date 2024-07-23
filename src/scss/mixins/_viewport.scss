@@ -1,6 +1,6 @@
 // Define breakpoints
 $mobile: 768px;  // Maximum width for mobile devices
-$tablet: 1024px; // Maximum width for tablet devices
+$tablet: 1200px; // Maximum width for tablet devices
 
 @mixin mobile {
     @media (max-width: #{$tablet}) {
@@ -11,11 +11,6 @@ $tablet: 1024px; // Maximum width for tablet devices
 // Mixin for desktop and tablets in landscape mode
 @mixin desktop {
     @media (min-width: #{ $tablet + 1 }) {
-        @content;
-    }
-
-    // Apply desktop styles to tablets in landscape mode
-    @media (min-width: #{ $mobile + 1 }) and (orientation: landscape) {
         @content;
     }
 }

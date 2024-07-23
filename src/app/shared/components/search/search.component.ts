@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { debounceTime, combineLatest, Observable } from 'rxjs';
@@ -17,9 +17,11 @@ import { SearchState } from '../../../core/state/search/cms.state';
 })
 export class SearchComponent implements OnInit {
   searchControl = new FormControl();
-  optionControl = new FormControl();
+  optionControl = new FormControl('all');
   searchQuery: string = '';
   searchOption: string = '';
+
+  lastSearch = { query: '', option: '' }
 
   types = CMSObjectType;
 
@@ -32,23 +34,28 @@ export class SearchComponent implements OnInit {
       this.searchControl.valueChanges.pipe(debounceTime(300)),
       this.optionControl.valueChanges
     ]).subscribe(([searchValue, optionValue]) => {
-      this.searchQuery = searchValue;
-      this.searchOption = optionValue;
+      this.searchQuery = searchValue || '';
+      this.searchOption = optionValue || '';
 
       if (this.searchQuery.length > 1) {
-        this.performSearch(searchValue, optionValue);
+        this.performSearch();
       }
 
     });
 
     this.results$.subscribe(results => console.log(results))
-
-    this.optionControl.setValue('all', { emitEvent: true });
   }
 
-  performSearch(query: string, option: string): void {
-    this.searchService.search(query, option)
-    console.log('Searching for:', query, 'in option:', option);
+  performSearch(): void {
+    if (this.lastSearch.query !== this.searchQuery || this.lastSearch.option !== this.searchOption) {
+      this.searchService.search(this.searchQuery, this.searchOption)
+      console.log('Searching for:', this.searchQuery, 'in option:', this.searchOption);
+      this.lastSearch = { query: this.searchQuery, option: this.searchOption }
+    } else {
+      console.log('Prevented search, because params doesnt changed')
+    }
+
+
   }
 
   getImageUrl(object: CMSSearchResult) {

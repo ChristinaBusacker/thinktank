@@ -47,6 +47,7 @@ query Posts($locales: [Locale!]!) {
     }
     excerpt {
       html
+            text
     }
   }
 }`

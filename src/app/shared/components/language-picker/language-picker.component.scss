@@ -1,22 +1,18 @@
 :host {
-
-
-
     input {
         display: none;
     }
 
-    & .container {
-        overflow:hidden;
-    }
+    label {
+        font-size: 1.6rem;
 
-    & .content {
-        display: grid;
-        grid-template-rows: 0fr;
-        transition: grid-template-rows .4s ease;
 
-        &.open {
-            grid-template-rows: 1fr;
+        &.active {
+            font-weight: bold;
+        }
+
+        &:not(.active) {
+            cursor:pointer;
         }
     }
 }
