@@ -1,14 +1,14 @@
 <div class="grid">
-    @for(event of events$ | async; track event.url) {
+    @for(object of objects$ | async; track object.data.url) {
         <div class="item">
             <div>
-                <img [src]="event.desktopImage.url" data-target="d"/>
-                <img [src]="event.image.url" data-target="m"/>
+                <img [src]="object.data.desktopImage.url" data-target="d"/>
+                <img [src]="object.data.image.url" data-target="m"/>
             </div>
             <div class="text">
-                <h1>{{event.title}}</h1>
-                <h2>{{event.subtitle}}</h2>
-                <p [innerHTML]="event.excerpt.html"></p>
+                <h1>{{object.data.title}}</h1>
+                <h2>{{object.data.subtitle}}</h2>
+                <p [appSafeHtml]="object.data.excerpt.html"></p>
             </div>
         </div>
     }

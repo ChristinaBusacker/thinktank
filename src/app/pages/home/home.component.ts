@@ -6,12 +6,12 @@ import { Select, Store } from '@ngxs/store';
 import { CMSState } from '../../core/state/cms/cms.state';
 import { filter, Observable, Subscription } from 'rxjs';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { DirectivesModule } from '../../core/directives/directives.module';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, RouterModule, DirectivesModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
