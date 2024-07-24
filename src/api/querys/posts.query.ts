@@ -5,12 +5,12 @@ query Post($url: String, $locales: [Locale!]!) {
     title
     subtitle
     postDate
-    postImage {
+    image {
       mimeType
       url
       id
     }
-    desktopPostImage {
+    desktopImage {
       mimeType
       url
       id
@@ -31,12 +31,12 @@ query Posts($locales: [Locale!]!) {
     title
     subtitle
     postDate
-    postImage {
+    image {
       mimeType
       url
       id
     }
-    desktopPostImage {
+    desktopImage {
       mimeType
       url
       id

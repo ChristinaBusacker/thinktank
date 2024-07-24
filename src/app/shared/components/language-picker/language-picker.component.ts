@@ -26,8 +26,11 @@ export class LanguagePickerComponent implements OnInit {
   ngOnInit(): void {
     this.lang$.subscribe((lang) => {
       this.control.patchValue(lang, { emitEvent: false })
-      this.cmsService.fetchEvents();
-      this.cmsService.fetchPosts();
+      if (this.lang !== lang) {
+        this.cmsService.fetchEvents();
+        this.cmsService.fetchPosts();
+      }
+
       this.lang = lang
     });
 

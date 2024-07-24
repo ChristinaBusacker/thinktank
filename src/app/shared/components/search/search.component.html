@@ -1,6 +1,6 @@
 <div class="searchbar">
     <input type="search" placeholder="Suche..." [formControl]="searchControl" />
-    <button (click)="performSearch()">
+    <button class="searchBtn" (click)="performSearch()">
         <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 28 28"
         style="enable-background:new 0 0 28 28;" xml:space="preserve">
@@ -33,7 +33,7 @@
     @for(result of results$ | async; track result.data.url) {
         <div class="item">
             <div class="img-container">
-                <img [src]="getImageUrl(result)" />
+                <img [src]="result.data.image.url" />
             </div>
             <div class="text">
                 <span>

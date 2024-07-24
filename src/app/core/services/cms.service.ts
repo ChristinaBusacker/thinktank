@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, makeStateKey } from '@angular/core';
 import { Events, Post, Posts, Event } from '../../../core/interfaces/cms.interfaces';
 import { Store } from '@ngxs/store';
 import { LocalizationState } from '../state/localization/localization.state';
 import { SetEvents, SetPosts } from '../state/cms/cms.actions';
 import { environment } from '../../../environments/environment';
+import { TransferStateService } from './transfer-state.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,21 +13,29 @@ export class CmsService {
 
   private baseUrl = environment.baseUrl + '/api/cms';
 
-  constructor(private store: Store) { }
+  private eventKey = makeStateKey<Events>("event");
+  private postsKey = makeStateKey<Posts>("posts");
+
+  constructor(private store: Store, private tfs: TransferStateService) { }
 
   async fetchEvents(): Promise<Events> {
     try {
-      const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
-      const response = await fetch(`${this.baseUrl}/event`, {
-        headers: {
-          locales: lang
-        }
+      const events = await this.tfs.preferTransferState<Events>(this.eventKey, async () => {
+        const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
+        const response = await fetch(`${this.baseUrl}/event`, {
+          headers: {
+            locales: lang
+          }
+        })
+        const responseData = (await response.json()) as Events;
+
+        return responseData
       })
 
-      const responseData = (await response.json()) as Events;
-      this.store.dispatch(new SetEvents(responseData))
+      this.store.dispatch(new SetEvents(events))
 
-      return responseData;
+      return events
+
     } catch (error: any) {
       throw new Error(`Error on fetching events: ${error.message}`);
     }
@@ -51,16 +60,23 @@ export class CmsService {
 
   async fetchPosts(): Promise<Posts> {
     try {
-      const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
-      const response = await fetch(`${this.baseUrl}/post`, {
-        headers: {
-          locales: lang
-        }
-      })
-      const responseData = (await response.json()) as Posts;
-      this.store.dispatch(new SetPosts(responseData))
+      const posts = await this.tfs.preferTransferState<Posts>(this.postsKey, async () => {
+        const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
+        const response = await fetch(`${this.baseUrl}/post`, {
+          headers: {
+            locales: lang
+          }
+        })
+        const responseData = (await response.json()) as Posts;
 
-      return responseData;
+
+        return responseData;
+      })
+
+      this.store.dispatch(new SetPosts(posts))
+
+      return posts
+
     } catch (error: any) {
       throw new Error(`Error on fetching events: ${error.message}`);
     }

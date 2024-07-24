@@ -27,8 +27,8 @@ export interface Event {
     excerpt: TextContent;
     eventLocation: EventLocation;
     eventDate: string;
-    eventImage: EventImage;
-    desktopEventImage: EventImage;
+    image: EventImage;
+    desktopImage: EventImage;
 }
 
 export interface Post {
@@ -36,8 +36,8 @@ export interface Post {
     title: string;
     subtitle: string;
     postDate: string;
-    postImage: EventImage;
-    desktopPostImage: EventImage;
+    image: EventImage;
+    desktopImage: EventImage;
     text: TextContent;
     excerpt: TextContent;
 }

@@ -1,35 +1,15 @@
 <div class="grid">
-@if(currentRoute === 'all') {
-
-        @for(object of objects$ | async; track object.data.url) {
-            <div class="item">
-                <div>
-                    <img [src]="getImageUrl(object, 'desktop')" data-target="d"/>
-                    <img [src]="getImageUrl(object, 'mobile')" data-target="m"/>
-                </div>
-                <div class="text">
-                    <h1>{{object.data.title}}</h1>
-                    <h2>{{object.data.subtitle}}</h2>
-                    <p [innerHTML]="object.data.excerpt.html"></p>
-                </div>
-            </div>
-        }
-
-}
-@else {
-    @for(object of stateSubscriptions[currentRoute] | async; track object.url) {
+    @for(event of events$ | async; track event.url) {
         <div class="item">
             <div>
-                <img [src]="getImage(object, 'desktop')" data-target="d"/>
-                <img [src]="getImage(object, 'mobile')"  data-target="m"/>
+                <img [src]="event.desktopImage.url" data-target="d"/>
+                <img [src]="event.image.url" data-target="m"/>
             </div>
             <div class="text">
-                <h1>{{object.title}}</h1>
-                <h2>{{object.subtitle}}</h2>
-                <p [innerHTML]="object.excerpt.html"></p>
+                <h1>{{event.title}}</h1>
+                <h2>{{event.subtitle}}</h2>
+                <p [innerHTML]="event.excerpt.html"></p>
             </div>
         </div>
     }
-}
-
 </div>

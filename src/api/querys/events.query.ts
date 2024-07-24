@@ -22,12 +22,12 @@ export const eventsQuery = `
           }
         }
         eventDate
-        eventImage {
+        image {
           id
           url
           mimeType
         }
-        desktopEventImage {
+        desktopImage {
           id
           url
           mimeType
@@ -60,12 +60,12 @@ export const eventQuery = `
           }
         }
         eventDate
-        eventImage {
+        image {
           id
           url
           mimeType
         }
-        desktopEventImage {
+        desktopImage {
           id
           url
           mimeType

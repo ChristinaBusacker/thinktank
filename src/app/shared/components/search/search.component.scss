@@ -102,4 +102,24 @@
         
 
     }
+
+    @include desktop {
+        & .searchbar {
+            input {
+                height:53px;
+            }
+            
+
+            button {
+                padding: 0;
+                padding-left:5px;
+
+                svg {
+                    height: 32px;
+                }
+            }
+    
+    
+        }
+    }
 }

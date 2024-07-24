@@ -7,12 +7,13 @@ import { LocalizationState } from './core/state/localization/localization.state'
 import { SearchService } from './core/services/search.service';
 import { LanguagePickerComponent } from './shared/components/language-picker/language-picker.component';
 import { LocalizationService } from './core/services/localization.service';
+import { TransferStateService } from './core/services/transfer-state.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, HeaderComponent],
-  providers: [CmsService, SearchService, LocalizationService],
+  providers: [CmsService, SearchService, LocalizationService, TransferStateService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

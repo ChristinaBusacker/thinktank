@@ -2,10 +2,6 @@
 
 :host {
 
-    & .desktop-overlay {
-        display: none;
-    }
-
     @include mobile {
         & nav {
             & .icon {
@@ -135,51 +131,57 @@
             display: none;
         }
 
-        & .desktop-overlay {
-            position: fixed;
-            display: flex;
-            top:-100vh;
-            z-index:-1;
-            left:0;
-            height: 100dvh;
-            width:100%;
-            background-color: $color-overlays;
-            transition: top 0.3s ease;
-            align-items: flex-start;
-            justify-content: flex-end;
-            &.active {
-                top: 0;
-            }
-
-            & button {
-                background-color: transparent;
-                border:none;
-                font-weight: bold;
-                font-size: 2rem;
-                cursor: pointer;
-            }
-        }
 
         & nav {
             background-color: white;
-            padding: 10px 20px;
+            padding: 10px 10px;
+
+            & .desktop-overlay {
+                position: fixed;
+                top:-100vh;
+                z-index:-1;
+                left:0;
+                height: 100dvh;
+                width:100%;
+                background-color: $color-overlays;
+                transition: top 0.3s ease;
+                padding: 10vh 5%;
+                display:flex;
+                flex-direction: column;
+
+                &.active {
+                    top:0;
+                }
+            }
+
+            & .overlay {
+                position: relative;
+
+                & app-search {
+                    position: absolute;
+                    right: -10px;
+                    width: calc(100% + 20px);
+                    top: -10px;
+                }
+
+                .search {
+                    display:none;
+                }
+
+                &.active {
+                    .search {
+                        display:block;
+                    }
+                }
+            }
+    
 
             & ul {
-                position: absolute;
-                top: -20px;
-                right: -19px;
                 list-style: none;
                 padding: 0;
                 display: flex;
                 gap: 2rem;
                 margin:0;
-                backface-visibility: hidden;
-                transition: transform .3s ease-out;
-                transform: rotateX(360deg) perspective(500px);
-                width: 55dvw;
-                height:43px;
-                background: white;
-                justify-content: space-evenly;
 
                 & li {
                     display: flex;
@@ -198,42 +200,6 @@
                     }
                 }
             }
-
-            & .search {
-                position: absolute;
-                top:-20px;;
-                right:-19px;
-                backface-visibility: hidden;
-                transition: transform .3s ease-out;
-                transform: rotateX(180deg) perspective(500px);
-
-                & app-search {
-                    width: 55dvw;
-                    display: block;
-                }
-            }
-
-            & .overlay {
-                position: relative;
-                transform-style: preserve-3d;
-
-                &.active {
-
-                    & .search {
-                        transform: rotateX(360deg) perspective(500px);
-                    }
-    
-                    & ul {
-    
-                        transform: rotateX(180deg) perspective(500px);
-                        
-                    }
-                }
-            }
-
-
-
-    
         }
 
         app-language-picker {
