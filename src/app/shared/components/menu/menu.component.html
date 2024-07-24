@@ -1,4 +1,4 @@
-<nav [class.opened]="opened">
+<nav [class.opened]="opened" >
     <div class="icon">
         <button class="menu" aria-expanded="false"  (click)="opened = !opened">
             <svg width="100" height="100" viewBox="0 0 100 100">
@@ -8,8 +8,13 @@
             </svg>
           </button>
     </div>
-    <div class="overlay">
-        <app-search></app-search>
+    <div class="desktop-overlay" [class.active]="active">
+        <button (click)="active = false">x</button>
+    </div>
+    <div class="overlay" [class.active]="active">
+        <div class="search" >
+            <app-search></app-search>
+        </div>
         <ul>
             <li>
                 <a [routerLink]="['/blog']" routerLinkActive="router-link-active">Blog</a>
@@ -29,7 +34,7 @@
             <li>
                 <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">Impressum</a>
             </li>
-            <li class="searchicon">
+            <li class="searchicon" (click)="active = true">
                 <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 28 28"
                     style="enable-background:new 0 0 28 28;" xml:space="preserve">

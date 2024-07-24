@@ -63,17 +63,39 @@
             padding: 10px;
             background-color: white;
 
+            .text {
+                -webkit-line-clamp: 3;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                overflow: hidden; 
+                font-size: 1.4rem;
+            }
+
+            @include desktop {
+                display:flex;
+
+                .img-container {
+                    width:50px;
+                    display:flex;
+                    align-items: flex-start;
+                }
+
+                img {
+                    height:50px;
+                }
+
+                .text {
+                    width: calc(100% - 50px);
+                }
+            }
+
             @include mobile {
                 img {
                     display:none;
                 }
     
                 .text {
-                    -webkit-line-clamp: 3;
-                    display: -webkit-box;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden; 
-                    font-size: 1.4rem;
+                    -webkit-line-clamp: 5;
                 }
             }
         }

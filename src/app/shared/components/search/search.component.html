@@ -32,7 +32,7 @@
 <div class="results">
     @for(result of results$ | async; track result.data.url) {
         <div class="item">
-            <div>
+            <div class="img-container">
                 <img [src]="getImageUrl(result)" />
             </div>
             <div class="text">

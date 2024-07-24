@@ -13,4 +13,5 @@ import { LanguagePickerComponent } from '../language-picker/language-picker.comp
 })
 export class MenuComponent {
   public opened = false;
+  public active = false;
 }

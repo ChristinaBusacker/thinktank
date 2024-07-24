@@ -7,6 +7,7 @@ import { SetLanguage } from '../../../core/state/localization/localization.actio
 import { SearchService } from '../../../core/services/search.service';
 import { CMSObjectType, CMSSearchResult, Post } from '../../../../core/interfaces/cms.interfaces';
 import { SearchState } from '../../../core/state/search/cms.state';
+import { LocalizationState } from '../../../core/state/localization/localization.state';
 
 @Component({
   selector: 'app-search',
@@ -20,12 +21,14 @@ export class SearchComponent implements OnInit {
   optionControl = new FormControl('all');
   searchQuery: string = '';
   searchOption: string = '';
+  lang: 'de' | 'en' = 'de'
 
-  lastSearch = { query: '', option: '' }
+  lastSearch = { query: '', option: '', lang: '' }
 
   types = CMSObjectType;
 
   results$: Observable<CMSSearchResult[] | undefined> = inject(Store).select(SearchState.getSearchResults);
+  lang$: Observable<'de' | 'en'> = inject(Store).select(LocalizationState.getLanguage);
 
   constructor(private store: Store, private searchService: SearchService) { }
 
@@ -43,6 +46,13 @@ export class SearchComponent implements OnInit {
 
     });
 
+    this.lang$.subscribe(lang => {
+      this.lang = lang;
+      if (this.lastSearch.lang !== lang) {
+        this.performSearch()
+      }
+    })
+
 
     this.optionControl.setValue('all', { emitEvent: true });
 
@@ -50,10 +60,14 @@ export class SearchComponent implements OnInit {
   }
 
   performSearch(): void {
-    if (this.lastSearch.query !== this.searchQuery || this.lastSearch.option !== this.searchOption) {
+    if (
+      this.lastSearch.query !== this.searchQuery ||
+      this.lastSearch.option !== this.searchOption ||
+      (this.lastSearch.lang !== this.lang && this.lastSearch.query.length > 1)
+    ) {
       this.searchService.search(this.searchQuery, this.searchOption)
       console.log('Searching for:', this.searchQuery, 'in option:', this.searchOption);
-      this.lastSearch = { query: this.searchQuery, option: this.searchOption }
+      this.lastSearch = { query: this.searchQuery, option: this.searchOption, lang: this.lang }
     } else {
       console.log('Prevented search, because params doesnt changed')
     }
