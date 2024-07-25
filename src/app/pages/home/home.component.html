@@ -1,15 +1,19 @@
 <div class="grid">
+
     @for(object of objects$ | async; track object.data.url) {
-        <div class="item">
-            <div>
-                <img [src]="object.data.desktopImage.url" data-target="d"/>
-                <img [src]="object.data.image.url" data-target="m"/>
-            </div>
-            <div class="text">
-                <h1>{{object.data.title}}</h1>
-                <h2>{{object.data.subtitle}}</h2>
-                <p [appSafeHtml]="object.data.excerpt.html"></p>
-            </div>
+    @if(isCurrentType(object.type)) {
+    <div class="item">
+        <div>
+            <img [src]="object.data.desktopImage.url" data-target="d" />
+            <img [src]="object.data.image.url" data-target="m" />
         </div>
+        <div class="text">
+            <h1>{{object.data.title}}</h1>
+            <h2>{{object.data.subtitle}}</h2>
+            <p [appSafeHtml]="object.data.excerpt.html"></p>
+        </div>
+    </div>
     }
+    }
+
 </div>

@@ -39,6 +39,24 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     this.cdr.detectChanges();
   }
+
+  isCurrentType(value: CMSObjectType): boolean {
+
+    if (this.currentRoute === 'all') {
+      return true;
+    }
+
+    if (this.currentRoute === 'blog') {
+      return value === CMSObjectType.post
+    }
+
+    if (this.currentRoute === 'events') {
+      return value === CMSObjectType.event
+    }
+
+    return false
+  }
+
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
