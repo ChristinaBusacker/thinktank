@@ -6,6 +6,7 @@ import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
 import apiRouter from './src/api/api';
 import cors from 'cors'
+import NodeCache from 'node-cache';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -18,6 +19,9 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
+
+  const cache = new NodeCache();
+  server.set('cache', cache)
 
   var corsOptions = {
     origin: '*',

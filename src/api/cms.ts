@@ -4,16 +4,19 @@ import { fetchHygraphData } from './helpers/fetchHygraphData.helper';
 import { eventQuery, eventsQuery } from './querys/events.query';
 import { postQuery, postsQuery } from './querys/posts.query';
 import { preferCacheEntries } from './helpers/nodeCache.helper';
-import { CMSObject, CMSObjectType, Event, Events, Post, Posts } from '../core/interfaces/cms.interfaces';
+import { CMSObject, CMSObjectType, Event, Events, Localizations, Post, Posts } from '../core/interfaces/cms.interfaces';
+import { localizationQuery } from './querys/localization.query';
 
 
 const cmsRouter = express.Router();
 
 
-const cache = new NodeCache();
+
 
 
 cmsRouter.get('/event', async (req, res) => {
+    const cache = req.app.get('cache');
+
     const loc = req.headers['locales'] || 'de';
     const locales = loc === 'de' ? ["de", "en"] : ["en", "de"];
 
@@ -32,6 +35,7 @@ cmsRouter.get('/event', async (req, res) => {
 });
 
 cmsRouter.get('/event/:slug', async (req, res) => {
+    const cache = req.app.get('cache');
 
     const loc = req.headers['locales'] || 'de';
     const locales = loc === 'de' ? ["de", "en"] : ["en", "de"];
@@ -58,6 +62,7 @@ cmsRouter.get('/event/:slug', async (req, res) => {
 });
 
 cmsRouter.get('/post', async (req, res) => {
+    const cache = req.app.get('cache');
 
     const loc = req.headers['locales'] || 'de';
     const locales = loc === 'de' ? ["de", "en"] : ["en", "de"];
@@ -85,6 +90,7 @@ cmsRouter.get('/post/:slug', async (req, res) => {
     const loc = req.headers['locales'] || 'de';
     const locales = loc === 'de' ? ["de", "en"] : ["en", "de"];
     const variables = { url: req.params.slug, locales: locales };
+    const cache = req.app.get('cache');
 
     try {
         const posts = await preferCacheEntries<Events>(cache, `${loc}_posts`, async () => {
@@ -105,6 +111,8 @@ cmsRouter.get('/post/:slug', async (req, res) => {
 });
 
 cmsRouter.get('/clearcache', async (req, res) => {
+    const cache = req.app.get('cache');
+
     cache.keys().forEach(key => {
         console.log(`delete cache for ${key}`)
         cache.del(key)
@@ -118,6 +126,8 @@ cmsRouter.get('/clearcache', async (req, res) => {
 });
 
 cmsRouter.post('/search', async (req, res) => {
+    const cache = req.app.get('cache');
+
     const { query, option } = req.body;
 
     const loc = req.headers['locales'] || 'de';
@@ -177,6 +187,36 @@ cmsRouter.post('/search', async (req, res) => {
     scoredData.sort((a, b) => b.score - a.score);
 
     res.json(scoredData);
+});
+
+cmsRouter.get('/localizations', async (req, res) => {
+    const cache = req.app.get('cache');
+    const loc = req.headers['locales'] || 'de';
+    const locales = loc === 'de' ? ["de", "en"] : ["en", "de"];
+    const variables = { locales: locales };
+    try {
+        const locs = await preferCacheEntries<Localizations>(cache, `${loc}_localization`, async () => {
+            const response = await fetchHygraphData<Array<{ key: string, value: string }>>(localizationQuery, variables)
+
+            const localizations: Localizations = {}
+
+            if (response.data['localizations']) {
+                response.data['localizations'].forEach(local => localizations[local.key] = local.value)
+            }
+
+            return localizations
+        })
+
+
+        if (locs) {
+            res.json(locs);
+        } else {
+            res.json([])
+        }
+
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 

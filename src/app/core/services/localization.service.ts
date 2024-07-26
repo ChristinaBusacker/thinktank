@@ -17,6 +17,8 @@ export class LocalizationService {
 
       console.log('LANGUAGESERVICE: ' + lang)
     })
+
+
   }
 
 }

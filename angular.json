@@ -34,7 +34,7 @@
             ],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": true,
+            "prerender": false,
             "ssr": {
               "entry": "server.ts"
             }
@@ -74,12 +74,15 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.staging.ts"
                 }
-              ]
+              ],
+              "optimization": true,
+              "ssr": true
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "ssr": true
             }
           },
           "defaultConfiguration": "production"
@@ -91,7 +94,7 @@
               "buildTarget": "xrthinktank:build:production"
             },
             "development": {
-              "buildTarget": "xrthinktank:build:development"
+              "buildTarget": "xrthinktank:build:development",
             }
           },
           "defaultConfiguration": "development",

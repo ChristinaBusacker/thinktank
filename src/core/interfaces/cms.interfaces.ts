@@ -64,3 +64,5 @@ export interface CMSSearchResult extends CMSObject {
 export type GQLResponse<T> = {
     data: { [key: string]: T }
 }
+
+export type Localizations = { [key: string]: string };

@@ -9,11 +9,12 @@ import { LanguagePickerComponent } from './shared/components/language-picker/lan
 import { LocalizationService } from './core/services/localization.service';
 import { TransferStateService } from './core/services/transfer-state.service';
 import { BrowserSpecsService } from './core/services/browser-specs.service';
+import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, SidebarComponent],
   providers: [CmsService, SearchService, LocalizationService, TransferStateService, BrowserSpecsService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
