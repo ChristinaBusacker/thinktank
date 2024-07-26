@@ -75,8 +75,7 @@
                   "with": "src/environments/environment.staging.ts"
                 }
               ],
-              "optimization": true,
-              "ssr": true
+              "optimization": true
             },
             "development": {
               "optimization": false,
