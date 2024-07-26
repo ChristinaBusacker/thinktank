@@ -1,12 +1,13 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CmsService } from '../../core/services/cms.service';
-import { CMSObject, CMSObjectType, Event, Events, Post, Posts } from '../../../core/interfaces/cms.interfaces';
+import { CMSObject, CMSObjectType, Event, Events, Localizations, Post, Posts } from '../../../core/interfaces/cms.interfaces';
 import { CommonModule } from '@angular/common';
 import { Select, Store } from '@ngxs/store';
 import { CMSState } from '../../core/state/cms/cms.state';
 import { filter, Observable, Subscription } from 'rxjs';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { DirectivesModule } from '../../core/directives/directives.module';
+import { LocalizationState } from '../../core/state/localization/localization.state';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   events$: Observable<Events> = inject(Store).select(CMSState.getEvents);
   posts$: Observable<Posts> = inject(Store).select(CMSState.getPosts);
   objects$: Observable<CMSObject[]> = inject(Store).select(CMSState.getObjects);
+  localizations$: Observable<Localizations> = inject(Store).select(LocalizationState.getLocalizations);
+
 
   stateSubscriptions: { all: Observable<any>, events: Observable<any>, blog: Observable<any> } = {
     events: this.events$,

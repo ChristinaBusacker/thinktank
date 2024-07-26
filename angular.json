@@ -94,7 +94,7 @@
               "buildTarget": "xrthinktank:build:production"
             },
             "development": {
-              "buildTarget": "xrthinktank:build:development",
+              "buildTarget": "xrthinktank:build:development"
             }
           },
           "defaultConfiguration": "development",

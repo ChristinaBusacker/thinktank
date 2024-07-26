@@ -1,8 +1,8 @@
 
 
 export const localizationQuery = `
-query Localizations {
-  localizations {
+query Localizations($locales: [Locale!]!) {
+  localizations(locales: $locales) {
     value
     key
   }

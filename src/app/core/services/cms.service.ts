@@ -101,6 +101,7 @@ export class CmsService {
 
   async getLocalizations() {
     try {
+      console.log('resolv locs')
 
       const localizations = await this.tfs.preferTransferState<Localizations>(this.localizationsKey, async () => {
         const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
@@ -110,8 +111,7 @@ export class CmsService {
           }
         })
         const responseData = (await response.json()) as Localizations;
-
-
+        console.log(responseData)
         return responseData;
       })
 
