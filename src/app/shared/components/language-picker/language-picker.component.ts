@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { LocalizationState } from '../../../core/state/localization/localization.state';
 import { SetLanguage } from '../../../core/state/localization/localization.actions';
 import { CmsService } from '../../../core/services/cms.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-language-picker',
@@ -21,21 +22,18 @@ export class LanguagePickerComponent implements OnInit {
 
   public open = false;
 
-  constructor(private store: Store, private cmsService: CmsService) { }
+  constructor(private store: Store, private cmsService: CmsService, private router: Router) { }
 
   ngOnInit(): void {
     this.lang$.subscribe((lang) => {
       this.control.patchValue(lang, { emitEvent: false })
-      if (this.lang !== lang) {
-        this.cmsService.fetchEvents();
-        this.cmsService.fetchPosts();
-      }
-
-      this.lang = lang
+      this.lang = lang;
     });
 
     this.control.valueChanges.subscribe((lang: 'de' | 'en') => {
-      this.store.dispatch(new SetLanguage(lang))
+      const currentUrl = this.router.url;
+      const newUrl = currentUrl.replace(/^\/(en|de)/, `/${lang}`);
+      this.router.navigateByUrl(newUrl);
     })
   }
 }

@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { debounceTime, combineLatest, Observable } from 'rxjs';
-import { SetLanguage } from '../../../core/state/localization/localization.actions';
 import { SearchService } from '../../../core/services/search.service';
 import { CMSObjectType, CMSSearchResult, Post } from '../../../../core/interfaces/cms.interfaces';
 import { SearchState } from '../../../core/state/search/cms.state';

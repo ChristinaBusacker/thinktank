@@ -17,22 +17,22 @@
         </div>
         <ul>
             <li>
-                <a [routerLink]="['/blog']" routerLinkActive="router-link-active">Blog</a>
+                <a [routerLink]="['/blog']" routerLinkActive="router-link-active">{{"navigation.blog" | i18n | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">Schulungen</a>
+                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.training" | i18n | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/events']" routerLinkActive="router-link-active">Veranstaltungen</a>
+                <a [routerLink]="['/events']" routerLinkActive="router-link-active">{{"navigation.events" | i18n | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">Über uns</a>
+                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.about" | i18n | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">Kontakt</a>
+                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.contact" | i18n | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">Impressum</a>
+                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.imprint" | i18n | async}}</a>
             </li>
             <li class="searchicon" (click)="active = true">
                 <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg"

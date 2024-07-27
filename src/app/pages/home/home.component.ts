@@ -8,11 +8,12 @@ import { filter, Observable, Subscription } from 'rxjs';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { DirectivesModule } from '../../core/directives/directives.module';
 import { LocalizationState } from '../../core/state/localization/localization.state';
+import { PipesModule } from '../../core/pipes/pipes.module';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, DirectivesModule],
+  imports: [CommonModule, RouterModule, DirectivesModule, PipesModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

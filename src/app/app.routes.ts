@@ -3,25 +3,36 @@ import { HomeComponent } from './pages/home/home.component';
 import { eventsResolver } from './core/resolver/events.resolver';
 import { postsResolver } from './core/resolver/posts.resolver';
 import { localizationResolver } from './core/resolver/localization.resolver';
+import { languageResolver } from './core/resolver/language.resolver';
 
 const generalResolver = {
     localizations: localizationResolver
 }
 
 export const routes: Routes = [
+
     {
-        path: '',
-        component: HomeComponent,
-        resolve: { ...generalResolver, events: eventsResolver, posts: postsResolver }
+        path: ':lang',
+        children: [
+            {
+                path: '',
+                component: HomeComponent,
+                resolve: { ...generalResolver, events: eventsResolver, posts: postsResolver }
+            },
+            {
+                path: 'blog',
+                component: HomeComponent,
+                resolve: { ...generalResolver, events: eventsResolver, posts: postsResolver }
+            },
+            {
+                path: 'events',
+                component: HomeComponent,
+                resolve: { ...generalResolver, events: eventsResolver, posts: postsResolver }
+            }
+        ],
+        resolve: { lang: languageResolver }
+
     },
-    {
-        path: 'blog',
-        component: HomeComponent,
-        resolve: { ...generalResolver, events: eventsResolver, posts: postsResolver }
-    },
-    {
-        path: 'events',
-        component: HomeComponent,
-        resolve: { ...generalResolver, events: eventsResolver, posts: postsResolver }
-    }
+    { path: '', redirectTo: '/de', pathMatch: 'full' },
+    { path: '**', redirectTo: '/de' }
 ];
