@@ -51,8 +51,9 @@ export class CMSState {
 
     private setObjects(ctx: StateContext<CMSStateModel>) {
         const state = ctx.getState();
+        const objects = [...state.events.map(event => ({ type: CMSObjectType.event, data: event })), ...state.posts.map(post => ({ type: CMSObjectType.post, data: post })),]
         ctx.patchState({
-            objects: [...state.events.map(event => ({ type: CMSObjectType.event, data: event })), ...state.posts.map(post => ({ type: CMSObjectType.post, data: post })),]
+            objects: objects.sort((a, b) => new Date(b.data.createdAt).getTime() - new Date(a.data.createdAt).getTime())
         })
     }
 }

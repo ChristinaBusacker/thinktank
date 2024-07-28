@@ -1,37 +1,55 @@
 export const eventsQuery = `
     query Events($locales: [Locale!]!) {
       events(locales: $locales) {
+    title
+    subtitle
+    url
+    text {
+      html
+    }
+    excerpt {
+      html
+      text
+    }
+    eventLocation {
+      geoLocation {
+        latitude
+        longitude
+      }
+      informations {
+        html
+      }
+    }
+    eventDate
+    image {
+      id
+      url
+      mimeType
+    }
+    desktopImage {
+      id
+      url
+      mimeType
+    }
+    createdAt
+    additionalInformation {
+      ... on ImageCarousel {
+        id
         title
-        subtitle
-        url
+        images {
+            id
+            url
+            mimeType
+        }
+      }
+      ... on TextAccordion {
+        title
         text {
           html
-          
+        text
         }
-        excerpt {
-          html
-          text
-        }
-        eventLocation {
-          geoLocation {
-            latitude
-            longitude
-          }
-          informations {
-            html
-          }
-        }
-        eventDate
-        image {
-          id
-          url
-          mimeType
-        }
-        desktopImage {
-          id
-          url
-          mimeType
-        }
+      }
+    }
       }
     }`
 

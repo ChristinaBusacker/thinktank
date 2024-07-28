@@ -2,7 +2,7 @@
 
     @for(object of objects$ | async; track object.data.url) {
     @if(isCurrentType(object.type)) {
-    <div class="item">
+    <a class="item" [routerLink]="generateUrl(object)">
         <div>
             <img [src]="object.data.desktopImage.url" data-target="d" />
             <img [src]="object.data.image.url" data-target="m" />
@@ -12,7 +12,7 @@
             <h2>{{object.data.subtitle}}</h2>
             <p [appSafeHtml]="object.data.excerpt.html"></p>
         </div>
-    </div>
+    </a>
     }
     }
 

@@ -22,7 +22,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   posts$: Observable<Posts> = inject(Store).select(CMSState.getPosts);
   objects$: Observable<CMSObject[]> = inject(Store).select(CMSState.getObjects);
   localizations$: Observable<Localizations> = inject(Store).select(LocalizationState.getLocalizations);
+  lang$: Observable<'de' | 'en'> = inject(Store).select(LocalizationState.getLanguage);
 
+  lang: 'de' | 'en' = 'de';
 
   stateSubscriptions: { all: Observable<any>, events: Observable<any>, blog: Observable<any> } = {
     events: this.events$,
@@ -40,6 +42,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     } else {
       this.currentRoute = 'all';
     }
+
+    this.lang$.subscribe(lang => this.lang = lang)
 
     this.cdr.detectChanges();
   }
@@ -60,6 +64,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     return false
   }
+
+  generateUrl(object: CMSObject) {
+    return ['/', this.lang, object.type, object.data.url]
+  }
+
 
   ngAfterViewInit(): void {
     this.cdr.detectChanges();

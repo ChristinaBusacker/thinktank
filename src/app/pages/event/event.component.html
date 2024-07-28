@@ -1,1 +1,16 @@
-<p>event works!</p>
+@if(event) {
+    <div class="event">
+        <div class="image">
+            <img [src]="event.desktopImage.url" data-target="d" />
+            <img [src]="event.image.url" data-target="m" />
+        </div>
+        <div class="text">
+            <h1>{{event.title}}</h1>
+            <h2>{{event.subtitle}}</h2>
+            <p [appSafeHtml]="event.text.html"></p>
+        </div>
+        <div class="info">
+
+        </div>
+    </div>
+}

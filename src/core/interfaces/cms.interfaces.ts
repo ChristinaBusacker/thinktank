@@ -19,6 +19,16 @@ export interface EventImage {
     mimeType: string;
 }
 
+export interface TextAccordion {
+    title: string;
+    text: TextContent
+}
+
+export interface ImageCarousel {
+    title: string;
+    images: EventImage[];
+}
+
 export interface Event {
     title: string;
     subtitle: string;
@@ -29,6 +39,8 @@ export interface Event {
     eventDate: string;
     image: EventImage;
     desktopImage: EventImage;
+    createdAt: string
+    additionalInformation: Array<ImageCarousel | TextAccordion>
 }
 
 export interface Post {
@@ -40,6 +52,7 @@ export interface Post {
     desktopImage: EventImage;
     text: TextContent;
     excerpt: TextContent;
+    createdAt: string
 }
 
 
@@ -47,8 +60,8 @@ export type Posts = Post[];
 export type Events = Event[];
 
 export enum CMSObjectType {
-    post = "post",
-    event = "event"
+    post = "blog",
+    event = "events"
 }
 
 export interface CMSObject {
