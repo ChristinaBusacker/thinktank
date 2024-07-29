@@ -1,7 +1,22 @@
+@import '../../../scss/mixins/viewport.scss';
+
 :host {
     & .event {
-        display:grid;
+        display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 1rem;
+
+        @include mobile {
+            grid-template-columns: 1fr;
+        }
+
+        & .info {
+
+            & .info-wrapper {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
     }
 }

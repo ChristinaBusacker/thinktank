@@ -20,11 +20,13 @@ export interface EventImage {
 }
 
 export interface TextAccordion {
+    id: string;
     title: string;
     text: TextContent
 }
 
 export interface ImageCarousel {
+    id: string;
     title: string;
     images: EventImage[];
 }

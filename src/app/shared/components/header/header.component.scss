@@ -10,6 +10,8 @@
     max-width: calc(1900px + 5%);
     width: 100%;
     transform: translateX(-50%);
+    background: rgb(255, 255, 255);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 70%, rgba(244, 244, 244, 1) 100%);
 
     header {
         width: 100%;
@@ -29,13 +31,13 @@
 
     app-language-picker {
         position: absolute;
-        right:0;
+        right: 0;
         top: 55px;
         padding: 5px 15px;
         background-color: white;
 
         @include mobile {
-            display:none;
+            display: none;
         }
     }
 

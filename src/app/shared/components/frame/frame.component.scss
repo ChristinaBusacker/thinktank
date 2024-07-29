@@ -1,0 +1,50 @@
+:host {
+    display: block;
+    position: relative;
+    background-color: white;
+
+    &.thick {
+        padding: 4px;
+
+        & .border-top,
+        .border-bottom {
+            width: 10px;
+            height: 10px;
+        }
+    }
+
+    &.small {
+        padding: 2px;
+
+        & .border-top,
+        .border-bottom {
+            width: 8px;
+            height: 8px;
+        }
+    }
+
+    & .border-top {
+        content: '';
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-color: black;
+        z-index: 0;
+    }
+
+    & .border-bottom {
+        content: '';
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        background-color: black;
+        z-index: 0;
+    }
+
+    .content {
+        background-color: white;
+        z-index: 2;
+        position: relative;
+    }
+
+}

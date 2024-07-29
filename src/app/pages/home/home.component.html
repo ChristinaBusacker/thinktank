@@ -1,5 +1,4 @@
 <div class="grid">
-
     @for(object of objects$ | async; track object.data.url) {
     @if(isCurrentType(object.type)) {
     <a class="item" [routerLink]="generateUrl(object)">
@@ -15,5 +14,4 @@
     </a>
     }
     }
-
 </div>

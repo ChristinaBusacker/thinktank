@@ -1,16 +1,38 @@
 @if(event) {
-    <div class="event">
-        <div class="image">
-            <img [src]="event.desktopImage.url" data-target="d" />
-            <img [src]="event.image.url" data-target="m" />
-        </div>
-        <div class="text">
-            <h1>{{event.title}}</h1>
-            <h2>{{event.subtitle}}</h2>
-            <p [appSafeHtml]="event.text.html"></p>
-        </div>
-        <div class="info">
+<div class="event">
+    <div class="image">
+        <img [src]="event.desktopImage.url" data-target="d" />
+        <img [src]="event.image.url" data-target="m" />
+    </div>
+    <div class="text">
+        <h1>{{event.title}}</h1>
+        <h2>{{event.subtitle}}</h2>
+        <p [appSafeHtml]="event.text.html"></p>
+    </div>
+    <div class="info">
+        <div class="info-wrapper">
+            <app-accordion title="Venue" id="venue" [isOpen]="openedAccordion === 'venue'"
+                (opened)="setOpenedAccordion($event)">
+                <div [appSafeHtml]="event.eventLocation.informations.html"></div>
+                @if(isBrowser()) {
+                <app-map [lat]="event.eventLocation.geoLocation.latitude"
+                    [lon]="event.eventLocation.geoLocation.longitude"></app-map>
+                }
+            </app-accordion>
+            @for(addit of event.additionalInformation; track event.additionalInformation) {
+            <app-accordion [title]="addit.title" [id]="addit.id" (opened)="setOpenedAccordion($event)"
+                [isOpen]="openedAccordion === addit.id">
+                @if(isImageCarousel(addit); as images) {
+                <app-image-slider [images]="images.images"></app-image-slider>
 
+                }
+
+                @if(isTextAccordion(addit); as text) {
+                <div class="hygraphHTML" [appSafeHtml]="text.text.html"></div>
+                }
+            </app-accordion>
+            }
         </div>
     </div>
+</div>
 }

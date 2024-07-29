@@ -10,10 +10,6 @@ import { localizationQuery } from './querys/localization.query';
 
 const cmsRouter = express.Router();
 
-
-
-
-
 cmsRouter.get('/event', async (req, res) => {
     const cache = req.app.get('cache');
 

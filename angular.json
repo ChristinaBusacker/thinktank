@@ -30,9 +30,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/@glidejs/glide/dist/css/glide.core.min.css",
+              "node_modules/@glidejs/glide/dist/css/glide.theme.min.css"
             ],
-            "scripts": [],
+            "scripts": [
+               "node_modules/@glidejs/glide/dist/glide.min.js"
+            ],
             "server": "src/main.server.ts",
             "prerender": false,
             "ssr": {

@@ -9,11 +9,12 @@ import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router, RouterMo
 import { DirectivesModule } from '../../core/directives/directives.module';
 import { LocalizationState } from '../../core/state/localization/localization.state';
 import { PipesModule } from '../../core/pipes/pipes.module';
+import { AccordionComponent } from '../../shared/components/accordion/accordion.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, DirectivesModule, PipesModule],
+  imports: [CommonModule, RouterModule, DirectivesModule, PipesModule, AccordionComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

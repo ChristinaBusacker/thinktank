@@ -34,7 +34,7 @@ export const eventsQuery = `
     createdAt
     additionalInformation {
       ... on ImageCarousel {
-        id
+       id
         title
         images {
             id
@@ -43,6 +43,7 @@ export const eventsQuery = `
         }
       }
       ... on TextAccordion {
+        id
         title
         text {
           html

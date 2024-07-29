@@ -1,12 +1,9 @@
-
-
-
 html {
     font-size: 67.5%;
 }
 
 body {
-    padding:0;
+    padding: 0;
     margin: 0;
     background-color: #f4f4f4;
 }
@@ -21,19 +18,64 @@ img {
 }
 
 @import './scss/import';
+
 @include desktop {
     img[data-target="m"] {
-        display:none!important;
+        display: none !important;
     }
 }
 
 @include mobile {
-    img[data-target="d"]{
-        display:none!important;
+    img[data-target="d"] {
+        display: none !important;
     }
 }
 
+.decorations-small {
+    position: relative;
+    display: block;
 
+    &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        width: 8px;
+        height: 8px;
+        background-color: black;
+        z-index: -1;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        width: 8px;
+        height: 8px;
+        background-color: black;
+        z-index: -1;
+    }
+}
+
+.hygraphHTML {
+    table {
+        width: 100%;
+
+        tr {
+            &:nth-child(odd) {
+                background-color: #f4f4f4;
+            }
+
+            &:nth-child(even) {
+                background-color: white;
+            }
+        }
+    }
+
+    p {
+        margin: 5px 0;
+    }
+}
 
 @import url('./scss/typography.scss');
-

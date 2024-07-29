@@ -1,0 +1,98 @@
+:host {
+    .accordion {
+        position: relative;
+
+        button {
+            cursor: pointer;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 0.5rem 1rem;
+            position: relative;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                width: 8px;
+                height: 8px;
+                background-color: black;
+                z-index: -1;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                right: -2px;
+                width: 8px;
+                height: 8px;
+                background-color: black;
+                z-index: -1;
+            }
+
+            & svg {
+                width: 12px;
+                height: 12px;
+                margin-right: 10px;
+            }
+
+            &.open {
+                position: static;
+                width: 100%;
+            }
+
+            & .title {
+                font-family: 'D-Din Bold';
+            }
+
+            &:focus {
+                outline: none;
+            }
+
+            &:hover {
+                & .title {
+                    text-decoration: underline;
+                }
+            }
+
+            &:active {
+                background-color: transparent;
+            }
+
+            & .headline {
+                display: flex;
+                flex-wrap: nowrap;
+                align-items: center;
+                max-width: calc(100% - 40px);
+                /* Platz für Icon berücksichtigen */
+                flex: 1;
+            }
+        }
+
+        div[role='region'] {
+            display: grid;
+            transition: 250ms all ease;
+            background-color: white;
+
+
+            & .container {
+                overflow: hidden;
+            }
+
+            &[hidden] {
+                grid-template-rows: 0fr;
+                padding: 0;
+            }
+
+            &:not([hidden]) {
+                grid-template-rows: 1fr;
+                padding: 0.5rem 1rem;
+            }
+        }
+    }
+}

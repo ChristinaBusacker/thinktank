@@ -1,0 +1,31 @@
+:host {
+    padding-bottom: 30px;
+    display: block;
+
+    .glide {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .glide__slide img {
+        width: 100%;
+        height: auto;
+        max-height: 100px;
+        object-fit: cover;
+    }
+
+    .glide__arrows,
+    .glide__bullets {
+        text-align: center;
+        margin-top: 10px;
+        bottom: -20px;
+    }
+
+    .glide__bullet {
+        background-color: #acacac;
+    }
+
+    .glide__bullet--active {
+        background-color: black;
+    }
+}

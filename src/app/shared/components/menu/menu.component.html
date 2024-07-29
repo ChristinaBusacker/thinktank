@@ -17,13 +17,13 @@
         </div>
         <ul>
             <li>
-                <a [routerLink]="['/blog']" routerLinkActive="router-link-active">{{"navigation.blog" | i18n | async}}</a>
+                <a [routerLink]="['/', lang, 'blog']" routerLinkActive="router-link-active">{{"navigation.blog" | i18n | async}}</a>
             </li>
             <li>
                 <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.training" | i18n | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/events']" routerLinkActive="router-link-active">{{"navigation.events" | i18n | async}}</a>
+                <a [routerLink]="['/', lang,'events']" routerLinkActive="router-link-active">{{"navigation.events" | i18n | async}}</a>
             </li>
             <li>
                 <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.about" | i18n | async}}</a>

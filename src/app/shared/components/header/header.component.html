@@ -1,6 +1,8 @@
 <header>
-    <app-logo [routerLink]="['/']"></app-logo>
-    <app-menu></app-menu>
+    <app-logo [routerLink]="['/', lang]"></app-logo>
+    <app-frame>
+        <app-menu></app-menu>
+    </app-frame>
+
     <app-language-picker></app-language-picker>
 </header>
-

@@ -5,6 +5,7 @@ import { Event, Post } from '../../../core/interfaces/cms.interfaces';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DirectivesModule } from '../../core/directives/directives.module';
+import { AccordionComponent } from '../../shared/components/accordion/accordion.component';
 
 @Component({
   selector: 'app-post',
