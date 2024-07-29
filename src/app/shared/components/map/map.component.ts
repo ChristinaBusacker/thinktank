@@ -15,31 +15,27 @@ export class MapComponent implements AfterViewInit {
 
 
   private map: any;
-  private L?: any
+
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.loadLeaflet().then(() => {
-        this.initMap();
-        this.setMarker(this.lat, this.lon);
-      });
+
+      this.initMap();
+      this.setMarker(this.lat, this.lon);
+
     }
   }
 
-  private async loadLeaflet(): Promise<void> {
-    const L = (window as any).L
-    this.L = L;
-  }
 
   private initMap(): void {
-    const map = this.L?.map('map', {
+    const map = (window as any).L?.map('map', {
       center: [this.lat, this.lon],
       zoom: 13
     });
 
-    this.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    (window as any).L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
@@ -47,7 +43,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   private setMarker(lat: number, lon: number): void {
-    this.L.marker([lat, lon]).addTo(this.map)
+    (window as any).L.marker([lat, lon]).addTo(this.map)
   }
 
   public createGoogleLink() {
