@@ -1,16 +1,16 @@
 @if( post) {
-    <div class=" post">
-        <div class="image">
-            <img [src]=" post.desktopImage.url" data-target="d" />
-            <img [src]=" post.image.url" data-target="m" />
-        </div>
-        <div class="text">
-            <h1>{{ post.title}}</h1>
-            <h2>{{ post.subtitle}}</h2>
-            <p [appSafeHtml]=" post.text.html"></p>
-        </div>
-        <div class="info">
-
-        </div>
+<div class=" post">
+    <div class="image">
+        <img [src]=" post.desktopImage.url" data-target="d" />
+        <img [src]=" post.image.url" data-target="m" />
     </div>
+    <div class="text">
+        <h1 [appSafeHtml]="post.title"></h1>
+        <h2 [appSafeHtml]="post.subtitle"></h2>
+        <p [appSafeHtml]=" post.text.html"></p>
+    </div>
+    <div class="info">
+
+    </div>
+</div>
 }

@@ -7,8 +7,8 @@
             <img [src]="object.data.image.url" data-target="m" />
         </div>
         <div class="text">
-            <h1>{{object.data.title}}</h1>
-            <h2>{{object.data.subtitle}}</h2>
+            <h1 [appSafeHtml]="object.data.title"></h1>
+            <h2 [appSafeHtml]="object.data.subtitle"></h2>
             <p [appSafeHtml]="object.data.excerpt.html"></p>
         </div>
     </a>

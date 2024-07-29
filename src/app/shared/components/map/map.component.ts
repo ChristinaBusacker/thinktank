@@ -35,8 +35,12 @@ export class MapComponent implements AfterViewInit {
       zoom: 13
     });
 
-    (window as any).L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
+
+
+    (window as any).L.tileLayer('https://{s}.tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}.png?apikey=8634d561e6894b5e8f4f87940f8c5169', {
+      attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      apikey: '<your apikey>',
+      maxZoom: 22
     }).addTo(map);
 
     this.map = map;

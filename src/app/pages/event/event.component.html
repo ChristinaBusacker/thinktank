@@ -5,8 +5,8 @@
         <img [src]="event.image.url" data-target="m" />
     </div>
     <div class="text">
-        <h1>{{event.title}}</h1>
-        <h2>{{event.subtitle}}</h2>
+        <h1 [appSafeHtml]="event.title"></h1>
+        <h2 [appSafeHtml]="event.subtitle"></h2>
         <p [appSafeHtml]="event.text.html"></p>
     </div>
     <div class="info">

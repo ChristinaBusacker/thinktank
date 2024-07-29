@@ -11,6 +11,17 @@
             width: 10px;
             height: 10px;
         }
+
+        & .border-top {
+            top: 0px;
+            right: 0px;
+        }
+
+        & .border-bottom {
+            bottom: 0px;
+            left: 0px;
+        }
+
     }
 
     &.small {
@@ -21,22 +32,22 @@
             width: 8px;
             height: 8px;
         }
+
+        & .border-top {
+            top: 0px;
+            left: 0px;
+        }
+
+        & .border-bottom {
+            bottom: 0px;
+            right: 0px;
+        }
     }
 
-    & .border-top {
+    & .border-top,
+    .border-bottom {
         content: '';
         position: absolute;
-        top: 0px;
-        left: 0px;
-        background-color: black;
-        z-index: 0;
-    }
-
-    & .border-bottom {
-        content: '';
-        position: absolute;
-        bottom: 0px;
-        right: 0px;
         background-color: black;
         z-index: 0;
     }
