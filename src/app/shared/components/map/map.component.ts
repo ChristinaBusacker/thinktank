@@ -29,7 +29,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   private async loadLeaflet(): Promise<void> {
-    const L = await import('leaflet');
+    const L = (window as any).L
     this.L = L;
   }
 
