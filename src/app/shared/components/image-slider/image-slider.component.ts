@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { EventImage } from '../../../../core/interfaces/cms.interfaces';
-import Glide from '@glidejs/glide';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -19,6 +18,7 @@ export class ImageSliderComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      const Glide = (window as any).Glide
       new Glide('.glide', {
         type: 'carousel',
         gap: 24,
