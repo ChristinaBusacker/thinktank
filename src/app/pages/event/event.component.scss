@@ -19,6 +19,18 @@
             }
         }
 
+        & .image {
+            img {
+                width: 100%;
+
+                @include mobile {
+                    max-height: 500px;
+                    object-fit: cover;
+                    object-position: center center;
+                }
+            }
+        }
+
 
         @include tablet {
             & .image {

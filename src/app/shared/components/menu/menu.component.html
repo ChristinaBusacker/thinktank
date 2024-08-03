@@ -19,27 +19,33 @@
         </div>
         <ul>
             <li>
-                <a [routerLink]="['/', lang, 'blog']" routerLinkActive="router-link-active">{{"navigation.blog" | i18n |
+                <a (click)="opened = false" [routerLink]="['/', lang, 'blog']"
+                    routerLinkActive="router-link-active">{{"navigation.blog" | i18n |
                     async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.training" | i18n |
+                <a (click)="opened = false" [routerLink]="['/routePath']"
+                    routerLinkActive="router-link-active">{{"navigation.training" | i18n |
                     async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/', lang,'events']" routerLinkActive="router-link-active">{{"navigation.events" |
+                <a (click)="opened = false" [routerLink]="['/', lang,'events']"
+                    routerLinkActive="router-link-active">{{"navigation.events" |
                     i18n | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/', lang,'about']" routerLinkActive="router-link-active">{{"navigation.about" | i18n
+                <a (click)="opened = false" [routerLink]="['/', lang,'about']"
+                    routerLinkActive="router-link-active">{{"navigation.about" | i18n
                     | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/', lang,'contact']" routerLinkActive="router-link-active">{{"navigation.contact" |
+                <a (click)="opened = false" [routerLink]="['/', lang,'contact']"
+                    routerLinkActive="router-link-active">{{"navigation.contact" |
                     i18n | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/', lang, 'imprint']" routerLinkActive="router-link-active">{{"navigation.imprint" |
+                <a (click)="opened = false" [routerLink]="['/', lang, 'imprint']"
+                    routerLinkActive="router-link-active">{{"navigation.imprint" |
                     i18n |
                     async}}</a>
             </li>

@@ -9,6 +9,18 @@
         @include mobile {
             grid-template-columns: 1fr;
         }
+
+        & .image {
+            img {
+                width: 100%;
+
+                @include mobile {
+                    max-height: 500px;
+                    object-fit: cover;
+                    object-position: center center;
+                }
+            }
+        }
     }
 
 
