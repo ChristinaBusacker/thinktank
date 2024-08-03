@@ -9,5 +9,7 @@ export const languageResolver: ResolveFn<Object> = async (route, state) => {
 
     if (lang === 'de' || lang === 'en') {
         store.dispatch(new SetLanguage(lang));
+    } else {
+        store.dispatch(new SetLanguage('de'));
     }
 }

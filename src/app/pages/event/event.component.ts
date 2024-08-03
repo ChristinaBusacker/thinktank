@@ -9,6 +9,7 @@ import { AccordionComponent } from '../../shared/components/accordion/accordion.
 import { MapComponent } from '../../shared/components/map/map.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ImageSliderComponent } from '../../shared/components/image-slider/image-slider.component';
+import { SeoService } from '../../core/services/seo.service';
 
 @Component({
   selector: 'app-event',
@@ -21,19 +22,31 @@ export class EventComponent implements OnInit {
   event?: Event
   openedAccordion: string = 'venue'
 
-  constructor(private store: Store, private route: ActivatedRoute, @Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(private store: Store, private route: ActivatedRoute, @Inject(PLATFORM_ID) private platformId: Object, private seo: SeoService) { }
 
   isBrowser() {
     return isPlatformBrowser(this.platformId)
   }
 
   ngOnInit(): void {
-    const slug = this.route.paramMap.subscribe((params) => {
+    this.route.paramMap.subscribe((params) => {
       const slug = params.get('eventUrl')
       this.store.select(CMSState.getEvents).subscribe(
         (events) => this.event = events.find(event => event.url === slug)
       )
     })
+
+
+    if (this.event) {
+      this.seo.setTitle(this.event.title + '| XRthinktank')
+      this.seo.setMetaDescription(this.event.excerpt.text || '');
+      this.seo.setOpenGraphData([
+        { property: 'og:title', content: this.event.title + ' | XRthinktank' },
+        { property: 'og:description', content: this.event.excerpt.text || '' },
+        { property: 'og:image', content: this.event.image.url }
+      ]);
+    }
+
   }
 
   setOpenedAccordion(id: string) {

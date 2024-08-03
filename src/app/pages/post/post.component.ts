@@ -6,6 +6,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DirectivesModule } from '../../core/directives/directives.module';
 import { AccordionComponent } from '../../shared/components/accordion/accordion.component';
+import { SeoService } from '../../core/services/seo.service';
 
 @Component({
   selector: 'app-post',
@@ -17,15 +18,26 @@ import { AccordionComponent } from '../../shared/components/accordion/accordion.
 export class PostComponent implements OnInit {
   post?: Post
 
-  constructor(private store: Store, private route: ActivatedRoute) { }
+  constructor(private store: Store, private route: ActivatedRoute, private seo: SeoService) { }
 
   ngOnInit(): void {
-    const slug = this.route.paramMap.subscribe((params) => {
+    this.route.paramMap.subscribe((params) => {
       const slug = params.get('postUrl')
       this.store.select(CMSState.getPosts).subscribe(
         (posts) => this.post = posts.find(post => post.url === slug)
       )
     })
+
+    if (this.post) {
+      this.seo.setTitle(this.post.title + '| XRthinktank')
+      this.seo.setMetaDescription(this.post.excerpt.text || '');
+      this.seo.setOpenGraphData([
+        { property: 'og:title', content: this.post.title + ' | XRthinktank' },
+        { property: 'og:description', content: this.post.excerpt.text || '' },
+        { property: 'og:image', content: this.post.image.url }
+      ]);
+
+    }
 
   }
 }

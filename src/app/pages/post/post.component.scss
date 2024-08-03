@@ -1,7 +1,15 @@
+@import '../../../scss/mixins/viewport.scss';
+
 :host {
     & .post {
-        display:grid;
+        display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 1rem;
+
+        @include mobile {
+            grid-template-columns: 1fr;
+        }
     }
+
+
 }

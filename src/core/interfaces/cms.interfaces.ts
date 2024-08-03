@@ -81,3 +81,23 @@ export type GQLResponse<T> = {
 }
 
 export type Localizations = { [key: string]: string };
+
+export interface ContactForm {
+    id: string
+}
+
+export interface ContentComponent {
+    content: {
+        html: string;
+        text: string;
+    }
+}
+
+export interface Page {
+    url: string;
+    title: string;
+    image: EventImage;
+    createdAt: string,
+    content: Array<ContactForm | ContentComponent | ImageCarousel>,
+    seoDescription: string
+}

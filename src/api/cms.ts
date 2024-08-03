@@ -4,8 +4,9 @@ import { fetchHygraphData } from './helpers/fetchHygraphData.helper';
 import { eventQuery, eventsQuery } from './querys/events.query';
 import { postQuery, postsQuery } from './querys/posts.query';
 import { preferCacheEntries } from './helpers/nodeCache.helper';
-import { CMSObject, CMSObjectType, Event, Events, Localizations, Post, Posts } from '../core/interfaces/cms.interfaces';
+import { CMSObject, CMSObjectType, Event, Events, Localizations, Page, Post, Posts } from '../core/interfaces/cms.interfaces';
 import { localizationQuery } from './querys/localization.query';
+import { pageQuery } from './querys/page.query';
 
 
 const cmsRouter = express.Router();
@@ -47,7 +48,7 @@ cmsRouter.get('/event/:slug', async (req, res) => {
         const event = events?.find((event: Event) => event.url === variables.url)
 
         if (!event) {
-            res.status(404).json({ message: `could not find event with rhe url ${variables.url}` })
+            res.status(404).json({ message: `could not find event with the url ${variables.url}` })
         } else {
             res.json(event);
         }
@@ -96,7 +97,7 @@ cmsRouter.get('/post/:slug', async (req, res) => {
         const post = posts?.find(post => post.url === variables.url);
 
         if (!post) {
-            res.status(404).json({ message: `could not find post with rhe url ${variables.url}` })
+            res.status(404).json({ message: `could not find post with the url ${variables.url}` })
         } else {
             res.json(post);
         }
@@ -214,6 +215,30 @@ cmsRouter.get('/localizations', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+cmsRouter.get('/page/:slug', async (req, res) => {
+    const loc = req.headers['locales'] || 'de';
+    const locales = loc === 'de' ? ["de", "en"] : ["en", "de"];
+    const variables = { url: req.params.slug, locales: locales };
+    const cache = req.app.get('cache');
+
+    try {
+        const page = await preferCacheEntries<Page>(cache, `${loc}_${variables.url}`, async () => {
+            const response = await fetchHygraphData<Page>(pageQuery, variables)
+            return response.data['page']
+        })
+
+        if (!page) {
+            res.status(404).json({ message: `could not find post with the url ${variables.url}` })
+        } else {
+            res.json(page);
+        }
+
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 
 export default cmsRouter;

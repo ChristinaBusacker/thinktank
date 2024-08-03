@@ -1,5 +1,5 @@
 import { Injectable, makeStateKey } from '@angular/core';
-import { Events, Post, Posts, Event, Localizations } from '../../../core/interfaces/cms.interfaces';
+import { Events, Post, Posts, Event, Localizations, Page } from '../../../core/interfaces/cms.interfaces';
 import { Store } from '@ngxs/store';
 import { LocalizationState } from '../state/localization/localization.state';
 import { SetEvents, SetPosts } from '../state/cms/cms.actions';
@@ -93,6 +93,26 @@ export class CmsService {
         }
       })
       const responseData = (await response.json()) as Post;
+      return responseData;
+    } catch (error: any) {
+      throw new Error(`Error on fetching post: ${error.message}`);
+    }
+  }
+
+  async fetchPage(url: string) {
+    const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
+    try {
+      const response = await fetch(`${this.baseUrl}/page/${url}`, {
+        headers: {
+          locales: lang
+        }
+      })
+
+      if (response.status > 300) {
+        return undefined
+      }
+
+      const responseData = (await response.json()) as Page;
       return responseData;
     } catch (error: any) {
       throw new Error(`Error on fetching post: ${error.message}`);

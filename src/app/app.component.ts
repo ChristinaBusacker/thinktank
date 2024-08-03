@@ -11,12 +11,14 @@ import { TransferStateService } from './core/services/transfer-state.service';
 import { BrowserSpecsService } from './core/services/browser-specs.service';
 import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 import { SetLanguage } from './core/state/localization/localization.actions';
+import { SeoService } from './core/services/seo.service';
+import { ApplicationService } from './core/services/application.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, HeaderComponent, SidebarComponent],
-  providers: [CmsService, SearchService, LocalizationService, TransferStateService, BrowserSpecsService],
+  providers: [CmsService, SearchService, LocalizationService, TransferStateService, BrowserSpecsService, SeoService, ApplicationService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
