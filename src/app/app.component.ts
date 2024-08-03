@@ -13,12 +13,14 @@ import { SidebarComponent } from './shared/components/sidebar/sidebar.component'
 import { SetLanguage } from './core/state/localization/localization.actions';
 import { SeoService } from './core/services/seo.service';
 import { ApplicationService } from './core/services/application.service';
+import { ContactService } from './core/services/contact.service';
+import { BreadcrumbsComponent } from './shared/components/breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SidebarComponent],
-  providers: [CmsService, SearchService, LocalizationService, TransferStateService, BrowserSpecsService, SeoService, ApplicationService],
+  imports: [RouterOutlet, HeaderComponent, SidebarComponent, BreadcrumbsComponent],
+  providers: [CmsService, SearchService, LocalizationService, TransferStateService, BrowserSpecsService, SeoService, ApplicationService, ContactService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

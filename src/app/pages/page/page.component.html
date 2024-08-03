@@ -1,1 +1,32 @@
-<p>page works!</p>
+@if(page) {
+<div class="page">
+    <div class="image">
+        @if(page.desktopImage?.url) {
+        <img [src]="page.desktopImage.url" data-target="d" />
+        }
+
+        @if(page.image?.url) {
+        <img [src]="page.image.url" data-target="m" />
+        }
+
+
+    </div>
+    <div class="text">
+        <h1 [appSafeHtml]="page.title"></h1>
+        @for(content of page.content; track content.id) {
+        @if(isContentComponent(content); as text) {
+        <div [appSafeHtml]="text.content.html"></div>
+        }
+
+        @if(isImageCarousel(content); as carousel) {
+
+
+        }
+
+        @if(isContactForm(content); as form) {
+        <app-contact-form></app-contact-form>
+        }
+        }
+    </div>
+</div>
+}

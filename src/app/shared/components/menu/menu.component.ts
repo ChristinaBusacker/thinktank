@@ -25,4 +25,9 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
     this.lang$.subscribe(lang => this.lang = lang)
   }
+
+  toggleOverlay() {
+    this.opened = !this.opened;
+    this.active = !this.active;
+  }
 }

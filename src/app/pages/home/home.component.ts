@@ -19,12 +19,14 @@ import { SeoService } from '../../core/services/seo.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   events$: Observable<Events> = inject(Store).select(CMSState.getEvents);
   posts$: Observable<Posts> = inject(Store).select(CMSState.getPosts);
   objects$: Observable<CMSObject[]> = inject(Store).select(CMSState.getObjects);
   localizations$: Observable<Localizations> = inject(Store).select(LocalizationState.getLocalizations);
   lang$: Observable<'de' | 'en'> = inject(Store).select(LocalizationState.getLanguage);
+
+  langSubscription = new Subscription()
 
   lang: 'de' | 'en' = 'de';
 
@@ -45,22 +47,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.currentRoute = 'all';
     }
 
-    this.lang$.subscribe(lang => {
-      this.lang = lang
+    this.langSubscription.add(
+      this.lang$.subscribe(lang => {
+        this.lang = lang
 
-      const desc_de = "Entdecken Sie die Welt der erweiterten, virtuellen und gemischten Realität auf unserer Plattform! Tauschen Sie sich mit Gleichgesinnten über die neuesten Trends und Technologien in XR, AR und VR aus. Erfahren Sie mehr über innovative Anwendungen, teilen Sie Ihre Erfahrungen und lernen Sie von Experten in der Community. Jetzt beitreten und in die Zukunft eintauchen!"
-      const desc_en = "Discover the world of augmented, virtual, and mixed reality on our platform! Connect with like-minded individuals to discuss the latest trends and technologies in XR, AR, and VR. Learn about innovative applications, share your experiences, and gain insights from experts in the community. Join now and dive into the future!"
-      const title = this.lang === 'de' ? 'Willkommen bei XR-Thinktank' : 'Welcome to XR-Thinktank'
-      const desc = this.lang === 'de' ? desc_de : desc_en;
-      this.seo.setTitle(title)
-      this.seo.setMetaDescription(desc);
-      this.seo.setOpenGraphData([
-        { property: 'og:title', content: title },
-        { property: 'og:description', content: desc },
-      ]);
+        const desc_de = "Entdecken Sie die Welt der erweiterten, virtuellen und gemischten Realität auf unserer Plattform! Tauschen Sie sich mit Gleichgesinnten über die neuesten Trends und Technologien in XR, AR und VR aus. Erfahren Sie mehr über innovative Anwendungen, teilen Sie Ihre Erfahrungen und lernen Sie von Experten in der Community. Jetzt beitreten und in die Zukunft eintauchen!"
+        const desc_en = "Discover the world of augmented, virtual, and mixed reality on our platform! Connect with like-minded individuals to discuss the latest trends and technologies in XR, AR, and VR. Learn about innovative applications, share your experiences, and gain insights from experts in the community. Join now and dive into the future!"
+        const title = this.lang === 'de' ? 'Willkommen bei XR-Thinktank' : 'Welcome to XR-Thinktank'
+        const desc = this.lang === 'de' ? desc_de : desc_en;
+        this.seo.setTitle(title)
+        this.seo.setMetaDescription(desc);
+        this.seo.setOpenGraphData([
+          { property: 'og:title', content: title },
+          { property: 'og:description', content: desc },
+        ]);
 
-    })
-
+      })
+    )
 
     this.cdr.detectChanges();
   }
@@ -89,5 +92,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.langSubscription.unsubscribe();
   }
 }

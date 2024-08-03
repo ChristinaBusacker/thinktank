@@ -1,40 +1,49 @@
-<nav [class.opened]="opened" >
+<nav [class.opened]="opened">
     <div class="icon">
-        <button class="menu" aria-expanded="false"  (click)="opened = !opened">
+        <button class="menu" aria-expanded="false" (click)="toggleOverlay()">
             <svg width="100" height="100" viewBox="0 0 100 100">
-              <path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
-              <path class="line line2" d="M 20,50 H 80" />
-              <path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+                <path class="line line1"
+                    d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+                <path class="line line2" d="M 20,50 H 80" />
+                <path class="line line3"
+                    d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
             </svg>
-          </button>
+        </button>
     </div>
     <div class="desktop-overlay" [class.active]="active">
 
     </div>
     <div class="overlay" [class.active]="active">
-        <div class="search" >
-            <app-search></app-search>
+        <div class="search">
+            <app-search (clicked)="toggleOverlay()"></app-search>
         </div>
         <ul>
             <li>
-                <a [routerLink]="['/', lang, 'blog']" routerLinkActive="router-link-active">{{"navigation.blog" | i18n | async}}</a>
+                <a [routerLink]="['/', lang, 'blog']" routerLinkActive="router-link-active">{{"navigation.blog" | i18n |
+                    async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.training" | i18n | async}}</a>
+                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.training" | i18n |
+                    async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/', lang,'events']" routerLinkActive="router-link-active">{{"navigation.events" | i18n | async}}</a>
+                <a [routerLink]="['/', lang,'events']" routerLinkActive="router-link-active">{{"navigation.events" |
+                    i18n | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.about" | i18n | async}}</a>
+                <a [routerLink]="['/', lang,'about']" routerLinkActive="router-link-active">{{"navigation.about" | i18n
+                    | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.contact" | i18n | async}}</a>
+                <a [routerLink]="['/', lang,'contact']" routerLinkActive="router-link-active">{{"navigation.contact" |
+                    i18n | async}}</a>
             </li>
             <li>
-                <a [routerLink]="['/routePath']" routerLinkActive="router-link-active">{{"navigation.imprint" | i18n | async}}</a>
+                <a [routerLink]="['/', lang, 'imprint']" routerLinkActive="router-link-active">{{"navigation.imprint" |
+                    i18n |
+                    async}}</a>
             </li>
-            <li class="searchicon" (click)="active = true">
+            <li class="searchicon" (click)="toggleOverlay()">
                 <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 28 28"
                     style="enable-background:new 0 0 28 28;" xml:space="preserve">

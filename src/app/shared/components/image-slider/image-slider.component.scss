@@ -2,16 +2,13 @@
     padding-bottom: 30px;
     display: block;
 
-    .glide {
-        width: 100%;
-        margin: 0 auto;
-    }
+
 
     .glide__slide img {
         width: 100%;
         height: auto;
         max-height: 100px;
-        object-fit: cover;
+        object-fit: contain;
     }
 
     .glide__arrows,
@@ -27,5 +24,9 @@
 
     .glide__bullet--active {
         background-color: black;
+    }
+
+    .glide__slides {
+        align-items: center;
     }
 }

@@ -34,18 +34,20 @@ export class EventComponent implements OnInit {
       this.store.select(CMSState.getEvents).subscribe(
         (events) => this.event = events.find(event => event.url === slug)
       )
+
+      if (this.event) {
+        this.seo.setTitle(this.event.title + ' | XRthinktank')
+        this.seo.setMetaDescription(this.event.excerpt.text || '');
+        this.seo.setOpenGraphData([
+          { property: 'og:title', content: this.event.title + ' | XRthinktank' },
+          { property: 'og:description', content: this.event.excerpt.text || '' },
+          { property: 'og:image', content: this.event.image.url }
+        ]);
+      }
     })
 
 
-    if (this.event) {
-      this.seo.setTitle(this.event.title + '| XRthinktank')
-      this.seo.setMetaDescription(this.event.excerpt.text || '');
-      this.seo.setOpenGraphData([
-        { property: 'og:title', content: this.event.title + ' | XRthinktank' },
-        { property: 'og:description', content: this.event.excerpt.text || '' },
-        { property: 'og:image', content: this.event.image.url }
-      ]);
-    }
+
 
   }
 

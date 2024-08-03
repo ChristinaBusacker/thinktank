@@ -1,0 +1,26 @@
+@import '../../../scss/mixins/viewport.scss';
+
+:host {
+    & .page {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 1rem;
+
+        @include mobile {
+            grid-template-columns: 1fr;
+        }
+
+        & .info {
+            & .info-wrapper {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        app-contact-form {
+            margin-top: 2rem;
+        }
+
+    }
+}

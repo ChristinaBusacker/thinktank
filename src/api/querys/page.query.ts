@@ -8,12 +8,15 @@ query PageQuery($url: String, $locales: [Locale!]!) {
         id
       }
       ... on ContentComponent {
+      id
         content {
+          
           html
           text
         }
       }
       ... on ImageCarousel {
+        title
         images {
           id
           url
@@ -23,6 +26,11 @@ query PageQuery($url: String, $locales: [Locale!]!) {
     }
     createdAt
     image {
+        id
+        url
+        mimeType
+    }
+    desktopImage {
         id
         url
         mimeType

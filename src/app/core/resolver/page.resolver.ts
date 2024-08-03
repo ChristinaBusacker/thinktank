@@ -9,11 +9,12 @@ export const pageResolver: ResolveFn<Object> = async (route, state) => {
     const url = route.paramMap.get('page');
     let page: Page | undefined = undefined
 
+    console.log('LOOK FOR PAGE')
+
     if (url) {
         page = await inject(CmsService).fetchPage(url);
 
         if (page) {
-            console.log(page)
             return page
         }
     }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { debounceTime, combineLatest, Observable } from 'rxjs';
@@ -7,11 +7,12 @@ import { SearchService } from '../../../core/services/search.service';
 import { CMSObjectType, CMSSearchResult, Post } from '../../../../core/interfaces/cms.interfaces';
 import { SearchState } from '../../../core/state/search/cms.state';
 import { LocalizationState } from '../../../core/state/localization/localization.state';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
@@ -29,7 +30,9 @@ export class SearchComponent implements OnInit {
   results$: Observable<CMSSearchResult[] | undefined> = inject(Store).select(SearchState.getSearchResults);
   lang$: Observable<'de' | 'en'> = inject(Store).select(LocalizationState.getLanguage);
 
-  constructor(private store: Store, private searchService: SearchService) { }
+  @Output() public clicked = new EventEmitter<boolean>()
+
+  constructor(private store: Store, private searchService: SearchService, private router: Router) { }
 
   ngOnInit(): void {
     combineLatest([
@@ -80,5 +83,10 @@ export class SearchComponent implements OnInit {
     if (object.type === this.types.post) {
       return (object.data as any).postImage.url;
     }
+  }
+
+  navigate(object: CMSSearchResult) {
+    this.clicked.emit(true)
+    this.router.navigate(['/', this.lang, object.type, object.data.url])
   }
 }

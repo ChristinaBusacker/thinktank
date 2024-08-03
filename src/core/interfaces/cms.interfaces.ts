@@ -87,6 +87,7 @@ export interface ContactForm {
 }
 
 export interface ContentComponent {
+    id: string;
     content: {
         html: string;
         text: string;
@@ -97,6 +98,7 @@ export interface Page {
     url: string;
     title: string;
     image: EventImage;
+    desktopImage: EventImage;
     createdAt: string,
     content: Array<ContactForm | ContentComponent | ImageCarousel>,
     seoDescription: string

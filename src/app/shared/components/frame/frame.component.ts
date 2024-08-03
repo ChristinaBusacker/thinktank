@@ -9,7 +9,7 @@ import { Component, HostBinding, Input, OnInit } from '@angular/core';
 })
 export class FrameComponent implements OnInit {
 
-  @Input('appearance') appearance: 'small' | 'thick' = 'thick'
+  @Input('appearance') appearance: 'small' | 'thick' | 'button' = 'thick'
   @HostBinding('class') classes: string = this.appearance
 
   ngOnInit(): void {

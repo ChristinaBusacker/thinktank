@@ -17,6 +17,7 @@ export class CmsService {
   private eventKey = makeStateKey<Events>("event");
   private postsKey = makeStateKey<Posts>("posts");
   private localizationsKey = makeStateKey<Localizations>("localizations");
+  private pageKey = makeStateKey<Page>("page");
 
   constructor(private store: Store, private tfs: TransferStateService) { }
 
@@ -99,21 +100,26 @@ export class CmsService {
     }
   }
 
-  async fetchPage(url: string) {
-    const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
+  async fetchPage(url: string): Promise<Page | undefined> {
     try {
-      const response = await fetch(`${this.baseUrl}/page/${url}`, {
-        headers: {
-          locales: lang
+      const page = await this.tfs.preferTransferState<Page | undefined>(this.pageKey, async () => {
+        const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
+        const response = await fetch(`${this.baseUrl}/page/${url}`, {
+          headers: {
+            locales: lang
+          }
+        })
+
+        if (response.status > 300) {
+          return undefined
         }
+
+        const responseData = (await response.json()) as Page;
+        return responseData;
       })
 
-      if (response.status > 300) {
-        return undefined
-      }
+      return page;
 
-      const responseData = (await response.json()) as Page;
-      return responseData;
     } catch (error: any) {
       throw new Error(`Error on fetching post: ${error.message}`);
     }

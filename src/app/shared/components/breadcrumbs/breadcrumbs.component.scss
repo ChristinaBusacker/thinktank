@@ -1,0 +1,32 @@
+:host {
+    display: block;
+    padding: 10px 0;
+
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        gap: 3px;
+
+        & li {
+
+            & button {
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+                font-size: 1.4rem;
+                text-transform: uppercase;
+                font-family: 'D-Din Bold';
+                padding: 0;
+            }
+
+            & span {
+                font-size: 1.4rem;
+                text-transform: uppercase;
+                font-family: 'D-Din Bold';
+            }
+        }
+    }
+}

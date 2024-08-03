@@ -29,7 +29,6 @@ export class TransferStateService {
     if (isPlatformBrowser(this.platformID)) {
 
       const value = this.get(key);
-      console.log('isBrowser', value, key)
       if (value) {
         return value
       }
