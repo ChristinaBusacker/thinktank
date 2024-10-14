@@ -1,87 +1,92 @@
-@import './mixins/viewport.scss';
+@import "./mixins/viewport.scss";
 
 @font-face {
-    font-family: 'Rubik';
-    font-style: normal;
-    src: url(../assets/fonts/Rubik-Regular.ttf) format('truetype'),
+  font-family: "Rubik";
+  font-style: normal;
+  src: url(../assets/fonts/Rubik-Regular.ttf) format("truetype");
 }
 
 @font-face {
-    font-family: 'Rubik Bold';
-    font-style: bold;
-    src: url(../assets/fonts/Rubik-Bold.ttf) format('truetype'),
-}
-
-
-@font-face {
-    font-family: 'Rubik Italic';
-    font-style: italic;
-    src: url(../assets/fonts/Rubik-Italic.ttf) format('truetype'),
-}
-
-
-@font-face {
-    font-family: 'D-Din';
-    font-style: normal;
-    src: url('../assets/fonts/D-DIN.otf') format('opentype');
+  font-family: "Rubik Bold";
+  font-style: bold;
+  src: url(../assets/fonts/Rubik-Bold.ttf) format("truetype");
 }
 
 @font-face {
-    font-family: 'D-Din Bold';
-    src: url('../assets/fonts/D-DINExp-Bold.otf') format('opentype');
+  font-family: "Rubik Italic";
+  font-style: italic;
+  src: url(../assets/fonts/Rubik-Italic.ttf) format("truetype");
 }
 
 @font-face {
-    font-family: 'D-Din';
-    font-style: italic;
-    src: url('../assets/fonts/D-DIN-Italic.otf') format('opentype');
+  font-family: "D-Din";
+  font-style: normal;
+  src: url("../assets/fonts/D-DIN.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "D-Din Bold";
+  src: url("../assets/fonts/D-DINExp-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "D-Din";
+  font-style: italic;
+  src: url("../assets/fonts/D-DIN-Italic.otf") format("opentype");
 }
 
 @include desktop {
+  h1,
+  .headline {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    font-family: "Rubik Bold";
+    margin: 0;
+    line-height: 2.3rem;
+  }
 
-    h1,
-    .headline {
-        font-size: 2.4rem;
-        text-transform: uppercase;
-        font-family: 'Rubik Bold';
-        margin: 0;
-    }
+  h2,
+  .subheader {
+    font-size: 1.7rem;
+    text-transform: uppercase;
+    font-family: "D-Din Bold";
+    margin: 0;
+    margin-top: 6px;
+  }
 
-    h2,
-    .subheader {
-        font-size: 1.7rem;
-        text-transform: uppercase;
-        font-family: 'D-Din Bold';
-        margin: 0;
-    }
+  body {
+    font-family: "D-Din";
+    font-size: 1.4rem;
+  }
 
-    body {
-        font-family: 'D-Din';
-        font-size: 1.4rem;
-    }
+  p {
+    margin: 10px 0;
+  }
 }
 
-
 @include mobile {
+  h1,
+  .headline {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    font-family: "Rubik Bold";
+    margin: 0;
+  }
 
-    h1,
-    .headline {
-        font-size: 2.4rem;
-        text-transform: uppercase;
-        font-family: 'Rubik Bold';
-        margin: 0;
-    }
+  h2,
+  .subheader {
+    font-size: 1.7rem;
+    text-transform: uppercase;
+    font-family: "D-Din Bold";
+    margin: 0;
+  }
 
-    h2,
-    .subheader {
-        font-size: 1.7rem;
-        text-transform: uppercase;
-        font-family: 'D-Din Bold';
-        margin: 0;
-    }
+  body {
+    font-family: "D-Din";
+    font-size: 1.6rem;
+  }
 
-    body {
-        font-family: 'D-Din';
-        font-size: 1.6rem;
-    }
+  p {
+    margin: 10px 0;
+  }
 }

@@ -21,8 +21,10 @@ query Post($url: String, $locales: [Locale!]!) {
     excerpt {
       html
     }
+    createdAt
+    publishedAt
   }
-}`
+}`;
 
 export const postsQuery = `
 query Posts($locales: [Locale!]!) {
@@ -50,5 +52,6 @@ query Posts($locales: [Locale!]!) {
         text
     }
     createdAt
+    publishedAt
   }
-}`
+}`;

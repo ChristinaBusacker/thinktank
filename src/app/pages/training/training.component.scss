@@ -1,0 +1,47 @@
+@import "../../../scss/mixins/viewport.scss";
+
+:host {
+  & .training {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+
+    & .info {
+      & .info-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    & .image {
+      img {
+        width: 100%;
+
+        @include mobile {
+          max-height: 500px;
+          object-fit: cover;
+          object-position: center center;
+        }
+      }
+    }
+
+    @include tablet {
+      & .image {
+        order: 1;
+      }
+
+      & .text {
+        order: 2;
+      }
+
+      & .info {
+        order: 3;
+      }
+    }
+  }
+}

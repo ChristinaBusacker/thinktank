@@ -1,15 +1,32 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {
+  InMemoryScrollingFeature,
+  InMemoryScrollingOptions,
+  provideRouter,
+  withInMemoryScrolling,
+} from '@angular/router';
 
-import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideStore } from '@ngxs/store';
-import { LocalizationState } from './core/state/localization/localization.state';
+import { routes } from './app.routes';
 import { CMSState } from './core/state/cms/cms.state';
-import { SearchState } from './core/state/search/cms.state';
+import { LocalizationState } from './core/state/localization/localization.state';
+import { SearchState } from './core/state/search/search.state';
+
+const scrollConfig: InMemoryScrollingOptions = {
+  scrollPositionRestoration: 'top',
+  anchorScrolling: 'enabled',
+};
+
+const inMemoryScrollingFeature: InMemoryScrollingFeature =
+  withInMemoryScrolling(scrollConfig);
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideStore(
-    [LocalizationState, CMSState, SearchState],
-  )]
+  providers: [
+    provideRouter(routes, inMemoryScrollingFeature),
+    provideClientHydration(),
+    provideStore([LocalizationState, CMSState, SearchState]),
+  ],
 };
+
+appConfig;

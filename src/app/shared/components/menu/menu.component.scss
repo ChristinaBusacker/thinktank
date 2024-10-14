@@ -1,209 +1,302 @@
-@import '../../../../scss/import';
+@import "../../../../scss/import";
 
 :host {
+  @include mobile {
+    & nav {
+      & .icon {
+        .menu {
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          padding: 0;
 
-    @include mobile {
-        & nav {
-            & .icon {
-                .menu {
-                    background-color: transparent;
-                    border: none;
-                    cursor: pointer;
-                    display: flex;
-                    padding: 0;
-                }
-
-                .line {
-                    fill: none;
-                    stroke: black;
-                    stroke-width: 6;
-                    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
-                        stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
-                }
-
-                .line1 {
-                    stroke-dasharray: 60 207;
-                    stroke-width: 6;
-                }
-
-                .line2 {
-                    stroke-dasharray: 60 60;
-                    stroke-width: 6;
-                }
-
-                .line3 {
-                    stroke-dasharray: 60 207;
-                    stroke-width: 6;
-                }
-
-
-                & svg {
-                    width: 32px;
-                    height: 32px;
-                }
-
-
+          & #hamburger {
+            z-index: 3;
+            & .unten {
+              fill: none;
+              stroke: black;
+              stroke-width: 2;
+              transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                stroke-dashoffset 600ms cubic-bezier(100, 0, 0.2, 1);
+              stroke-dasharray: 20 100 50;
             }
 
-            & .overlay {
-                position: fixed;
-                top: -100vh;
-                z-index: -1;
-                left: 0;
-                height: 100dvh;
-                width: 100%;
-                background-color: $color-overlays;
-                transition: top 0.3s ease;
-                padding: 10vh 5%;
-                display: flex;
-                flex-direction: column;
-
+            & .mitteLinks {
+              fill: none;
+              stroke: black;
+              stroke-width: 2;
+              transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+              stroke-dasharray: 10 100;
             }
 
-            & ul {
-                list-style: none;
-                padding: 0;
-                margin-top: 2rem;
-
-                & li {
-
-                    background-color: white;
-                    margin-top: .5rem;
-                    padding: 10px;
-
-                    & a {
-                        color: black;
-                        text-decoration: none;
-                        font-family: 'D-Din Bold';
-                    }
-
-                    & svg {
-                        width: 32px;
-                        display: none;
-                    }
-
-                    &.searchicon {
-                        display: none;
-                    }
-                }
+            & .mitteRechts {
+              fill: none;
+              stroke: black;
+              stroke-width: 2;
+              transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+              stroke-dasharray: 10 100;
             }
 
-            &.opened {
-                & .overlay {
-                    top: 0;
-
-
-                }
-
-                & .icon {
-                    & .line1 {
-                        stroke-dasharray: 90 207;
-                        stroke-dashoffset: -134;
-                        stroke-width: 6;
-                    }
-
-                    & .line2 {
-                        stroke-dasharray: 1 60;
-                        stroke-dashoffset: -30;
-                        stroke-width: 6;
-                    }
-
-                    & .line3 {
-                        stroke-dasharray: 90 207;
-                        stroke-dashoffset: -134;
-                        stroke-width: 6;
-                    }
-                }
+            & .oben {
+              fill: none;
+              stroke: black;
+              stroke-width: 2;
+              transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+              stroke-dasharray: 0 31 51;
             }
+
+            &.active .unten {
+              fill: none;
+              stroke: black;
+              stroke-width: 2;
+              transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+              stroke-dasharray: 0 42 50;
+            }
+
+            &.active .mitteLinks {
+              fill: none;
+              stroke: black;
+              stroke-width: 2;
+              transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+              stroke-dasharray: 0 10;
+            }
+
+            &.active .mitteRechts {
+              fill: none;
+              stroke: black;
+              stroke-width: 2;
+              transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+              stroke-dasharray: 0 10;
+            }
+
+            &.active .oben {
+              fill: none;
+              stroke: black;
+              stroke-width: 2;
+              transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+              stroke-dasharray: 20 210;
+            }
+          }
+        }
+      }
+
+      & .overlay {
+        position: fixed;
+        top: -100vh;
+        z-index: -1;
+        left: 0;
+        height: 100dvh;
+        width: 100%;
+        background-color: $color-overlays;
+        transition: top 0.3s ease;
+        padding: 10vh 5%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      & ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 2rem;
+
+        & li {
+          background-color: white;
+          margin-top: 0.5rem;
+          padding: 10px;
+
+          & a {
+            color: black;
+            text-decoration: none;
+            font-family: "D-Din Bold";
+          }
+
+          & svg {
+            width: 32px;
+            display: none;
+          }
+
+          &.searchicon {
+            display: none;
+          }
+        }
+      }
+
+      &.opened {
+        & .overlay {
+          top: 0;
         }
 
-        app-language-picker {
-            background-color: white;
-            padding: 10px;
-            align-self: end;
-        }
-    }
-
-
-
-    @include desktop {
         & .icon {
-            display: none;
+          & .line1 {
+            stroke-dasharray: 90 207;
+            stroke-dashoffset: -134;
+            stroke-width: 6;
+          }
+
+          & .line2 {
+            stroke-dasharray: 1 60;
+            stroke-dashoffset: -30;
+            stroke-width: 6;
+          }
+
+          & .line3 {
+            stroke-dasharray: 90 207;
+            stroke-dashoffset: -134;
+            stroke-width: 6;
+          }
         }
-
-
-        & nav {
-            padding: 6px 10px;
-
-            & .desktop-overlay {
-                position: fixed;
-                top: -100vh;
-                z-index: -1;
-                left: 0;
-                height: 100dvh;
-                width: 100%;
-                background-color: $color-overlays;
-                transition: top 0.3s ease;
-                padding: 10vh 5%;
-                display: flex;
-                flex-direction: column;
-
-                &.active {
-                    top: 0;
-                }
-            }
-
-            & .overlay {
-                position: relative;
-
-                & app-search {
-                    position: absolute;
-                    right: -10px;
-                    width: calc(100% + 20px);
-                    top: -10px;
-                }
-
-                .search {
-                    display: none;
-                }
-
-                &.active {
-                    .search {
-                        display: block;
-                    }
-                }
-            }
-
-
-            & ul {
-                list-style: none;
-                padding: 0;
-                display: flex;
-                gap: 2rem;
-                margin: 0;
-
-                & li {
-                    display: flex;
-                    align-items: center;
-                    font-size: 1.6rem;
-
-                    & a {
-                        color: black;
-                        text-decoration: none;
-                        font-family: 'D-Din Bold';
-                    }
-
-                    & svg {
-                        width: 32px;
-                        display: block;
-                    }
-                }
-            }
-        }
-
-        app-language-picker {
-            display: none;
-        }
+      }
     }
 
+    app-language-picker {
+      background-color: white;
+      padding: 10px;
+      align-self: end;
+    }
+  }
+
+  @include desktop {
+    & .icon {
+      display: none;
+    }
+
+    & #searchicon {
+      cursor: pointer;
+      z-index: 999;
+      & .lupengriff {
+        fill: none;
+        stroke: black;
+        stroke-width: 4;
+        transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+          stroke-dashoffset 600ms cubic-bezier(0.2, 0, 0.2, 0);
+        stroke-dasharray: 14 20;
+      }
+
+      & .xtop {
+        fill: none;
+        stroke: black;
+        stroke-width: 2;
+        transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+          stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+        stroke-dasharray: 0 10;
+      }
+
+      & .lupenglas {
+        fill: none;
+        stroke: black;
+        stroke-width: 2;
+        transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+          stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+        stroke-dasharray: 53.97 25;
+      }
+
+      &.active .lupengriff {
+        fill: none;
+        stroke: black;
+        stroke-width: 2;
+        transition: stroke-width 600ms cubic-bezier(0.4, 0, 0.2, 1),
+          stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1),
+          stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+        stroke-dasharray: 0 11.5 0;
+      }
+
+      &.active .xtop {
+        fill: none;
+        stroke: black;
+        stroke-width: 2;
+        transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+          stroke-dashoffset 600ms cubic-bezier(0, 0.2, 0.2, 1);
+        stroke-dasharray: 10 0;
+      }
+
+      &.active .lupenglas {
+        fill: none;
+        stroke: black;
+        stroke-width: 2;
+        transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+          stroke-dashoffset 600ms cubic-bezier(0.8, 0, 0.2, 1);
+        stroke-dasharray: 0 54 10;
+      }
+    }
+
+    & nav {
+      padding: 6px 10px;
+
+      & .desktop-overlay {
+        position: fixed;
+        top: -100vh;
+        z-index: -1;
+        left: 0;
+        height: 100dvh;
+        width: 100%;
+        background-color: $color-overlays;
+        transition: top 0.3s ease;
+        padding: 10vh 5%;
+        display: flex;
+        flex-direction: column;
+
+        &.active {
+          top: 0;
+        }
+      }
+
+      & .overlay {
+        position: relative;
+
+        & app-search {
+          position: absolute;
+          right: -10px;
+          width: calc(100% + 20px);
+          top: -5px;
+        }
+
+        .search {
+          display: none;
+        }
+
+        &.active {
+          .search {
+            display: block;
+          }
+        }
+      }
+
+      & ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        gap: 2rem;
+        margin: 0;
+
+        & li {
+          display: flex;
+          align-items: center;
+          font-size: 1.6rem;
+
+          & a {
+            color: black;
+            text-decoration: none;
+            font-family: "D-Din Bold";
+          }
+
+          & svg {
+            width: 32px;
+            display: block;
+          }
+        }
+      }
+    }
+
+    app-language-picker {
+      display: none;
+    }
+  }
 }

@@ -1,54 +1,95 @@
-@import '../../../../scss/import';
+@import "../../../../scss/import";
 
 :host {
-    padding: 2rem 2.5%;
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 50%;
-    z-index: 99;
-    max-width: calc(1900px + 5%);
+  padding: 2rem 2.5%;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 99;
+  max-width: calc(1900px + 5%);
+  width: 100%;
+  transform: translateX(-50%);
+
+  header {
     width: 100%;
-    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
 
-    header {
+    & .logo {
+      @include backgroundFilter;
+      max-width: 200px;
+      height: 40px;
+      width: 100%;
+      z-index: 3;
+
+      & app-logo {
+        max-width: 200px;
+        height: 50px;
         width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        display: block;
+        cursor: pointer;
+        z-index: 999;
         position: relative;
+      }
+    }
+  }
 
-        & .logo {
-            background-color: rgba(255, 255, 255, 0.5);
-            padding: 10px;
-            max-width: 200px;
-            height: 60px;
-            width: 100%;
+  .frame {
+    position: relative;
 
-            & app-logo {
-                max-width: 200px;
-                height: 50px;
-                width: 100%;
-                display: block;
-                cursor: pointer;
-                z-index: 999;
-                position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-            }
-        }
+    &:before {
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      @include backgroundFilter;
     }
 
-    app-language-picker {
-        position: absolute;
-        right: 0;
-        top: 55px;
-        padding: 5px 15px;
-        background-color: white;
-
-        @include mobile {
-            display: none;
-        }
+    @include mobile {
+      height: 40px;
+      width: 40px;
     }
 
+    & > svg {
+      position: absolute;
+      width: 9px;
+      z-index: 2;
 
+      &#bottomLeft {
+        left: 1px;
+        bottom: 1px;
+      }
+
+      &#topRight {
+        right: 1px;
+        top: 1px;
+      }
+    }
+
+    app-menu {
+      z-index: 2;
+    }
+  }
+
+  app-language-picker {
+    position: absolute;
+    right: 0;
+    top: 55px;
+    padding: 5px 15px;
+    @include backgroundFilter;
+
+    @include mobile {
+      display: none;
+    }
+  }
 }

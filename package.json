@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:staging": "ng build --configuration=staging",
-    "watch": "ng build --watch --configuration development",
+    "watch": "ng build --watch --configuration development --project xrthinktank",
     "test": "ng test",
     "serve:ssr": "nodemon dist/xrthinktank/server/server.mjs",
     "serve:ssr:xrthinktank": "node dist/xrthinktank/server/server.mjs"

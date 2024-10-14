@@ -32,6 +32,7 @@ export const eventsQuery = `
       mimeType
     }
     createdAt
+    publishedAt
     additionalInformation {
       ... on ImageCarousel {
        id
@@ -52,9 +53,7 @@ export const eventsQuery = `
       }
     }
       }
-    }`
-
-
+    }`;
 
 export const eventQuery = `
     query Event($url: String, $locales: [Locale!]!) {
@@ -89,5 +88,7 @@ export const eventQuery = `
           url
           mimeType
         }
+        createdAt
+        publishedAt
       }
-    }`
+    }`;

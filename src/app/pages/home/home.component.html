@@ -1,17 +1,18 @@
 <div class="grid">
-    @for(object of objects$ | async; track object.data.url) {
-    @if(isCurrentType(object.type)) {
-    <a class="item" [routerLink]="generateUrl(object)">
-        <div>
-            <img [src]="object.data.desktopImage.url" data-target="d" />
-            <img [src]="object.data.image.url" data-target="m" />
-        </div>
-        <div class="text">
-            <h1 [appSafeHtml]="object.data.title"></h1>
-            <h2 [appSafeHtml]="object.data.subtitle"></h2>
-            <p [appSafeHtml]="object.data.excerpt.html"></p>
-        </div>
-    </a>
-    }
-    }
+  @for(object of objects$ | async; track object.data.url) {
+  @if(isCurrentType(object.type)) {
+  <a class="item" [routerLink]="generateUrl(object)">
+    <div>
+      @if(object.data.image) {
+      <img [src]="object.data.desktopImage.url" data-target="d" />
+      <img [src]="object.data.image.url" data-target="m" />
+      }
+    </div>
+    <div class="text">
+      <h1 [appSafeHtml]="object.data.title"></h1>
+      <h2 [appSafeHtml]="object.data.subtitle"></h2>
+      <p [appSafeHtml]="object.data.excerpt.html"></p>
+    </div>
+  </a>
+  } }
 </div>

@@ -1,37 +1,34 @@
-@if(event) {
-<div class="event">
+@if(training) {
+<div class="training">
   <div class="image">
-    <img [src]="event.desktopImage.url" data-target="d" />
-    <img [src]="event.image.url" data-target="m" />
+    <img [src]="training.desktopImage.url" data-target="d" />
+    <img [src]="training.image.url" data-target="m" />
     <span
       >{{ "general.published" | i18n | async }}:
-      {{ localizationService.getFormattedDate(event.createdAt) | async }}</span
+      {{
+        localizationService.getFormattedDate(training.createdAt) | async
+      }}</span
     >
   </div>
   <div class="text">
-    <h1 [appSafeHtml]="event.title"></h1>
-    <h2 [appSafeHtml]="event.subtitle"></h2>
-    <div [appSafeHtml]="event.text.html"></div>
+    <h1 [appSafeHtml]="training.title"></h1>
+    <h2 [appSafeHtml]="training.subtitle"></h2>
+    <div [appSafeHtml]="training.text.html"></div>
   </div>
   <div class="info">
     <div class="info-wrapper">
       <app-accordion
-        title="Venue"
-        id="venue"
+        [title]="'general.contact' | i18n | async"
+        id="contact"
         [isOpen]="openedAccordion === 'venue'"
         (opened)="setOpenedAccordion($event)"
       >
-        <div [appSafeHtml]="event.eventLocation.informations.html"></div>
-
         @if(isBrowser()) {
-        <app-map
-          [lat]="event.eventLocation.geoLocation.latitude"
-          [lon]="event.eventLocation.geoLocation.longitude"
-        ></app-map>
+        <app-contact-form></app-contact-form>
         }
       </app-accordion>
-      @for(addit of event.additionalInformation; track
-      event.additionalInformation) {
+      @for(addit of training.additionalInformation; track
+      training.additionalInformation) {
       <app-accordion
         [title]="addit.title"
         [id]="addit.id"

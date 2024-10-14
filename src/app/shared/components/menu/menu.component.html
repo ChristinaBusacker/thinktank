@@ -1,65 +1,137 @@
 <nav [class.opened]="opened">
-    <div class="icon">
-        <button class="menu" aria-expanded="false" (click)="toggleOverlay()">
-            <svg width="100" height="100" viewBox="0 0 100 100">
-                <path class="line line1"
-                    d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
-                <path class="line line2" d="M 20,50 H 80" />
-                <path class="line line3"
-                    d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
-            </svg>
-        </button>
+  <div class="icon">
+    <button class="menu" aria-expanded="false" (click)="toggleOverlay()">
+      <svg
+        [class.active]="opened"
+        version="1.1"
+        id="hamburger"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        x="0px"
+        y="0px"
+        width="30px"
+        height="30px"
+        viewBox="0 0 30 30"
+        style="enable-background: new 0 0 30 30"
+        xml:space="preserve"
+        class=""
+      >
+        <polyline
+          id="unten"
+          class="unten"
+          points="25.1,21 4.5,21 4.5,4.6 22,22 "
+        ></polyline>
+        <line
+          id="mitteLinks"
+          class="mitteLinks"
+          x1="5"
+          y1="15"
+          x2="15"
+          y2="15"
+        ></line>
+        <line
+          id="mitteRechts"
+          class="mitteRechts"
+          x1="15.1"
+          y1="15"
+          x2="25.1"
+          y2="15"
+        ></line>
+        <polyline
+          id="oben"
+          class="oben"
+          points="8,22 25.5,4.6 26.5,9.1 5,9.1 "
+        ></polyline>
+      </svg>
+    </button>
+  </div>
+  <div class="desktop-overlay" [class.active]="active"></div>
+  <div class="overlay" [class.active]="active">
+    <div class="search">
+      <app-search (clicked)="toggleOverlay()"></app-search>
     </div>
-    <div class="desktop-overlay" [class.active]="active">
-
-    </div>
-    <div class="overlay" [class.active]="active">
-        <div class="search">
-            <app-search (clicked)="toggleOverlay()"></app-search>
-        </div>
-        <ul>
-            <li>
-                <a (click)="opened = false" [routerLink]="['/', lang, 'blog']"
-                    routerLinkActive="router-link-active">{{"navigation.blog" | i18n |
-                    async}}</a>
-            </li>
-            <li>
-                <a (click)="opened = false" [routerLink]="['/routePath']"
-                    routerLinkActive="router-link-active">{{"navigation.training" | i18n |
-                    async}}</a>
-            </li>
-            <li>
-                <a (click)="opened = false" [routerLink]="['/', lang,'events']"
-                    routerLinkActive="router-link-active">{{"navigation.events" |
-                    i18n | async}}</a>
-            </li>
-            <li>
-                <a (click)="opened = false" [routerLink]="['/', lang,'about']"
-                    routerLinkActive="router-link-active">{{"navigation.about" | i18n
-                    | async}}</a>
-            </li>
-            <li>
-                <a (click)="opened = false" [routerLink]="['/', lang,'contact']"
-                    routerLinkActive="router-link-active">{{"navigation.contact" |
-                    i18n | async}}</a>
-            </li>
-            <li>
-                <a (click)="opened = false" [routerLink]="['/', lang, 'imprint']"
-                    routerLinkActive="router-link-active">{{"navigation.imprint" |
-                    i18n |
-                    async}}</a>
-            </li>
-            <li class="searchicon" (click)="toggleOverlay()">
-                <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 28 28"
-                    style="enable-background:new 0 0 28 28;" xml:space="preserve">
-                    <path d="M27.8,25l-9.7-9.7c1-1.5,1.6-3.3,1.6-5.2c0-5.3-4.3-9.6-9.6-9.6c-5.3,0-9.6,4.3-9.6,9.6c0,5.3,4.3,9.6,9.6,9.6
-        c1.9,0,3.7-0.6,5.2-1.6l9.7,9.7L27.8,25z M2.4,10.1c0-4.2,3.4-7.6,7.6-7.6c4.2,0,7.6,3.4,7.6,7.6c0,4.2-3.4,7.6-7.6,7.6
-        C5.8,17.7,2.4,14.3,2.4,10.1z" />
-                </svg>
-            </li>
-        </ul>
-        <app-language-picker></app-language-picker>
-    </div>
-
+    <ul>
+      <li>
+        <a
+          (click)="opened = false"
+          [routerLink]="['/', lang, 'blog']"
+          routerLinkActive="router-link-active"
+          >{{ "navigation.blog" | i18n | async }}</a
+        >
+      </li>
+      <li>
+        <a
+          (click)="opened = false"
+          [routerLink]="['/', lang, 'trainings']"
+          routerLinkActive="router-link-active"
+          >{{ "navigation.training" | i18n | async }}</a
+        >
+      </li>
+      <li>
+        <a
+          (click)="opened = false"
+          [routerLink]="['/', lang, 'events']"
+          routerLinkActive="router-link-active"
+          >{{ "navigation.events" | i18n | async }}</a
+        >
+      </li>
+      <li>
+        <a
+          (click)="opened = false"
+          [routerLink]="['/', lang, 'about']"
+          routerLinkActive="router-link-active"
+          >{{ "navigation.about" | i18n | async }}</a
+        >
+      </li>
+      <li>
+        <a
+          (click)="opened = false"
+          [routerLink]="['/', lang, 'contact']"
+          routerLinkActive="router-link-active"
+          >{{ "navigation.contact" | i18n | async }}</a
+        >
+      </li>
+      <li>
+        <a
+          (click)="opened = false"
+          [routerLink]="['/', lang, 'imprint']"
+          routerLinkActive="router-link-active"
+          >{{ "navigation.imprint" | i18n | async }}</a
+        >
+      </li>
+      <li class="searchicon" (click)="toggleOverlay()">
+        <svg
+          [class.active]="opened"
+          version="1.1"
+          id="searchicon"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          width="30px"
+          height="30px"
+          viewBox="0 0 30 30"
+          style="enable-background: new 0 0 30 30"
+          xml:space="preserve"
+        >
+          <line
+            id="lupengriff"
+            class="lupengriff"
+            x1="28.5"
+            y1="28.5"
+            x2="15"
+            y2="15"
+          ></line>
+          <line id="xtop" class="xtop" x1="15" y1="15" x2="9.8" y2="9.8"></line>
+          <path
+            id="lupenglas"
+            class="lupenglas"
+            d="M20.4,9.6c-1.1-3.5-4.4-6.1-8.3-6.1c-4.8,0-8.6,3.9-8.6,8.6s3.9,8.6,8.6,8.6s8.6-3.9,8.6-8.6
+                C20.8,11.3,20.6,10.4,20.4,9.6L9.8,20.2"
+          ></path>
+        </svg>
+      </li>
+    </ul>
+    <app-language-picker></app-language-picker>
+  </div>
 </nav>

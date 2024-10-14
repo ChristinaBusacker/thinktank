@@ -1,17 +1,16 @@
 <nav aria-label="breadcrumb">
-    <ul class="breadcrumb">
-        @for(breadcrumb of breadcrumbs; track breadcrumb.url; let first = $first, last = $last) {
-        @if(breadcrumbs.length > 1) {
-        <li class="breadcrumb-item">
-            @if(!last) {
-            <button [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</button> /
-            } @else {
-            <span>{{ breadcrumb.label }}</span>
-            }
-        </li>
-        }
-
-        }
-
-    </ul>
+  <ul class="breadcrumb">
+    @for(breadcrumb of breadcrumbs; track breadcrumb.url; let first = $first,
+    last = $last) { @if(breadcrumbs.length > 1) {
+    <li class="breadcrumb-item">
+      @if(!last) {
+      <a [title]="breadcrumb.label" [routerLink]="breadcrumb.url">{{
+        breadcrumb.label
+      }}</a>
+      / } @else {
+      <a [title]="breadcrumb.label">{{ breadcrumb.label }}</a>
+      }
+    </li>
+    } }
+  </ul>
 </nav>

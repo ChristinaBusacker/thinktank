@@ -1,22 +1,20 @@
-// Define breakpoints
-$mobile: 768px; // Maximum width for mobile devices
-$tablet: 1200px; // Maximum width for tablet devices
+ $mobile: 768px;
+ $tablet: 1200px;
 
-@mixin mobile {
-  @media (max-width: #{$tablet}) {
-    @content;
-  }
-}
+ @mixin mobile {
+   @media (max-width: #{$tablet}) {
+     @content;
+   }
+ }
 
-// Mixin for desktop and tablets in landscape mode
-@mixin desktop {
-  @media (min-width: #{ $tablet + 1 }) {
-    @content;
-  }
-}
+ @mixin desktop {
+   @media (min-width: #{ $tablet + 1 }) {
+     @content;
+   }
+ }
 
-@mixin tablet {
-  @media (min-width: 767px) and (max-width: $tablet) {
-    @content;
-  }
-}
+ @mixin tablet {
+   @media (min-width: 767px) and (max-width: $tablet) {
+     @content;
+   }
+ }

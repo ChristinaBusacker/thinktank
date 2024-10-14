@@ -2,11 +2,12 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+
 import { Store } from '@ngxs/store';
 import {
-  Event,
   ImageCarousel,
   TextAccordion,
+  Training,
 } from '../../../core/interfaces/cms.interfaces';
 import { DirectivesModule } from '../../core/directives/directives.module';
 import { PipesModule } from '../../core/pipes/pipes.module';
@@ -14,11 +15,12 @@ import { LocalizationService } from '../../core/services/localization.service';
 import { SeoService } from '../../core/services/seo.service';
 import { CMSState } from '../../core/state/cms/cms.state';
 import { AccordionComponent } from '../../shared/components/accordion/accordion.component';
+import { ContactFormComponent } from '../../shared/components/contact-form/contact-form.component';
 import { ImageSliderComponent } from '../../shared/components/image-slider/image-slider.component';
 import { MapComponent } from '../../shared/components/map/map.component';
 
 @Component({
-  selector: 'app-event',
+  selector: 'app-training',
   standalone: true,
   imports: [
     CommonModule,
@@ -29,12 +31,13 @@ import { MapComponent } from '../../shared/components/map/map.component';
     ReactiveFormsModule,
     ImageSliderComponent,
     PipesModule,
+    ContactFormComponent,
   ],
-  templateUrl: './event.component.html',
-  styleUrl: './event.component.scss',
+  templateUrl: './training.component.html',
+  styleUrl: './training.component.scss',
 })
-export class EventComponent implements OnInit {
-  event?: Event;
+export class TrainingComponent implements OnInit {
+  training?: Training;
   openedAccordion: string = 'venue';
 
   constructor(
@@ -51,26 +54,28 @@ export class EventComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const slug = params.get('eventUrl');
-      this.store
-        .select(CMSState.getEvents)
-        .subscribe(
-          (events) => (this.event = events.find((event) => event.url === slug))
-        );
+      const slug = params.get('trainingUrl');
+      this.store.select(CMSState.getTrainings).subscribe(
+        (trainings) =>
+          (this.training = trainings.find((training) => {
+            console.log(training, slug);
+            return training.url === slug;
+          }))
+      );
 
-      if (this.event) {
-        this.seo.setTitle(this.event.title + ' | XRthinktank');
-        this.seo.setMetaDescription(this.event.excerpt.text || '');
+      if (this.training) {
+        this.seo.setTitle(this.training.title + ' | XRthinktank');
+        this.seo.setMetaDescription(this.training.excerpt.text || '');
         this.seo.setOpenGraphData([
           {
             property: 'og:title',
-            content: this.event.title + ' | XRthinktank',
+            content: this.training.title + ' | XRthinktank',
           },
           {
             property: 'og:description',
-            content: this.event.excerpt.text || '',
+            content: this.training.excerpt.text || '',
           },
-          { property: 'og:image', content: this.event.image.url },
+          { property: 'og:image', content: this.training.image.url },
         ]);
       }
     });

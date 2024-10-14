@@ -1,9 +1,13 @@
-
-
 export const localizationQuery = `
-query Localizations($locales: [Locale!]!) {
-  localizations(locales: $locales) {
+query Events($size: Int, $locales: [Locale!]!) {
+  localizations(locales: $locales, first: $size) {
     value
     key
   }
-}`
+  localizationsConnection(first: $size) {
+    pageInfo {
+      pageSize
+      hasNextPage
+    }
+  }
+}`;
