@@ -1,6 +1,6 @@
 <header>
   <div class="logo">
-    <app-logo (click)="logoClicked()"></app-logo>
+    <app-logo [routerLink]="['/', lang]" (click)="logoClicked()"></app-logo>
   </div>
 
   <div class="frame">
