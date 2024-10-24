@@ -5,14 +5,17 @@ import { Component, HostBinding, Input, OnInit } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './frame.component.html',
-  styleUrl: './frame.component.scss'
+  styleUrl: './frame.component.scss',
 })
 export class FrameComponent implements OnInit {
-
-  @Input('appearance') appearance: 'small' | 'thick' | 'button' = 'thick'
-  @HostBinding('class') classes: string = this.appearance
+  @Input('appearance') appearance:
+    | 'small'
+    | 'thick'
+    | 'button'
+    | 'invertButton' = 'thick';
+  @HostBinding('class') classes: string = this.appearance;
 
   ngOnInit(): void {
-    this.classes = this.appearance
+    this.classes = this.appearance;
   }
 }

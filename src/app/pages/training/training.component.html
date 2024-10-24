@@ -1,19 +1,19 @@
 @if(training) {
 <div class="training">
   <div class="image">
-    <img [src]="training.desktopImage.url" data-target="d" />
-    <img [src]="training.image.url" data-target="m" />
+    <img [src]="training.data.desktopImage.url" data-target="d" />
+    <img [src]="training.data.image.url" data-target="m" />
     <span
       >{{ "general.published" | i18n | async }}:
       {{
-        localizationService.getFormattedDate(training.createdAt) | async
+        localizationService.getFormattedDate(training.data.createdAt) | async
       }}</span
     >
   </div>
   <div class="text">
-    <h1 [appSafeHtml]="training.title"></h1>
-    <h2 [appSafeHtml]="training.subtitle"></h2>
-    <div [appSafeHtml]="training.text.html"></div>
+    <h1 [appSafeHtml]="training.data.title"></h1>
+    <h2 [appSafeHtml]="training.data.subtitle"></h2>
+    <div [appSafeHtml]="training.data.text.html"></div>
   </div>
   <div class="info">
     <div class="info-wrapper">
@@ -24,11 +24,11 @@
         (opened)="setOpenedAccordion($event)"
       >
         @if(isBrowser()) {
-        <app-contact-form></app-contact-form>
+        <app-contact-form [subject]="training.data.title"></app-contact-form>
         }
       </app-accordion>
-      @for(addit of training.additionalInformation; track
-      training.additionalInformation) {
+      @for(addit of getTraining().additionalInformation; track
+      getTraining().additionalInformation) {
       <app-accordion
         [title]="addit.title"
         [id]="addit.id"

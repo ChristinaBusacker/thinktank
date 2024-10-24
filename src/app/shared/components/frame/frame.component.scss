@@ -1,73 +1,85 @@
 :host {
-    display: block;
-    position: relative;
-    background-color: white;
+  display: block;
+  position: relative;
+  background-color: white;
 
-    &.thick {
-        padding: 4px;
-
-        & .border-top,
-        .border-bottom {
-            width: 10px;
-            height: 10px;
-        }
-
-        & .border-top {
-            top: 0px;
-            right: 0px;
-        }
-
-        & .border-bottom {
-            bottom: 0px;
-            left: 0px;
-        }
-
-    }
-
-    &.small {
-        padding: 2px;
-
-        & .border-top,
-        .border-bottom {
-            width: 8px;
-            height: 8px;
-        }
-
-        & .border-top {
-            top: 0px;
-            left: 0px;
-        }
-
-        & .border-bottom {
-            bottom: 0px;
-            right: 0px;
-        }
-    }
-
-    &.button {
-        padding: 4px;
-
-        & .border-top {
-            width: 10px;
-            height: 10px;
-            top: 0px;
-            right: 0px;
-        }
-
-    }
+  &.thick {
+    padding: 4px;
 
     & .border-top,
     .border-bottom {
-        content: '';
-        position: absolute;
-        background-color: black;
-        z-index: 0;
+      width: 10px;
+      height: 10px;
     }
 
-    .content {
-        background-color: white;
-        z-index: 2;
-        position: relative;
+    & .border-top {
+      top: 0px;
+      right: 0px;
     }
 
+    & .border-bottom {
+      bottom: 0px;
+      left: 0px;
+    }
+  }
+
+  &.small {
+    padding: 2px;
+
+    & .border-top,
+    .border-bottom {
+      width: 8px;
+      height: 8px;
+    }
+
+    & .border-top {
+      top: 0px;
+      left: 0px;
+    }
+
+    & .border-bottom {
+      bottom: 0px;
+      right: 0px;
+    }
+  }
+
+  &.button {
+    padding: 4px;
+
+    & .border-top {
+      width: 10px;
+      height: 10px;
+      top: 0px;
+      right: 0px;
+    }
+
+    & .border-bottom {
+      display: none;
+    }
+  }
+
+  &.invertButton {
+    padding: 4px;
+
+    & .border-top {
+      width: 10px;
+      height: 10px;
+      bottom: 0px;
+      left: 0px;
+    }
+  }
+
+  & .border-top,
+  .border-bottom {
+    content: "";
+    position: absolute;
+    background-color: black;
+    z-index: 0;
+  }
+
+  .content {
+    background-color: white;
+    z-index: 2;
+    position: relative;
+  }
 }

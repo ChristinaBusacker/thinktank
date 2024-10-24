@@ -7,6 +7,7 @@ import {
 } from '@angular/router';
 
 import { provideClientHydration } from '@angular/platform-browser';
+import { withNgxsReduxDevtoolsPlugin } from '@ngxs/devtools-plugin';
 import { provideStore } from '@ngxs/store';
 import { routes } from './app.routes';
 import { CMSState } from './core/state/cms/cms.state';
@@ -25,7 +26,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, inMemoryScrollingFeature),
     provideClientHydration(),
-    provideStore([LocalizationState, CMSState, SearchState]),
+    provideStore(
+      [LocalizationState, CMSState, SearchState],
+      withNgxsReduxDevtoolsPlugin()
+    ),
   ],
 };
 

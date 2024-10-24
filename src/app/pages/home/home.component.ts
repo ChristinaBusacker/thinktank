@@ -9,21 +9,20 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Observable, Subscription } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import {
   CMSObject,
   CMSObjectType,
-  Events,
   Localizations,
-  Posts,
-  Trainings,
 } from '../../../core/interfaces/cms.interfaces';
 import { DirectivesModule } from '../../core/directives/directives.module';
 import { PipesModule } from '../../core/pipes/pipes.module';
+import { CmsService } from '../../core/services/cms.service';
 import { SeoService } from '../../core/services/seo.service';
 import { CMSState } from '../../core/state/cms/cms.state';
 import { LocalizationState } from '../../core/state/localization/localization.state';
 import { AccordionComponent } from '../../shared/components/accordion/accordion.component';
+import { FrameComponent } from '../../shared/components/frame/frame.component';
 
 @Component({
   selector: 'app-home',
@@ -34,15 +33,16 @@ import { AccordionComponent } from '../../shared/components/accordion/accordion.
     DirectivesModule,
     PipesModule,
     AccordionComponent,
+    FrameComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
-  events$: Observable<Events> = inject(Store).select(CMSState.getEvents);
-  posts$: Observable<Posts> = inject(Store).select(CMSState.getPosts);
+  events$: Observable<CMSObject[]> = inject(Store).select(CMSState.getEvents);
+  posts$: Observable<CMSObject[]> = inject(Store).select(CMSState.getPosts);
   objects$: Observable<CMSObject[]> = inject(Store).select(CMSState.getObjects);
-  trainings$: Observable<Trainings> = inject(Store).select(
+  trainings$: Observable<CMSObject[]> = inject(Store).select(
     CMSState.getTrainings
   );
   localizations$: Observable<Localizations> = inject(Store).select(
@@ -52,35 +52,52 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     LocalizationState.getLanguage
   );
 
+  getPaginationInfo$: Observable<{ [key: string]: boolean }> = inject(
+    Store
+  ).select(CMSState.getPaginationInfo);
+
   langSubscription = new Subscription();
 
   lang: 'de' | 'en' = 'de';
 
   stateSubscriptions: {
     all: Observable<CMSObject[]>;
-    events: Observable<Events>;
-    trainings: Observable<Trainings>;
-    blog: Observable<Posts>;
+    events: Observable<CMSObject[]>;
+    trainings: Observable<CMSObject[]>;
+    news: Observable<CMSObject[]>;
   } = {
     events: this.events$,
-    blog: this.posts$,
+    news: this.posts$,
     trainings: this.trainings$,
     all: this.objects$,
   };
 
-  public currentRoute: 'all' | 'blog' | 'events' | 'trainings' = 'all';
+  public currentRoute: 'all' | 'news' | 'events' | 'trainings' = 'all';
+
+  public get currentObjects(): Observable<CMSObject[]> {
+    return this.stateSubscriptions[this.currentRoute];
+  }
+
+  public get hasMorePages(): Observable<boolean> {
+    return this.getPaginationInfo$.pipe(
+      map((paginationInfo) => {
+        return paginationInfo[this.currentRoute];
+      })
+    );
+  }
 
   constructor(
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private seo: SeoService
+    private seo: SeoService,
+    private cmsService: CmsService
   ) {}
 
   ngOnInit(): void {
     if (this.route.snapshot.url.length > 0) {
       switch (this.route.snapshot.url[0].path) {
-        case 'blog':
-          this.currentRoute = 'blog';
+        case 'news':
+          this.currentRoute = 'news';
           break;
         case 'events':
           this.currentRoute = 'events';
@@ -118,12 +135,30 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
+  loadMore() {
+    if (this.currentRoute === 'all') {
+      this.cmsService.fetchObjects(true);
+    }
+
+    if (this.currentRoute === 'news') {
+      this.cmsService.fetchPosts(true);
+    }
+
+    if (this.currentRoute === 'events') {
+      this.cmsService.fetchEvents(true);
+    }
+
+    if (this.currentRoute === 'trainings') {
+      this.cmsService.fetchTrainings(true);
+    }
+  }
+
   isCurrentType(value: CMSObjectType): boolean {
     if (this.currentRoute === 'all') {
       return true;
     }
 
-    if (this.currentRoute === 'blog') {
+    if (this.currentRoute === 'news') {
       return value === CMSObjectType.post;
     }
 
@@ -139,6 +174,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   generateUrl(object: CMSObject) {
+    console.log(object);
     return ['/', this.lang, object.type, object.data.url];
   }
 

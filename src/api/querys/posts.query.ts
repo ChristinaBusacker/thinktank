@@ -1,34 +1,6 @@
-export const postQuery = `
-query Post($url: String, $locales: [Locale!]!) {
-  post(where: {url: $url}, locales: $locales) {
-    url
-    title
-    subtitle
-    postDate
-    image {
-      mimeType
-      url
-      id
-    }
-    desktopImage {
-      mimeType
-      url
-      id
-    }
-    text {
-      html
-    }
-    excerpt {
-      html
-    }
-    createdAt
-    publishedAt
-  }
-}`;
-
 export const postsQuery = `
-query Posts($locales: [Locale!]!) {
-  posts(locales: $locales) {
+query Posts($locales: [Locale!]!, $size: Int, $skip: Int) {
+  posts(first: $size, skip: $skip, locales: $locales) {
     url
     title
     subtitle
@@ -53,5 +25,10 @@ query Posts($locales: [Locale!]!) {
     }
     createdAt
     publishedAt
+  }
+  postsConnection(first: $size, skip: $skip, locales:$locales) {
+    pageInfo {
+      hasNextPage
+    }
   }
 }`;

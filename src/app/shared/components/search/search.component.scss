@@ -60,7 +60,7 @@
     flex-direction: column;
     gap: 0.5rem;
     margin-top: 1rem;
-    max-height: 300px;
+    max-height: 25vh;
     overflow-y: auto;
 
     @include desktop {

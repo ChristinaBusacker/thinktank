@@ -1,17 +1,19 @@
 @if(event) {
 <div class="event">
   <div class="image">
-    <img [src]="event.desktopImage.url" data-target="d" />
-    <img [src]="event.image.url" data-target="m" />
+    <img [src]="event.data.desktopImage.url" data-target="d" />
+    <img [src]="event.data.image.url" data-target="m" />
     <span
       >{{ "general.published" | i18n | async }}:
-      {{ localizationService.getFormattedDate(event.createdAt) | async }}</span
+      {{
+        localizationService.getFormattedDate(event.data.createdAt) | async
+      }}</span
     >
   </div>
   <div class="text">
-    <h1 [appSafeHtml]="event.title"></h1>
-    <h2 [appSafeHtml]="event.subtitle"></h2>
-    <div [appSafeHtml]="event.text.html"></div>
+    <h1 [appSafeHtml]="event.data.title"></h1>
+    <h2 [appSafeHtml]="event.data.subtitle"></h2>
+    <div [appSafeHtml]="event.data.text.html"></div>
   </div>
   <div class="info">
     <div class="info-wrapper">
@@ -21,17 +23,17 @@
         [isOpen]="openedAccordion === 'venue'"
         (opened)="setOpenedAccordion($event)"
       >
-        <div [appSafeHtml]="event.eventLocation.informations.html"></div>
+        <div [appSafeHtml]="getEvent().eventLocation.informations.html"></div>
 
         @if(isBrowser()) {
         <app-map
-          [lat]="event.eventLocation.geoLocation.latitude"
-          [lon]="event.eventLocation.geoLocation.longitude"
+          [lat]="getEvent().eventLocation.geoLocation.latitude"
+          [lon]="getEvent().eventLocation.geoLocation.longitude"
         ></app-map>
         }
       </app-accordion>
-      @for(addit of event.additionalInformation; track
-      event.additionalInformation) {
+      @for(addit of getEvent().additionalInformation; track
+      getEvent().additionalInformation) {
       <app-accordion
         [title]="addit.title"
         [id]="addit.id"

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { eventsResolver } from './core/resolver/events.resolver';
 import { languageResolver } from './core/resolver/language.resolver';
 import { localizationResolver } from './core/resolver/localization.resolver';
+import { objectsResolver } from './core/resolver/objects.resolver';
 import { pageResolver } from './core/resolver/page.resolver';
 import { postsResolver } from './core/resolver/posts.resolver';
 import { trainingsResolver } from './core/resolver/trainings.resolver';
@@ -24,19 +25,15 @@ export const routes: Routes = [
         component: HomeComponent,
         resolve: {
           ...generalResolver,
-          events: eventsResolver,
-          posts: postsResolver,
-          trainings: trainingsResolver,
+          objects: objectsResolver,
         },
       },
       {
-        path: 'blog',
+        path: 'news',
         component: HomeComponent,
         resolve: {
           ...generalResolver,
-          events: eventsResolver,
           posts: postsResolver,
-          trainings: trainingsResolver,
         },
       },
       {
@@ -45,8 +42,6 @@ export const routes: Routes = [
         resolve: {
           ...generalResolver,
           trainings: trainingsResolver,
-          posts: postsResolver,
-          events: eventsResolver,
         },
       },
       {
@@ -55,8 +50,6 @@ export const routes: Routes = [
         resolve: {
           ...generalResolver,
           events: eventsResolver,
-          posts: postsResolver,
-          trainings: trainingsResolver,
         },
       },
       {
@@ -65,7 +58,7 @@ export const routes: Routes = [
         resolve: { ...generalResolver, events: eventsResolver },
       },
       {
-        path: 'blog/:postUrl',
+        path: 'news/:postUrl',
         component: PostComponent,
         resolve: { ...generalResolver, posts: postsResolver },
       },

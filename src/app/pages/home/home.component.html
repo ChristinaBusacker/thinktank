@@ -1,5 +1,5 @@
 <div class="grid">
-  @for(object of objects$ | async; track object.data.url) {
+  @for(object of currentObjects | async; track object.data.url) {
   @if(isCurrentType(object.type)) {
   <a class="item" [routerLink]="generateUrl(object)">
     <div>
@@ -16,3 +16,12 @@
   </a>
   } }
 </div>
+
+@if(hasMorePages | async) {
+<button type="submit" (click)="loadMore()">
+  <app-frame appearance="invertButton">
+    <div class="button">Mehr laden</div>
+  </app-frame>
+</button>
+
+}

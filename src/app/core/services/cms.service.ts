@@ -1,17 +1,22 @@
 import { Injectable, makeStateKey } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { PaginatedApiResponse } from '../../../core/interfaces/apiresponse.interface';
 import {
+  CMSObject,
   Event,
-  Events,
   Localizations,
   Page,
   Post,
-  Posts,
   Training,
-  Trainings,
 } from '../../../core/interfaces/cms.interfaces';
 import { environment } from '../../../environments/environment';
-import { SetEvents, SetPosts, SetTrainings } from '../state/cms/cms.actions';
+import {
+  SetEvents,
+  SetObjects,
+  SetPosts,
+  SetTrainings,
+} from '../state/cms/cms.actions';
+import { CMSState } from '../state/cms/cms.state';
 import { SetLocalizations } from '../state/localization/localization.actions';
 import { LocalizationState } from '../state/localization/localization.state';
 import { TransferStateService } from './transfer-state.service';
@@ -21,35 +26,49 @@ import { TransferStateService } from './transfer-state.service';
 })
 export class CmsService {
   private baseUrl = environment.baseUrl + '/api/cms';
-
-  private eventKey = makeStateKey<Events>('event');
-  private trainingsKey = makeStateKey<Trainings>('trainings');
-  private postsKey = makeStateKey<Posts>('posts');
+  private objectKey =
+    makeStateKey<PaginatedApiResponse<CMSObject>>('objectKey');
+  private eventKey = makeStateKey<PaginatedApiResponse<CMSObject>>('event');
+  private trainingsKey =
+    makeStateKey<PaginatedApiResponse<CMSObject>>('trainings');
+  private postsKey = makeStateKey<PaginatedApiResponse<CMSObject>>('posts');
   private localizationsKey = makeStateKey<Localizations>('localizations');
   private pageKey = makeStateKey<Page>('page');
 
   constructor(private store: Store, private tfs: TransferStateService) {}
 
-  async fetchTrainings(): Promise<Trainings> {
+  async fetchTrainings(loadMore = false): Promise<CMSObject[]> {
     try {
-      const trainings = await this.tfs.preferTransferState<Trainings>(
-        this.trainingsKey,
-        async () => {
-          const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
-          const response = await fetch(`${this.baseUrl}/training`, {
+      const trainingsResponse = await this.tfs.preferTransferState<
+        PaginatedApiResponse<CMSObject>
+      >(this.trainingsKey, async () => {
+        const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
+        const currentPages = this.store.selectSnapshot(
+          CMSState.getCurrentPages
+        );
+        let page = 0;
+        if (typeof currentPages['trainings'] === 'number' && loadMore) {
+          page = currentPages['trainings'] + 1;
+        }
+
+        const params = new URLSearchParams({ page: page + '' });
+        const response = await fetch(
+          `${this.baseUrl}/training?${params.toString()}`,
+          {
             headers: {
               locales: lang,
             },
-          });
-          const responseData = (await response.json()) as Trainings;
+          }
+        );
+        const responseData =
+          (await response.json()) as PaginatedApiResponse<CMSObject>;
 
-          return responseData;
-        }
-      );
+        return responseData;
+      });
 
-      this.store.dispatch(new SetTrainings(trainings));
+      this.store.dispatch(new SetTrainings(trainingsResponse));
 
-      return trainings;
+      return trainingsResponse.data;
     } catch (error: any) {
       throw new Error(`Error on fetching events: ${error.message}`);
     }
@@ -71,26 +90,77 @@ export class CmsService {
     }
   }
 
-  async fetchEvents(): Promise<Events> {
+  async fetchEvents(loadMore = false): Promise<CMSObject[]> {
     try {
-      const events = await this.tfs.preferTransferState<Events>(
-        this.eventKey,
-        async () => {
-          const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
-          const response = await fetch(`${this.baseUrl}/event`, {
+      const eventsResponse = await this.tfs.preferTransferState<
+        PaginatedApiResponse<CMSObject>
+      >(this.eventKey, async () => {
+        const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
+
+        const currentPages = this.store.selectSnapshot(
+          CMSState.getCurrentPages
+        );
+        let page = 0;
+        if (typeof currentPages['events'] === 'number' && loadMore) {
+          page = currentPages['events'] + 1;
+        }
+
+        const params = new URLSearchParams({ page: page + '' });
+        const response = await fetch(
+          `${this.baseUrl}/event?${params.toString()}`,
+          {
             headers: {
               locales: lang,
             },
-          });
-          const responseData = (await response.json()) as Events;
+          }
+        );
+        const responseData =
+          (await response.json()) as PaginatedApiResponse<CMSObject>;
 
-          return responseData;
+        return responseData;
+      });
+
+      this.store.dispatch(new SetEvents(eventsResponse));
+
+      return eventsResponse.data;
+    } catch (error: any) {
+      throw new Error(`Error on fetching events: ${error.message}`);
+    }
+  }
+
+  async fetchObjects(loadMore = false): Promise<CMSObject[]> {
+    try {
+      const objects = await this.tfs.preferTransferState<
+        PaginatedApiResponse<CMSObject>
+      >(this.objectKey, async () => {
+        const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
+
+        const currentPages = this.store.selectSnapshot(
+          CMSState.getCurrentPages
+        );
+        let page = 0;
+        if (typeof currentPages['objects'] === 'number' && loadMore) {
+          page = currentPages['objects'] + 1;
         }
-      );
 
-      this.store.dispatch(new SetEvents(events));
+        const params = new URLSearchParams({ page: page + '' });
+        const response = await fetch(
+          `${this.baseUrl}/objects?${params.toString()}`,
+          {
+            headers: {
+              locales: lang,
+            },
+          }
+        );
+        const responseData =
+          (await response.json()) as PaginatedApiResponse<CMSObject>;
 
-      return events;
+        return responseData;
+      });
+
+      this.store.dispatch(new SetObjects(objects));
+
+      return objects.data;
     } catch (error: any) {
       throw new Error(`Error on fetching events: ${error.message}`);
     }
@@ -112,26 +182,39 @@ export class CmsService {
     }
   }
 
-  async fetchPosts(): Promise<Posts> {
+  async fetchPosts(loadMore = false): Promise<CMSObject[]> {
     try {
-      const posts = await this.tfs.preferTransferState<Posts>(
-        this.postsKey,
-        async () => {
-          const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
-          const response = await fetch(`${this.baseUrl}/post`, {
+      const posts = await this.tfs.preferTransferState<
+        PaginatedApiResponse<CMSObject>
+      >(this.postsKey, async () => {
+        const lang = this.store.selectSnapshot(LocalizationState.getLanguage);
+
+        const currentPages = this.store.selectSnapshot(
+          CMSState.getCurrentPages
+        );
+        let page = 0;
+        if (typeof currentPages['posts'] === 'number' && loadMore) {
+          page = currentPages['posts'] + 1;
+        }
+
+        const params = new URLSearchParams({ page: page + '' });
+        const response = await fetch(
+          `${this.baseUrl}/post?${params.toString()}`,
+          {
             headers: {
               locales: lang,
             },
-          });
-          const responseData = (await response.json()) as Posts;
+          }
+        );
+        const responseData =
+          (await response.json()) as PaginatedApiResponse<CMSObject>;
 
-          return responseData;
-        }
-      );
+        return responseData;
+      });
 
       this.store.dispatch(new SetPosts(posts));
 
-      return posts;
+      return posts.data;
     } catch (error: any) {
       throw new Error(`Error on fetching events: ${error.message}`);
     }

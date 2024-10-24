@@ -45,8 +45,8 @@
       </svg>
     </button>
   </div>
-  <div class="desktop-overlay" [class.active]="active"></div>
-  <div class="overlay" [class.active]="active">
+  <div class="desktop-overlay" [class.active]="opened"></div>
+  <div class="overlay" [class.active]="opened">
     <div class="search">
       <app-search (clicked)="toggleOverlay()"></app-search>
     </div>
@@ -54,7 +54,7 @@
       <li>
         <a
           (click)="opened = false"
-          [routerLink]="['/', lang, 'blog']"
+          [routerLink]="['/', lang, 'news']"
           routerLinkActive="router-link-active"
           >{{ "navigation.blog" | i18n | async }}</a
         >
@@ -132,6 +132,6 @@
         </svg>
       </li>
     </ul>
-    <app-language-picker></app-language-picker>
+    <app-language-picker (changed)="opened = false"></app-language-picker>
   </div>
 </nav>

@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
-import { Post } from '../../../core/interfaces/cms.interfaces';
+import { CMSObject } from '../../../core/interfaces/cms.interfaces';
 import { DirectivesModule } from '../../core/directives/directives.module';
 import { PipesModule } from '../../core/pipes/pipes.module';
 import { LocalizationService } from '../../core/services/localization.service';
@@ -19,7 +19,7 @@ import { LocalizationState } from '../../core/state/localization/localization.st
   styleUrl: './post.component.scss',
 })
 export class PostComponent implements OnInit {
-  post?: Post;
+  post?: CMSObject;
   lang$: Observable<'de' | 'en'> = inject(Store).select(
     LocalizationState.getLanguage
   );
@@ -39,16 +39,22 @@ export class PostComponent implements OnInit {
       this.store
         .select(CMSState.getPosts)
         .subscribe(
-          (posts) => (this.post = posts.find((post) => post.url === slug))
+          (posts) => (this.post = posts.find((post) => post.data.url === slug))
         );
 
       if (this.post) {
-        this.seo.setTitle(this.post.title + ' | XRthinktank');
-        this.seo.setMetaDescription(this.post.excerpt.text || '');
+        this.seo.setTitle(this.post.data.title + ' | XRthinktank');
+        this.seo.setMetaDescription(this.post.data.excerpt.text || '');
         this.seo.setOpenGraphData([
-          { property: 'og:title', content: this.post.title + ' | XRthinktank' },
-          { property: 'og:description', content: this.post.excerpt.text || '' },
-          { property: 'og:image', content: this.post.image.url },
+          {
+            property: 'og:title',
+            content: this.post.data.title + ' | XRthinktank',
+          },
+          {
+            property: 'og:description',
+            content: this.post.data.excerpt.text || '',
+          },
+          { property: 'og:image', content: this.post.data.image.url },
         ]);
       }
     });

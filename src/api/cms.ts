@@ -1,4 +1,5 @@
 import express from 'express';
+import { mergeCMSObjects } from '../core/helpers/mergeCMSObjects.helper';
 import {
   CMSObject,
   CMSObjectType,
@@ -8,72 +9,52 @@ import {
   Page,
   Posts,
   Training,
-  Trainings,
 } from '../core/interfaces/cms.interfaces';
+import { fetchEvents } from './helpers/fetchEvents.helper';
+import { fetchObjects } from './helpers/fetchEvents.helper copy';
 import { fetchHygraphData } from './helpers/fetchHygraphData.helper';
+import { fetchPosts } from './helpers/fetchPosts.helper';
+import { fetchTrainings } from './helpers/fetchTrainings.helper';
 import { preferCacheEntries } from './helpers/nodeCache.helper';
+import { paginate } from './helpers/paginate.helper';
 import { eventsQuery } from './querys/events.query';
 import { localizationQuery } from './querys/localization.query';
 import { pageQuery } from './querys/page.query';
 import { postsQuery } from './querys/posts.query';
-import { trainingsQuery } from './querys/training.query';
 
 const cmsRouter = express.Router();
 
 cmsRouter.get('/training', async (req, res) => {
-  const cache = req.app.get('cache');
-
-  const loc = req.headers['locales'] || 'de';
-  const locales = loc === 'de' ? ['de', 'en'] : ['en', 'de'];
-
-  const variables = { locales };
-
+  const page = req.query['page'] ? parseInt(req.query['page'] as string) : 0;
   try {
-    const data = await preferCacheEntries<Trainings>(
-      cache,
-      `${loc}_trainings`,
-      async () => {
-        const response = await fetchHygraphData<Trainings>(
-          trainingsQuery,
-          variables
-        );
-        return response.data['trainings'];
-      }
+    const trainings = await fetchTrainings(req);
+    if (!trainings) {
+      throw Error('No Trainings found');
+    }
+    const objects: CMSObject[] = mergeCMSObjects(
+      undefined,
+      trainings,
+      undefined
     );
-
-    res.json(data);
+    res.json(paginate<CMSObject>(objects, page));
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 });
 
 cmsRouter.get('/training/:slug', async (req, res) => {
-  const cache = req.app.get('cache');
-
-  const loc = req.headers['locales'] || 'de';
-  const locales = loc === 'de' ? ['de', 'en'] : ['en', 'de'];
-  const variables = { url: req.params.slug, locales: locales };
+  const url = req.params.slug;
 
   try {
-    const trainings = await preferCacheEntries<Trainings>(
-      cache,
-      `${loc}_trainings`,
-      async () => {
-        const response = await fetchHygraphData<Trainings>(
-          trainingsQuery,
-          variables
-        );
-        return response.data['trainings'];
-      }
-    );
+    const trainings = await fetchTrainings(req);
 
     const training = trainings?.find(
-      (training: Training) => training.url === variables.url
+      (training: Training) => training.url === url
     );
 
     if (!training) {
       res.status(404).json({
-        message: `could not find event with the url ${variables.url}`,
+        message: `could not find event with the url ${url}`,
       });
     } else {
       res.json(training);
@@ -84,51 +65,30 @@ cmsRouter.get('/training/:slug', async (req, res) => {
 });
 
 cmsRouter.get('/event', async (req, res) => {
-  const cache = req.app.get('cache');
-
-  const loc = req.headers['locales'] || 'de';
-  const locales = loc === 'de' ? ['de', 'en'] : ['en', 'de'];
-
-  const variables = { locales };
-
+  const page = req.query['page'] ? parseInt(req.query['page'] as string) : 0;
   try {
-    const data = await preferCacheEntries<Events>(
-      cache,
-      `${loc}_events`,
-      async () => {
-        const response = await fetchHygraphData<Events>(eventsQuery, variables);
-        return response.data['events'];
-      }
-    );
+    const events = await fetchEvents(req);
+    if (!events) {
+      throw Error('No Events found');
+    }
 
-    res.json(data);
+    const objects: CMSObject[] = mergeCMSObjects(events, undefined, undefined);
+    res.json(paginate<CMSObject>(objects, page));
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 });
 
 cmsRouter.get('/event/:slug', async (req, res) => {
-  const cache = req.app.get('cache');
-
-  const loc = req.headers['locales'] || 'de';
-  const locales = loc === 'de' ? ['de', 'en'] : ['en', 'de'];
-  const variables = { url: req.params.slug, locales: locales };
-
+  const url = req.params.slug;
   try {
-    const events = await preferCacheEntries<Events>(
-      cache,
-      `${loc}_events`,
-      async () => {
-        const response = await fetchHygraphData<Events>(eventsQuery, variables);
-        return response.data['events'];
-      }
-    );
+    const events = await fetchEvents(req);
 
-    const event = events?.find((event: Event) => event.url === variables.url);
+    const event = events?.find((event: Event) => event.url === url);
 
     if (!event) {
       res.status(404).json({
-        message: `could not find event with the url ${variables.url}`,
+        message: `could not find event with the url ${url}`,
       });
     } else {
       res.json(event);
@@ -139,24 +99,12 @@ cmsRouter.get('/event/:slug', async (req, res) => {
 });
 
 cmsRouter.get('/post', async (req, res) => {
-  const cache = req.app.get('cache');
-
-  const loc = req.headers['locales'] || 'de';
-  const locales = loc === 'de' ? ['de', 'en'] : ['en', 'de'];
-  const variables = { locales: locales };
-
+  const page = req.query['page'] ? parseInt(req.query['page'] as string) : 0;
   try {
-    const posts = await preferCacheEntries<Events>(
-      cache,
-      `${loc}_posts`,
-      async () => {
-        const response = await fetchHygraphData<Events>(postsQuery, variables);
-        return response.data['posts'];
-      }
-    );
-
+    const posts = await fetchPosts(req);
     if (posts) {
-      res.json(posts);
+      const objects: CMSObject[] = mergeCMSObjects(undefined, undefined, posts);
+      res.json(paginate<CMSObject>(objects, page));
     } else {
       res.json([]);
     }
@@ -166,29 +114,31 @@ cmsRouter.get('/post', async (req, res) => {
 });
 
 cmsRouter.get('/post/:slug', async (req, res) => {
-  const loc = req.headers['locales'] || 'de';
-  const locales = loc === 'de' ? ['de', 'en'] : ['en', 'de'];
-  const variables = { url: req.params.slug, locales: locales };
-  const cache = req.app.get('cache');
-
+  const url = req.params.slug;
   try {
-    const posts = await preferCacheEntries<Events>(
-      cache,
-      `${loc}_posts`,
-      async () => {
-        const response = await fetchHygraphData<Events>(postsQuery, variables);
-        return response.data['posts'];
-      }
-    );
-    const post = posts?.find((post) => post.url === variables.url);
+    const posts = await fetchPosts(req);
+    const post = posts?.find((post) => post.url === url);
 
     if (!post) {
       res
         .status(404)
-        .json({ message: `could not find post with the url ${variables.url}` });
+        .json({ message: `could not find post with the url ${url}` });
     } else {
       res.json(post);
     }
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+cmsRouter.get('/objects', async (req, res) => {
+  try {
+    const { events, posts, trainings } = await fetchObjects(req);
+
+    const page = req.query['page'] ? parseInt(req.query['page'] as string) : 0;
+
+    const objects: CMSObject[] = mergeCMSObjects(events, trainings, posts);
+    res.json(paginate<CMSObject>(objects, page));
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -302,7 +252,6 @@ cmsRouter.get('/localizations', async (req, res) => {
           );
         }
 
-        console.log(localizations);
         return localizations;
       }
     );

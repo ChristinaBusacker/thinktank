@@ -1,46 +1,96 @@
 <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-    <div class="elements">
-        <label for="email">Email:</label>
-        <input id="email" formControlName="email" type="email"
-            [class.has-error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched" />
-        <div [class.untouched]="!(contactForm.get('email')?.invalid && contactForm.get('email')?.touched)"
-            class="warnings">
-            <small *ngIf="contactForm.get('email')?.errors?.['required']">E-Mail ist erforderlich.</small>
-            <small *ngIf="contactForm.get('email')?.errors?.['email']">E-Mail muss gültig sein.</small>
-        </div>
+  <div class="elements">
+    <label for="email">{{ "contact.email" | i18n | async }}</label>
+    <input
+      id="email"
+      formControlName="email"
+      type="email"
+      [class.has-error]="
+        contactForm.get('email')?.invalid && contactForm.get('email')?.touched
+      "
+    />
+    <div
+      [class.untouched]="
+        !(
+          contactForm.get('email')?.invalid && contactForm.get('email')?.touched
+        )
+      "
+      class="warnings"
+    >
+      <small *ngIf="contactForm.get('email')?.errors?.['required']">{{
+        "contact.email.required" | i18n | async
+      }}</small>
+      <small *ngIf="contactForm.get('email')?.errors?.['email']">{{
+        "contact.email.valid" | i18n | async
+      }}</small>
     </div>
+  </div>
 
-    <div class="elements">
-        <label for="subject">Betreff:</label>
-        <input id="subject" formControlName="subject" type="text"
-            [class.has-error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched" />
-        <div [class.untouched]="!(contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched)"
-            class="warnings">
-            <small *ngIf="contactForm.get('subject')?.errors?.['required']">Betreff ist erforderlich.</small>
-            <small *ngIf="contactForm.get('subject')?.errors?.['minlength']">Betreff muss mehr als 3 Zeichen
-                haben.</small>
-        </div>
+  @if(!subject) {
+  <div class="elements">
+    <label for="subject">{{ "contact.subject" | i18n | async }}</label>
+    <input
+      id="subject"
+      formControlName="subject"
+      type="text"
+      [class.has-error]="
+        contactForm.get('subject')?.invalid &&
+        contactForm.get('subject')?.touched
+      "
+    />
+    <div
+      [class.untouched]="
+        !(
+          contactForm.get('subject')?.invalid &&
+          contactForm.get('subject')?.touched
+        )
+      "
+      class="warnings"
+    >
+      <small *ngIf="contactForm.get('subject')?.errors?.['required']">{{
+        "contact.subject.required" | i18n | async
+      }}</small>
+      <small *ngIf="contactForm.get('subject')?.errors?.['minlength']">{{
+        "contact.Subject.min" | i18n | async
+      }}</small>
     </div>
+  </div>
+  }
 
-    <div class="elements">
-        <label for="message">Nachricht:</label>
-        <textarea id="message" formControlName="message" rows="16"
-            [class.has-error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"></textarea>
-        <div class="warnings"
-            [class.untouched]="!(contactForm.get('message')?.invalid && contactForm.get('message')?.touched)">
-            <small *ngIf="contactForm.get('message')?.errors?.['required']">Nachricht ist erforderlich.</small>
-            <small *ngIf="contactForm.get('message')?.errors?.['minlength']">Nachricht muss mehr als 3 Zeichen
-                haben.</small>
-        </div>
+  <div class="elements">
+    <label for="message">{{ "contact.message" | i18n | async }}</label>
+    <textarea
+      id="message"
+      formControlName="message"
+      rows="16"
+      [class.has-error]="
+        contactForm.get('message')?.invalid &&
+        contactForm.get('message')?.touched
+      "
+    ></textarea>
+    <div
+      class="warnings"
+      [class.untouched]="
+        !(
+          contactForm.get('message')?.invalid &&
+          contactForm.get('message')?.touched
+        )
+      "
+    >
+      <small *ngIf="contactForm.get('message')?.errors?.['required']">{{
+        "contact.message.required" | i18n | async
+      }}</small>
+      <small *ngIf="contactForm.get('message')?.errors?.['minlength']">{{
+        "contact.message.min" | i18n | async
+      }}</small>
     </div>
+  </div>
 
-    <div class="submit-wrapper">
-        <button type="submit">
-            <app-frame appearance="button">
-                <div class="button">
-                    Senden
-                </div>
-            </app-frame>
-        </button>
-    </div>
+  <div class="submit-wrapper">
+    <button type="submit">
+      <app-frame appearance="button">
+        <div class="button">{{ "contact.send" | i18n | async }}</div>
+      </app-frame>
+    </button>
+  </div>
 </form>

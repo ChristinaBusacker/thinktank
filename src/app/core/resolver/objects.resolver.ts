@@ -4,10 +4,10 @@ import { Store } from '@ngxs/store';
 import { CmsService } from '../services/cms.service';
 import { CMSState } from '../state/cms/cms.state';
 
-export const trainingsResolver: ResolveFn<Object> = async (route, state) => {
-  const objects = inject(Store).selectSnapshot(CMSState.getTrainings);
+export const objectsResolver: ResolveFn<Object> = async (route, state) => {
+  const objects = inject(Store).selectSnapshot(CMSState.getObjects);
   if (objects.length < 1) {
-    return await inject(CmsService).fetchTrainings();
+    return await inject(CmsService).fetchObjects();
   }
 
   return objects;

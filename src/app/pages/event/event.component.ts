@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
 import {
+  CMSObject,
   Event,
   ImageCarousel,
   TextAccordion,
@@ -34,7 +35,7 @@ import { MapComponent } from '../../shared/components/map/map.component';
   styleUrl: './event.component.scss',
 })
 export class EventComponent implements OnInit {
-  event?: Event;
+  event?: CMSObject;
   openedAccordion: string = 'venue';
 
   constructor(
@@ -44,6 +45,11 @@ export class EventComponent implements OnInit {
     private seo: SeoService,
     public localizationService: LocalizationService
   ) {}
+
+  public getEvent(): Event {
+    const prewrapper = this.event?.data as unknown;
+    return prewrapper as Event;
+  }
 
   isBrowser() {
     return isPlatformBrowser(this.platformId);
@@ -55,22 +61,23 @@ export class EventComponent implements OnInit {
       this.store
         .select(CMSState.getEvents)
         .subscribe(
-          (events) => (this.event = events.find((event) => event.url === slug))
+          (events) =>
+            (this.event = events.find((event) => event.data.url === slug))
         );
 
       if (this.event) {
-        this.seo.setTitle(this.event.title + ' | XRthinktank');
-        this.seo.setMetaDescription(this.event.excerpt.text || '');
+        this.seo.setTitle(this.event.data.title + ' | XRthinktank');
+        this.seo.setMetaDescription(this.event.data.excerpt.text || '');
         this.seo.setOpenGraphData([
           {
             property: 'og:title',
-            content: this.event.title + ' | XRthinktank',
+            content: this.event.data.title + ' | XRthinktank',
           },
           {
             property: 'og:description',
-            content: this.event.excerpt.text || '',
+            content: this.event.data.excerpt.text || '',
           },
-          { property: 'og:image', content: this.event.image.url },
+          { property: 'og:image', content: this.event.data.image.url },
         ]);
       }
     });

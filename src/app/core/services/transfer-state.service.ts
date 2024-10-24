@@ -1,19 +1,26 @@
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID, StateKey, TransferState } from '@angular/core';
-import { Store } from '@ngxs/store';
+import {
+  Inject,
+  Injectable,
+  PLATFORM_ID,
+  StateKey,
+  TransferState,
+} from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TransferStateService {
-
-  constructor(private ts: TransferState, @Inject(PLATFORM_ID) private platformID: Object) { }
+  constructor(
+    private ts: TransferState,
+    @Inject(PLATFORM_ID) private platformID: Object
+  ) {}
 
   get<T>(key: StateKey<T>) {
-    const value: T | undefined = this.ts.get<T | undefined>(key, undefined)
+    const value: T | undefined = this.ts.get<T | undefined>(key, undefined);
 
     if (isPlatformBrowser(this.platformID)) {
-      this.ts.remove(key)
+      this.ts.remove(key);
     }
 
     return value;
@@ -21,16 +28,16 @@ export class TransferStateService {
 
   set<T>(key: StateKey<T>, value: T) {
     if (isPlatformServer(this.platformID)) {
-      this.ts.set<T | undefined>(key, value)
+      this.ts.set<T | undefined>(key, value);
     }
   }
 
   async preferTransferState<T>(key: StateKey<T>, callback: () => Promise<T>) {
     if (isPlatformBrowser(this.platformID)) {
-
       const value = this.get(key);
       if (value) {
-        return value
+        console.log(value);
+        return value;
       }
     }
 

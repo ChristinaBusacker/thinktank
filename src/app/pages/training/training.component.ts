@@ -5,6 +5,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { Store } from '@ngxs/store';
 import {
+  CMSObject,
   ImageCarousel,
   TextAccordion,
   Training,
@@ -37,7 +38,7 @@ import { MapComponent } from '../../shared/components/map/map.component';
   styleUrl: './training.component.scss',
 })
 export class TrainingComponent implements OnInit {
-  training?: Training;
+  training?: CMSObject;
   openedAccordion: string = 'venue';
 
   constructor(
@@ -47,6 +48,11 @@ export class TrainingComponent implements OnInit {
     private seo: SeoService,
     public localizationService: LocalizationService
   ) {}
+
+  public getTraining(): Training {
+    const prewrapper = this.training?.data as unknown;
+    return prewrapper as Training;
+  }
 
   isBrowser() {
     return isPlatformBrowser(this.platformId);
@@ -59,23 +65,23 @@ export class TrainingComponent implements OnInit {
         (trainings) =>
           (this.training = trainings.find((training) => {
             console.log(training, slug);
-            return training.url === slug;
+            return training.data.url === slug;
           }))
       );
 
       if (this.training) {
-        this.seo.setTitle(this.training.title + ' | XRthinktank');
-        this.seo.setMetaDescription(this.training.excerpt.text || '');
+        this.seo.setTitle(this.training.data.title + ' | XRthinktank');
+        this.seo.setMetaDescription(this.training.data.excerpt.text || '');
         this.seo.setOpenGraphData([
           {
             property: 'og:title',
-            content: this.training.title + ' | XRthinktank',
+            content: this.training.data.title + ' | XRthinktank',
           },
           {
             property: 'og:description',
-            content: this.training.excerpt.text || '',
+            content: this.training.data.excerpt.text || '',
           },
-          { property: 'og:image', content: this.training.image.url },
+          { property: 'og:image', content: this.training.data.image.url },
         ]);
       }
     });

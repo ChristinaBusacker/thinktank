@@ -77,7 +77,7 @@ export type Events = Event[];
 export type Trainings = Training[];
 
 export enum CMSObjectType {
-  post = 'blog',
+  post = 'news',
   event = 'events',
   training = 'trainings',
 }

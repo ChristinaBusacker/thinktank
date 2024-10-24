@@ -1,17 +1,19 @@
 @if( post) {
 <div class="post">
   <div class="image">
-    <img [src]="post.desktopImage.url" data-target="d" />
-    <img [src]="post.image.url" data-target="m" />
+    <img [src]="post.data.desktopImage.url" data-target="d" />
+    <img [src]="post.data.image.url" data-target="m" />
     <span
       >{{ "general.published" | i18n | async }}:
-      {{ localizationService.getFormattedDate(post.createdAt) | async }}</span
+      {{
+        localizationService.getFormattedDate(post.data.createdAt) | async
+      }}</span
     >
   </div>
   <div class="text">
-    <h1 [appSafeHtml]="post.title"></h1>
-    <h2 [appSafeHtml]="post.subtitle"></h2>
-    <div [appSafeHtml]="post.text.html"></div>
+    <h1 [appSafeHtml]="post.data.title"></h1>
+    <h2 [appSafeHtml]="post.data.subtitle"></h2>
+    <div [appSafeHtml]="post.data.text.html"></div>
   </div>
   <div class="info"></div>
 </div>
