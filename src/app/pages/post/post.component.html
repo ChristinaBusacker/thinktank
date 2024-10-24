@@ -6,7 +6,7 @@
     <span
       >{{ "general.published" | i18n | async }}:
       {{
-        localizationService.getFormattedDate(post.data.createdAt) | async
+        localizationService.getFormattedDate(post.data.publishedAt) | async
       }}</span
     >
   </div>

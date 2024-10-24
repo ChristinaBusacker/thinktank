@@ -21,18 +21,18 @@ export class LocalizationService {
 
   private formatDate(date: Date, language: 'de' | 'en'): string {
     const options: Intl.DateTimeFormatOptions = {
-      year: '2-digit',
-      month: '2-digit',
+      year: 'numeric',
+      month: 'long',
       day: '2-digit',
     };
 
     if (language === 'de') {
       return new Intl.DateTimeFormat('de-DE', options).format(date);
     } else if (language === 'en') {
-      return new Intl.DateTimeFormat('en-US', options).format(date);
+      return new Intl.DateTimeFormat('en-EN', options).format(date);
     }
 
-    return new Intl.DateTimeFormat('en-US', options).format(date);
+    return new Intl.DateTimeFormat('en-EN', options).format(date);
   }
 
   getFormattedDate(dateString: string): Observable<string> {
