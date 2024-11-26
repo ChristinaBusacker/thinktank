@@ -64,7 +64,6 @@ export class TrainingComponent implements OnInit {
       this.store.select(CMSState.getTrainings).subscribe(
         (trainings) =>
           (this.training = trainings.find((training) => {
-            console.log(training, slug);
             return training.data.url === slug;
           }))
       );

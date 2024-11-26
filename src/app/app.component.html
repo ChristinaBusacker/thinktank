@@ -5,3 +5,6 @@
   <router-outlet />
 </main>
 <footer></footer>
+@if(!(cookieSettings$ | async) && isClient) {
+<app-cookie-dialog></app-cookie-dialog>
+}

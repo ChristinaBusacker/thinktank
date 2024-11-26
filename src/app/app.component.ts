@@ -1,36 +1,85 @@
-import { Component, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { CmsService } from './core/services/cms.service';
-import { HeaderComponent } from './shared/components/header/header.component';
-import { NgxsModule, Store } from '@ngxs/store';
-import { LocalizationState } from './core/state/localization/localization.state';
-import { SearchService } from './core/services/search.service';
-import { LanguagePickerComponent } from './shared/components/language-picker/language-picker.component';
-import { LocalizationService } from './core/services/localization.service';
-import { TransferStateService } from './core/services/transfer-state.service';
-import { BrowserSpecsService } from './core/services/browser-specs.service';
-import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
-import { SetLanguage } from './core/state/localization/localization.actions';
-import { SeoService } from './core/services/seo.service';
+import { Store } from '@ngxs/store';
 import { ApplicationService } from './core/services/application.service';
+import { BrowserSpecsService } from './core/services/browser-specs.service';
+import { CmsService } from './core/services/cms.service';
 import { ContactService } from './core/services/contact.service';
+import { LocalizationService } from './core/services/localization.service';
+import { SearchService } from './core/services/search.service';
+import { SeoService } from './core/services/seo.service';
+import { TransferStateService } from './core/services/transfer-state.service';
+import { CookieState } from './core/state/cookie/cookie.state';
+import { SetLanguage } from './core/state/localization/localization.actions';
 import { BreadcrumbsComponent } from './shared/components/breadcrumbs/breadcrumbs.component';
+import { CookieDialogComponent } from './shared/components/cookie-dialog/cookie-dialog.component';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SidebarComponent, BreadcrumbsComponent],
-  providers: [CmsService, SearchService, LocalizationService, TransferStateService, BrowserSpecsService, SeoService, ApplicationService, ContactService],
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    SidebarComponent,
+    BreadcrumbsComponent,
+    CookieDialogComponent,
+    CommonModule,
+  ],
+  providers: [
+    CmsService,
+    SearchService,
+    LocalizationService,
+    TransferStateService,
+    BrowserSpecsService,
+    SeoService,
+    ApplicationService,
+    ContactService,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   title = 'xrthinktank';
+  public cookieSettings$ = this.store.select(CookieState.getSettings);
 
-  constructor(private route: ActivatedRoute, private store: Store) { }
+  constructor(
+    private route: ActivatedRoute,
+    private store: Store,
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {}
+
+  public get isClient() {
+    return isPlatformBrowser(this.platformId);
+  }
+
+  initializeGoogleAnalytics(): void {
+    console.log('INIT GOOGLE ANALYTICS');
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-26XE85G2BG';
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      window['dataLayer'] = window['dataLayer'] || [];
+      function gtag(...args: any[]) {
+        window['dataLayer'].push(args);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-26XE85G2BG');
+    };
+  }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.cookieSettings$.subscribe((setting) => {
+      if (setting === 'accepted') {
+        this.initializeGoogleAnalytics();
+      }
+    });
+
+    this.route.paramMap.subscribe((params) => {
       const lang = params.get('lang') || 'de';
 
       if (lang === 'de' || lang === 'en') {

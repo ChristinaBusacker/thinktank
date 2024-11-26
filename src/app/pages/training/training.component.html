@@ -1,8 +1,8 @@
 @if(training) {
 <div class="training">
   <div class="image">
-    <img [src]="training.data.desktopImage.url" data-target="d" />
-    <img [src]="training.data.image.url" data-target="m" />
+    <img [src]="training.data.desktopImage?.url" data-target="d" />
+    <img [src]="training.data.image?.url" data-target="m" />
     <span
       >{{ "general.published" | i18n | async }}:
       {{

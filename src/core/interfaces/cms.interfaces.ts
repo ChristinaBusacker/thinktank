@@ -112,8 +112,8 @@ export interface ContentComponent {
 export interface Page {
   url: string;
   title: string;
-  image: EventImage;
-  desktopImage: EventImage;
+  image?: EventImage;
+  desktopImage?: EventImage;
   createdAt: string;
   content: Array<ContactForm | ContentComponent | ImageCarousel>;
   seoDescription: string;

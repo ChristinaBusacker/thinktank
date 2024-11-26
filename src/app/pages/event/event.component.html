@@ -1,8 +1,8 @@
 @if(event) {
 <div class="event">
   <div class="image">
-    <img [src]="event.data.desktopImage.url" data-target="d" />
-    <img [src]="event.data.image.url" data-target="m" />
+    <img [src]="event.data.desktopImage?.url" data-target="d" />
+    <img [src]="event.data.image?.url" data-target="m" />
     <span
       >{{ "general.published" | i18n | async }}:
       {{

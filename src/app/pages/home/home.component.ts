@@ -174,7 +174,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   generateUrl(object: CMSObject) {
-    console.log(object);
     return ['/', this.lang, object.type, object.data.url];
   }
 

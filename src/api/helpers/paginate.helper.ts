@@ -3,7 +3,7 @@ import { pageSize } from '../constants/pageSize..constrant';
 
 export function paginate<T>(array: T[], page: number): PaginatedApiResponse<T> {
   const hasMorePages = array.length > pageSize * (page + 1);
-  console.log(array.length, pageSize);
+
   const start = page * pageSize;
   const end = start + pageSize;
   return {

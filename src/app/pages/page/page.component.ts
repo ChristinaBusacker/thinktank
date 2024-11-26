@@ -1,30 +1,38 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { ContactForm, ContentComponent, ImageCarousel, Page } from '../../../core/interfaces/cms.interfaces';
-import { CommonModule } from '@angular/common';
+import {
+  ContactForm,
+  ContentComponent,
+  ImageCarousel,
+  Page,
+} from '../../../core/interfaces/cms.interfaces';
 import { DirectivesModule } from '../../core/directives/directives.module';
-import { ImageSliderComponent } from '../../shared/components/image-slider/image-slider.component';
-import { ContactFormComponent } from '../../shared/components/contact-form/contact-form.component';
 import { SeoService } from '../../core/services/seo.service';
+import { ContactFormComponent } from '../../shared/components/contact-form/contact-form.component';
+import { ImageSliderComponent } from '../../shared/components/image-slider/image-slider.component';
 
 @Component({
   selector: 'app-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, DirectivesModule, ImageSliderComponent, ContactFormComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    DirectivesModule,
+    ImageSliderComponent,
+    ContactFormComponent,
+  ],
   templateUrl: './page.component.html',
-  styleUrl: './page.component.scss'
+  styleUrl: './page.component.scss',
 })
 export class PageComponent implements OnInit {
-
   public page?: Page;
 
-  constructor(private route: ActivatedRoute, private seo: SeoService) {
-
-  }
+  constructor(private route: ActivatedRoute, private seo: SeoService) {}
 
   isContentComponent(object: any): ContentComponent | undefined {
     if (object.content) {
-      return object as ContentComponent
+      return object as ContentComponent;
     }
 
     return undefined;
@@ -32,7 +40,7 @@ export class PageComponent implements OnInit {
 
   isContactForm(object: any): ContactForm | undefined {
     if (!object.content && !object.images) {
-      return object as ContactForm
+      return object as ContactForm;
     }
 
     return undefined;
@@ -40,7 +48,7 @@ export class PageComponent implements OnInit {
 
   isImageCarousel(object: any): ImageCarousel | undefined {
     if (object.images) {
-      return object as ImageCarousel
+      return object as ImageCarousel;
     }
 
     return undefined;
@@ -48,18 +56,20 @@ export class PageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
-      this.page = data['page']
+      this.page = data['page'];
 
       if (this.page) {
-        this.seo.setTitle(this.page.title + ' | XRthinktank')
+        this.seo.setTitle(this.page.title + ' | XRthinktank');
         this.seo.setMetaDescription(this.page.seoDescription || '');
         this.seo.setOpenGraphData([
           { property: 'og:title', content: this.page.title + ' | XRthinktank' },
-          { property: 'og:description', content: this.page.seoDescription || '' },
-          { property: 'og:image', content: this.page.image.url }
+          {
+            property: 'og:description',
+            content: this.page.seoDescription || '',
+          },
+          { property: 'og:image', content: this.page.image?.url || '' },
         ]);
       }
-
-    })
+    });
   }
 }
