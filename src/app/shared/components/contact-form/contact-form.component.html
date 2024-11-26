@@ -1,3 +1,8 @@
+@if(submitted) { @if(successfull) {
+<p>{{ "contact.success" | i18n | async }}</p>
+} @else {
+<p>{{ "contact.fail" | i18n | async }}</p>
+} } @else {
 <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
   <div class="elements">
     <label for="email">{{ "contact.email" | i18n | async }}</label>
@@ -86,11 +91,24 @@
     </div>
   </div>
 
+  <div class="">
+    <input
+      id="dsgvo"
+      formControlName="dsgvo"
+      type="checkbox"
+      [class.has-error]="
+        contactForm.get('dsgvo')?.invalid && contactForm.get('dsgvo')?.touched
+      "
+    />
+    <label for="dsgvo">{{ "contact.dsgvo" | i18n | async }}</label>
+  </div>
+
   <div class="submit-wrapper">
-    <button type="submit">
+    <button type="submit" [disabled]="!contactForm.controls['dsgvo'].value">
       <app-frame appearance="button">
         <div class="button">{{ "contact.send" | i18n | async }}</div>
       </app-frame>
     </button>
   </div>
 </form>
+}

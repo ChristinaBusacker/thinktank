@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { ContactFormBody } from '../../../core/interfaces/contactForm.interfaces';
 import { environment } from '../../../environments/environment';
-import { Store } from '@ngxs/store';
 import { LocalizationState } from '../state/localization/localization.state';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContactService {
-
   private baseUrl = environment.baseUrl + '/api/contact';
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   async send(body: ContactFormBody) {
     try {
@@ -22,15 +20,14 @@ export class ContactService {
         body: JSON.stringify(body),
         headers: {
           'Content-Type': 'application/json',
-          locales: lang
-        }
-      })
+          locales: lang,
+        },
+      });
 
-      const data = await response.json()
-      console.log(data)
-
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 }

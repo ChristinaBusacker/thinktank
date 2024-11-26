@@ -27,6 +27,8 @@ import { FrameComponent } from '../frame/frame.component';
 export class ContactFormComponent implements OnInit {
   @Input() subject?: string;
   contactForm!: FormGroup;
+  submitted = false;
+  successfull = false;
 
   constructor(private fb: FormBuilder, private contact: ContactService) {}
 
@@ -38,12 +40,15 @@ export class ContactFormComponent implements OnInit {
         [Validators.required, Validators.minLength(4)],
       ],
       message: ['', [(Validators.required, Validators.minLength(4))]],
+      dsgvo: [false, [Validators.required]],
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.contactForm.valid) {
-      this.contact.send(this.contactForm.value);
+      const response = await this.contact.send(this.contactForm.value);
+      this.submitted = true;
+      this.successfull = response.send;
     } else {
       this.contactForm.markAllAsTouched();
     }

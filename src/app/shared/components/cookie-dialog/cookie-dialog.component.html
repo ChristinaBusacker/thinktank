@@ -1,17 +1,23 @@
-<dialog id="cookie-banner" open>
-  <article>
-    <header>
-      <h2>Google Analytics Cookie</h2>
-    </header>
-    <p>
-      Wir verwenden Google Analytics, um besser zu verstehen, wie unsere Website
-      genutzt wird. Möchten Sie der Nutzung dieses Cookies zustimmen?
-    </p>
-    <footer>
-      <button class="reject" (click)="rejectCookie()">Ablehnen</button>
-      <app-frame appearance="button">
-        <button class="accept" (click)="acceptCookie()">Zustimmen</button>
-      </app-frame>
-    </footer>
-  </article>
-</dialog>
+<div class="wrapper">
+  <dialog id="cookie-banner" open>
+    <app-language-picker></app-language-picker>
+    <article>
+      <header>
+        <h2>{{ "general.cookie.title" | i18n | async }}</h2>
+      </header>
+      <p>
+        {{ "general.cookie.text" | i18n | async }}
+      </p>
+      <footer>
+        <button class="reject" (click)="rejectCookie()">
+          {{ "general.decline" | i18n | async }}
+        </button>
+        <app-frame appearance="button">
+          <button class="accept" (click)="acceptCookie()">
+            {{ "general.accept" | i18n | async }}
+          </button>
+        </app-frame>
+      </footer>
+    </article>
+  </dialog>
+</div>
