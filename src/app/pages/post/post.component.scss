@@ -53,7 +53,7 @@
             justify-content: flex-end;
             height: 2rem;
             margin: 0;
-            padding: 0;
+            padding: 0 10px;
 
             & svg {
               width: 2rem;
@@ -61,6 +61,7 @@
               fill: white;
               position: relative;
               z-index: 999;
+              display: block;
             }
 
             & .caption {
@@ -72,7 +73,7 @@
               transition: all 0.4s ease;
               position: absolute;
               bottom: -10px;
-
+              margin: 0px -10px;
               color: #444444;
               font-family: "D-Din";
               font-style: italic;
