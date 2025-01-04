@@ -17,6 +17,8 @@ export interface EventImage {
   id: string;
   url: string;
   mimeType: string;
+  alt: string;
+  title: string;
 }
 
 export interface TextAccordion {
@@ -42,6 +44,7 @@ export interface Training {
   createdAt: string;
   publishedAt: string;
   additionalInformation: Array<ImageCarousel | TextAccordion>;
+  caption?: TextContent;
 }
 
 export interface Event {
@@ -57,6 +60,7 @@ export interface Event {
   createdAt: string;
   publishedAt: string;
   additionalInformation: Array<ImageCarousel | TextAccordion>;
+  caption?: TextContent;
 }
 
 export interface Post {
@@ -70,6 +74,7 @@ export interface Post {
   excerpt: TextContent;
   createdAt: string;
   publishedAt: string;
+  caption?: TextContent;
 }
 
 export type Posts = Post[];
@@ -84,6 +89,7 @@ export enum CMSObjectType {
 
 export interface CMSObject {
   type: CMSObjectType;
+
   data: Post | Event | Training;
 }
 

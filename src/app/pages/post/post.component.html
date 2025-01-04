@@ -1,20 +1,71 @@
 @if( post) {
 <div class="post">
   <div class="image">
-    <img [src]="post.data.desktopImage?.url" data-target="d" />
-    <img [src]="post.data.image?.url" data-target="m" />
+    <img
+      [src]="post.data.desktopImage?.url"
+      data-target="d"
+      [alt]="post.data.desktopImage?.alt || ''"
+      [title]="post.data.desktopImage?.title || ''"
+    />
+    <img
+      [src]="post.data.image?.url"
+      data-target="m"
+      [alt]="post.data.image?.alt || ''"
+      [title]="post.data.image?.title || ''"
+    />
+    @if(post.data.caption) {
+    <div class="caption-container">
+      <button>
+        <div class="caption" [innerHTML]="captionTransformed"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM11 11V17H13V11H11ZM11 7V9H13V7H11Z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    }
+  </div>
+  <div class="text">
     <span
-      >{{ "general.published" | i18n | async }}:
+      class="date"
+      [title]="
+        ('general.published' | i18n | async) +
+        ': ' +
+        (localizationService.getFormattedDate(post.data.publishedAt) | async)
+      "
+    >
       {{
         localizationService.getFormattedDate(post.data.publishedAt) | async
       }}</span
     >
-  </div>
-  <div class="text">
     <h1 [appSafeHtml]="post.data.title"></h1>
     <h2 [appSafeHtml]="post.data.subtitle"></h2>
-    <div [appSafeHtml]="post.data.text.html"></div>
+    <div [innerHTML]="transformedHtml" class="content"></div>
   </div>
   <div class="info"></div>
 </div>
 }
+<script type="application/ld+json">
+  {{
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post.data.title,
+      "alternativeHeadline": post.data.subtitle,
+      "image": [
+        post.data.desktopImage?.url,
+        post.data.image?.url
+      ],
+      "datePublished": post.data.publishedAt,
+      "author": {
+        "@type": "Person",
+        "name": "XR Thinktank"
+      },
+      "publisher": schemaOrg,
+      "articleBody": transformedHtml,
+      "url": window.location.href
+    } | json
+  }}
+</script>

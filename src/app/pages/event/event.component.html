@@ -1,14 +1,22 @@
 @if(event) {
 <div class="event">
   <div class="image">
-    <img [src]="event.data.desktopImage?.url" data-target="d" />
-    <img [src]="event.data.image?.url" data-target="m" />
-    <span
-      >{{ "general.published" | i18n | async }}:
-      {{
-        localizationService.getFormattedDate(event.data.publishedAt) | async
-      }}</span
-    >
+    <img
+      [src]="event.data.desktopImage?.url"
+      data-target="d"
+      [alt]="event.data.desktopImage?.alt || ''"
+      [title]="event.data.desktopImage?.title || ''"
+    />
+    <img
+      [src]="event.data.image?.url"
+      data-target="m"
+      [alt]="event.data.image?.alt || ''"
+      [title]="event.data.image?.title || ''"
+    />
+    <span>
+      {{ "general.published" | i18n | async }}:
+      {{ localizationService.getFormattedDate(event.data.publishedAt) | async }}
+    </span>
   </div>
   <div class="text">
     <h1 [appSafeHtml]="event.data.title"></h1>
@@ -24,7 +32,6 @@
         (opened)="setOpenedAccordion($event)"
       >
         <div [appSafeHtml]="getEvent().eventLocation.informations.html"></div>
-
         @if(isBrowser()) {
         <app-map
           [lat]="getEvent().eventLocation.geoLocation.latitude"
@@ -32,22 +39,39 @@
         ></app-map>
         }
       </app-accordion>
-      @for(addit of getEvent().additionalInformation; track
-      getEvent().additionalInformation) {
-      <app-accordion
-        [title]="addit.title"
-        [id]="addit.id"
-        (opened)="setOpenedAccordion($event)"
-        [isOpen]="openedAccordion === addit.id"
-      >
-        @if(isImageCarousel(addit); as images) {
-        <app-image-slider [images]="images.images"></app-image-slider>
-        } @if(isTextAccordion(addit); as text) {
-        <div class="hygraphHTML" [appSafeHtml]="text.text.html"></div>
-        }
-      </app-accordion>
-      }
     </div>
   </div>
 </div>
+
+<!-- JSON-LD Script -->
+<script type="application/ld+json">
+  {{
+    {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": event.data.title,
+      "description": event.data.subtitle,
+      "startDate": event.data.startDate,
+      "endDate": event.data.endDate,
+      "image": [
+        event.data.desktopImage?.url,
+        event.data.image?.url
+      ],
+      "location": {
+        "@type": "Place",
+        "name": getEvent().eventLocation.name,
+        "address": getEvent().eventLocation.informations.html,
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": getEvent().eventLocation.geoLocation.latitude,
+          "longitude": getEvent().eventLocation.geoLocation.longitude
+        }
+      },
+      "additionalInformation": getEvent().additionalInformation.map(info => ({
+        "title": info.title,
+        "content": info.text?.html || ""
+      }))
+    } | json
+  }}
+</script>
 }

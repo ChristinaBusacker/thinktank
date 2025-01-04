@@ -20,19 +20,11 @@ export class LocalizationService {
   }
 
   private formatDate(date: Date, language: 'de' | 'en'): string {
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: '2-digit',
-    };
+    const year = date.getFullYear().toString().slice(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
 
-    if (language === 'de') {
-      return new Intl.DateTimeFormat('de-DE', options).format(date);
-    } else if (language === 'en') {
-      return new Intl.DateTimeFormat('en-EN', options).format(date);
-    }
-
-    return new Intl.DateTimeFormat('en-EN', options).format(date);
+    return `${day}/${month}/${year}`;
   }
 
   getFormattedDate(dateString: string): Observable<string> {

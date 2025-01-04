@@ -11,6 +11,10 @@ export const eventsQuery = `
       html
       text
     }
+    caption {
+      html
+      raw
+    }
     eventLocation {
       geoLocation {
         latitude
@@ -25,11 +29,15 @@ export const eventsQuery = `
       id
       url
       mimeType
+      alt
+      title
     }
     desktopImage {
       id
       url
       mimeType
+            alt
+      title
     }
     createdAt
     publishedAt
@@ -41,6 +49,8 @@ export const eventsQuery = `
             id
             url
             mimeType
+                  alt
+      title
         }
       }
       ... on TextAccordion {

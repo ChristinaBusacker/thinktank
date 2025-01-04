@@ -1,14 +1,24 @@
 @if(training) {
 <div class="training">
   <div class="image">
-    <img [src]="training.data.desktopImage?.url" data-target="d" />
-    <img [src]="training.data.image?.url" data-target="m" />
-    <span
-      >{{ "general.published" | i18n | async }}:
+    <img
+      [src]="training.data.desktopImage?.url"
+      data-target="d"
+      [alt]="training.data.desktopImage?.alt || ''"
+      [title]="training.data.desktopImage?.title || ''"
+    />
+    <img
+      [src]="training.data.image?.url"
+      data-target="m"
+      [alt]="training.data.image?.alt || ''"
+      [title]="training.data.image?.title || ''"
+    />
+    <span>
+      {{ "general.published" | i18n | async }}:
       {{
         localizationService.getFormattedDate(training.data.publishedAt) | async
-      }}</span
-    >
+      }}
+    </span>
   </div>
   <div class="text">
     <h1 [appSafeHtml]="training.data.title"></h1>
@@ -27,22 +37,44 @@
         <app-contact-form [subject]="training.data.title"></app-contact-form>
         }
       </app-accordion>
-      @for(addit of getTraining().additionalInformation; track
-      getTraining().additionalInformation) {
-      <app-accordion
-        [title]="addit.title"
-        [id]="addit.id"
-        (opened)="setOpenedAccordion($event)"
-        [isOpen]="openedAccordion === addit.id"
-      >
-        @if(isImageCarousel(addit); as images) {
-        <app-image-slider [images]="images.images"></app-image-slider>
-        } @if(isTextAccordion(addit); as text) {
-        <div class="hygraphHTML" [appSafeHtml]="text.text.html"></div>
-        }
-      </app-accordion>
-      }
     </div>
   </div>
 </div>
+
+<!-- JSON-LD Script -->
+<script type="application/ld+json">
+  {{
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": training.data.title,
+      "description": training.data.subtitle,
+      "provider": schemaOrg
+      },
+      "courseMode": "Online/In-Person",
+      "educationalCredentialAwarded": training.data.certification || "Participation Certificate",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "name": training.data.title,
+        "startDate": training.data.startDate,
+        "endDate": training.data.endDate,
+        "location": {
+          "@type": "Place",
+          "name": getTraining().eventLocation.name,
+          "address": getTraining().eventLocation.informations.html,
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": getTraining().eventLocation.geoLocation.latitude,
+            "longitude": getTraining().eventLocation.geoLocation.longitude
+          }
+        },
+        "organizer": {
+          "@type": "Organization",
+          "name": "Your Organization Name",
+          "url": "https://your-organization-website.com"
+        }
+      }
+    } | json
+  }}
+</script>
 }

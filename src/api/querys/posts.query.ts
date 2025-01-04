@@ -9,11 +9,15 @@ query Posts($locales: [Locale!]!, $size: Int, $skip: Int) {
       mimeType
       url
       id
+      alt
+      title
     }
     desktopImage {
       mimeType
       url
       id
+      alt
+      title
     }
     text {
       html
@@ -21,10 +25,14 @@ query Posts($locales: [Locale!]!, $size: Int, $skip: Int) {
     }
     excerpt {
       html
-        text
+      text
+    }
+    caption {
+      html
+      raw
     }
     createdAt
-    publishedAt
+    publishedAt 
   }
   postsConnection(first: $size, skip: $skip, locales:$locales) {
     pageInfo {

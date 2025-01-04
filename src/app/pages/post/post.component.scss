@@ -1,27 +1,107 @@
-@import '../../../scss/mixins/viewport.scss';
+@import "../../../scss/mixins/viewport.scss";
 
 :host {
-    & .post {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 1rem;
+  & .post {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
 
-        @include mobile {
-            grid-template-columns: 1fr;
-        }
-
-        & .image {
-            img {
-                width: 100%;
-
-                @include mobile {
-                    max-height: 500px;
-                    object-fit: cover;
-                    object-position: center center;
-                }
-            }
-        }
+    @include mobile {
+      grid-template-columns: 1fr;
     }
 
+    & .image {
+      img {
+        width: 100%;
 
+        @include mobile {
+          max-height: 500px;
+          object-fit: cover;
+          object-position: center center;
+        }
+      }
+
+      & .caption-container {
+        & button {
+          outline: none;
+          border: none;
+          background-color: transparent;
+          text-align: left;
+        }
+
+        & svg {
+          display: none;
+        }
+      }
+
+      @include mobile {
+        position: relative;
+
+        & .caption-container {
+          position: relative;
+          bottom: 0;
+          left: 0;
+
+          & button {
+            background-color: transparent;
+            border: none;
+            position: absolute;
+            left: 0px;
+            bottom: 10px;
+            display: flex;
+            width: 100%;
+            justify-content: flex-end;
+            height: 2rem;
+            margin: 0;
+            padding: 0;
+
+            & svg {
+              width: 2rem;
+              height: 2rem;
+              fill: white;
+              position: relative;
+              z-index: 999;
+            }
+
+            & .caption {
+              max-height: 0px;
+              overflow: hidden;
+              width: 100%;
+              background-color: rgba(255, 255, 255, 0.8);
+              text-align: left;
+              transition: all 0.4s ease;
+              position: absolute;
+              bottom: -10px;
+
+              color: #444444;
+              font-family: "D-Din";
+              font-style: italic;
+              font-size: 1rem;
+              padding: 0 20px;
+              & a {
+                color: #444444 !important;
+              }
+            }
+
+            &:hover {
+              & .caption {
+                max-height: 150px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    & .date {
+      background-color: black;
+      color: white;
+      padding: 2px 5px;
+      margin-bottom: 5px;
+      display: block;
+      width: fit-content;
+      cursor: help;
+      font-size: 1.2rem;
+    }
+  }
 }

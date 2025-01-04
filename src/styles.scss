@@ -78,4 +78,42 @@ img {
   }
 }
 
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%; /* Begrenze die maximale Breite */
+  background: #000;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%; /* Stelle sicher, dass das iframe nicht breiter wird */
+  border: 0;
+}
+
+.caption {
+  color: #666666;
+  font-family: "D-Din";
+  font-style: italic;
+  font-size: 1.2rem;
+  margin-top: -10px;
+
+  & a {
+    color: #666666 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-wrapper {
+    max-width: 100vw;
+  }
+}
+
 @import url("./scss/typography.scss");

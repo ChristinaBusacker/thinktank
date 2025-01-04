@@ -4,8 +4,18 @@
   <a class="item" [routerLink]="generateUrl(object)">
     <div>
       @if(object.data.image) {
-      <img [src]="object.data.desktopImage.url" data-target="d" />
-      <img [src]="object.data.image.url" data-target="m" />
+      <img
+        [src]="object.data.desktopImage?.url"
+        data-target="d"
+        [alt]="object.data.desktopImage?.alt || ''"
+        [title]="object.data.desktopImage?.title || ''"
+      />
+      <img
+        [src]="object.data.image?.url"
+        data-target="m"
+        [alt]="object.data.image?.alt || ''"
+        [title]="object.data.image?.title || ''"
+      />
       }
     </div>
     <div class="text">

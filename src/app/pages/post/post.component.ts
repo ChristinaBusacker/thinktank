@@ -1,9 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
 import { CMSObject } from '../../../core/interfaces/cms.interfaces';
+import { environment } from '../../../environments/environment';
 import { DirectivesModule } from '../../core/directives/directives.module';
 import { PipesModule } from '../../core/pipes/pipes.module';
 import { LocalizationService } from '../../core/services/localization.service';
@@ -26,11 +28,18 @@ export class PostComponent implements OnInit {
 
   langSubscription = new Subscription();
 
+  transformedHtml!: SafeHtml;
+  captionTransformed!: SafeHtml;
+
+  schemaOrg = environment.schemaOrg;
+
   constructor(
     private store: Store,
     private route: ActivatedRoute,
     private seo: SeoService,
-    public localizationService: LocalizationService
+    public localizationService: LocalizationService,
+    private sanitizer: DomSanitizer,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +66,57 @@ export class PostComponent implements OnInit {
           { property: 'og:image', content: this.post.data.image.url },
         ]);
       }
+
+      if (this.post) {
+        this.transformedHtml = this.replaceYouTubeLinks(
+          this.post.data.text.html
+        );
+
+        this.captionTransformed = this.ensureATagsToTargetBlank(
+          this.post.data.caption?.html || ''
+        );
+      }
     });
+  }
+
+  replaceYouTubeLinks(html: string): SafeHtml {
+    const anchorWithYouTubeLinkRegex =
+      /<a[^>]*href="https?:\/\/(www\.)?youtube\.com\/watch\?v=([\w-]+)"[^>]*>(.*?)<\/a>/g;
+
+    const transformed = html.replace(
+      anchorWithYouTubeLinkRegex,
+      (_, __, videoId) => {
+        return `
+        <div class="video-wrapper">
+          <iframe
+            src="https://www.youtube.com/embed/${videoId}"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      `;
+      }
+    );
+
+    return this.sanitizer.bypassSecurityTrustHtml(transformed);
+  }
+
+  ensureATagsToTargetBlank(html: string): SafeHtml {
+    if (isPlatformBrowser(this.platformId)) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+
+      // Alle <a>-Tags auswählen und bearbeiten
+      const links = doc.querySelectorAll('a');
+      links.forEach((link) => {
+        link.setAttribute('target', '_blank');
+      });
+
+      // Das bearbeitete HTML zurückgeben
+      return this.sanitizer.bypassSecurityTrustHtml(doc.body.innerHTML);
+    }
+
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }

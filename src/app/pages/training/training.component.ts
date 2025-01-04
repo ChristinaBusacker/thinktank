@@ -10,6 +10,7 @@ import {
   TextAccordion,
   Training,
 } from '../../../core/interfaces/cms.interfaces';
+import { environment } from '../../../environments/environment';
 import { DirectivesModule } from '../../core/directives/directives.module';
 import { PipesModule } from '../../core/pipes/pipes.module';
 import { LocalizationService } from '../../core/services/localization.service';
@@ -40,6 +41,7 @@ import { MapComponent } from '../../shared/components/map/map.component';
 export class TrainingComponent implements OnInit {
   training?: CMSObject;
   openedAccordion: string = 'venue';
+  schemaOrg = environment.schemaOrg;
 
   constructor(
     private store: Store,

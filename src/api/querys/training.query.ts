@@ -12,15 +12,23 @@ query Trainings($locales: [Locale!]!, $size: Int, $skip: Int) {
       html
       text
     }
-          image {
+    caption {
+      html
+      raw
+    }
+    image {
       id
       url
       mimeType
+      alt
+      title
     }
     desktopImage {
       id
       url
       mimeType
+      alt
+      title
     }
     createdAt
     url
@@ -32,6 +40,8 @@ query Trainings($locales: [Locale!]!, $size: Int, $skip: Int) {
             id
             url
             mimeType
+            alt
+            title
         }
       }
       ... on TextAccordion {
