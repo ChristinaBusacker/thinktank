@@ -33,9 +33,10 @@ export class PostComponent implements OnInit {
 
   schemaOrg = environment.schemaOrg;
 
+  route = inject(ActivatedRoute);
+
   constructor(
     private store: Store,
-    private route: ActivatedRoute,
     private seo: SeoService,
     public localizationService: LocalizationService,
     private sanitizer: DomSanitizer,

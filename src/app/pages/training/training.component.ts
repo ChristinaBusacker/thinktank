@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, inject, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
@@ -43,9 +43,10 @@ export class TrainingComponent implements OnInit {
   openedAccordion: string = 'venue';
   schemaOrg = environment.schemaOrg;
 
+  route = inject(ActivatedRoute);
+
   constructor(
     private store: Store,
-    private route: ActivatedRoute,
     @Inject(PLATFORM_ID) private platformId: Object,
     private seo: SeoService,
     public localizationService: LocalizationService
