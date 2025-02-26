@@ -1,5 +1,12 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  Inject,
+  inject,
+  OnInit,
+  PLATFORM_ID,
+  HostListener,
+} from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -14,10 +21,10 @@ import { CMSState } from '../../core/state/cms/cms.state';
 import { LocalizationState } from '../../core/state/localization/localization.state';
 
 @Component({
-    selector: 'app-post',
-    imports: [CommonModule, DirectivesModule, PipesModule],
-    templateUrl: './post.component.html',
-    styleUrl: './post.component.scss'
+  selector: 'app-post',
+  imports: [CommonModule, DirectivesModule, PipesModule],
+  templateUrl: './post.component.html',
+  styleUrl: './post.component.scss',
 })
 export class PostComponent implements OnInit {
   post?: CMSObject;
@@ -79,27 +86,68 @@ export class PostComponent implements OnInit {
     });
   }
 
-  replaceYouTubeLinks(html: string): SafeHtml {
-    const anchorWithYouTubeLinkRegex =
-      /<a[^>]*href="https?:\/\/(www\.)?youtube\.com\/watch\?v=([\w-]+)"[^>]*>(.*?)<\/a>/g;
+  @HostListener('click', ['$event'])
+  onThumbnailClick(event: Event) {
+    const eventTarget = event.target as HTMLElement;
+    if (
+      eventTarget.classList.contains('youtube-thumbnail') ||
+      eventTarget.classList.contains('thumbnail-overlay') ||
+      eventTarget.classList.contains('thumbnail-overlay-play') ||
+      eventTarget.parentElement?.classList.contains('thumbnail-overlay') ||
+      eventTarget.parentElement?.classList.contains('thumbnail-overlay-play')
+    ) {
+      const target = this.getParentUntilClass(eventTarget, 'thumbnail-wrapper');
+      const videoId = target.getAttribute('data-video-id');
 
-    const transformed = html.replace(
-      anchorWithYouTubeLinkRegex,
-      (_, __, videoId) => {
-        return `
-        <div class="video-wrapper">
-          <iframe
-            src="https://www.youtube.com/embed/${videoId}"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div>
-      `;
+      if (videoId) {
+        const iframeWrapper = document.createElement('div');
+        iframeWrapper.classList.add('video-wrapper');
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute(
+          'allow',
+          'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+        );
+        iframe.setAttribute('allowfullscreen', '');
+        iframeWrapper.appendChild(iframe);
+        target.replaceWith(iframeWrapper);
       }
-    );
+    }
+  }
 
-    return this.sanitizer.bypassSecurityTrustHtml(transformed);
+  replaceYouTubeLinks(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(
+      html.replace(
+        /<a[^>]*href="https?:\/\/(www\.)?youtube\.com\/watch\?v=([\w-]+)"[^>]*>(.*?)<\/a>/g,
+        (
+          _,
+          __,
+          videoId
+        ) => `<div class="thumbnail-wrapper" data-video-id="${videoId}"><img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" 
+                alt="YouTube Video Thumbnail" 
+                class="youtube-thumbnail" 
+                 />
+                <div class="thumbnail-overlay" data-video-id="${videoId}">
+                  <svg class="thumbnail-overlay-play" data-video-id="${videoId}" width="42px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM10.6219 8.41459C10.5562 8.37078 10.479 8.34741 10.4 8.34741C10.1791 8.34741 10 8.52649 10 8.74741V15.2526C10 15.3316 10.0234 15.4088 10.0672 15.4745C10.1897 15.6583 10.4381 15.708 10.6219 15.5854L15.5008 12.3328C15.5447 12.3035 15.5824 12.2658 15.6117 12.2219C15.7343 12.0381 15.6846 11.7897 15.5008 11.6672L10.6219 8.41459Z"/></svg>
+                  <p data-video-id="${videoId}">Youtube Video laden</p>
+                </div>
+              </div>`
+      )
+    );
+  }
+
+  getParentUntilClass(element: HTMLElement, targetClass: string) {
+    console.log(element);
+    if (element.classList.contains(targetClass)) {
+      return element;
+    }
+
+    if (!element.parentElement) {
+      return element;
+    }
+
+    return this.getParentUntilClass(element.parentElement, targetClass);
   }
 
   ensureATagsToTargetBlank(html: string): SafeHtml {
@@ -107,13 +155,11 @@ export class PostComponent implements OnInit {
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
 
-      // Alle <a>-Tags auswählen und bearbeiten
       const links = doc.querySelectorAll('a');
       links.forEach((link) => {
         link.setAttribute('target', '_blank');
       });
 
-      // Das bearbeitete HTML zurückgeben
       return this.sanitizer.bypassSecurityTrustHtml(doc.body.innerHTML);
     }
 
