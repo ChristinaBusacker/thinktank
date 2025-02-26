@@ -1,114 +1,115 @@
-@if(submitted) { @if(successfull) {
-<p>{{ "contact.success" | i18n | async }}</p>
+@if(submitted) { 
+  @if(successfull) {
+    <p>{{ "contact.success" | i18n | async }}</p>
+  } @else {
+    <p>{{ "contact.fail" | i18n | async }}</p>
+  } 
 } @else {
-<p>{{ "contact.fail" | i18n | async }}</p>
-} } @else {
-<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-  <div class="elements">
-    <label for="email">{{ "contact.email" | i18n | async }}</label>
-    <input
-      id="email"
-      formControlName="email"
-      type="email"
-      [class.has-error]="
-        contactForm.get('email')?.invalid && contactForm.get('email')?.touched
-      "
-    />
-    <div
-      [class.untouched]="
-        !(
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+    <div class="elements">
+      <label for="email">{{ "contact.email" | i18n | async }}</label>
+      <input
+        id="email"
+        formControlName="email"
+        type="email"
+        [attr.aria-label]="'contact.email' | i18n | async"
+        [class.has-error]="
           contactForm.get('email')?.invalid && contactForm.get('email')?.touched
-        )
-      "
-      class="warnings"
-    >
-      <small *ngIf="contactForm.get('email')?.errors?.['required']">{{
-        "contact.email.required" | i18n | async
-      }}</small>
-      <small *ngIf="contactForm.get('email')?.errors?.['email']">{{
-        "contact.email.valid" | i18n | async
-      }}</small>
+        "
+      />
+      <div
+        [class.untouched]="
+          !(contactForm.get('email')?.invalid && contactForm.get('email')?.touched)
+        "
+        class="warnings"
+      >
+        <small *ngIf="contactForm.get('email')?.errors?.['required']">{{
+          "contact.email.required" | i18n | async
+        }}</small>
+        <small *ngIf="contactForm.get('email')?.errors?.['email']">{{
+          "contact.email.valid" | i18n | async
+        }}</small>
+      </div>
     </div>
-  </div>
 
-  @if(!subject) {
-  <div class="elements">
-    <label for="subject">{{ "contact.subject" | i18n | async }}</label>
-    <input
-      id="subject"
-      formControlName="subject"
-      type="text"
-      [class.has-error]="
-        contactForm.get('subject')?.invalid &&
-        contactForm.get('subject')?.touched
-      "
-    />
-    <div
-      [class.untouched]="
-        !(
-          contactForm.get('subject')?.invalid &&
-          contactForm.get('subject')?.touched
-        )
-      "
-      class="warnings"
-    >
-      <small *ngIf="contactForm.get('subject')?.errors?.['required']">{{
-        "contact.subject.required" | i18n | async
-      }}</small>
-      <small *ngIf="contactForm.get('subject')?.errors?.['minlength']">{{
-        "contact.Subject.min" | i18n | async
-      }}</small>
+    @if(!subject) {
+      <div class="elements">
+        <label for="subject">{{ "contact.subject" | i18n | async }}</label>
+        <input
+          id="subject"
+          formControlName="subject"
+          type="text"
+          [attr.aria-label]="'contact.subject' | i18n | async"
+          [class.has-error]="
+            contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched
+          "
+        />
+        <div
+          [class.untouched]="
+            !(contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched)
+          "
+          class="warnings"
+        >
+          <small *ngIf="contactForm.get('subject')?.errors?.['required']">{{
+            "contact.subject.required" | i18n | async
+          }}</small>
+          <small *ngIf="contactForm.get('subject')?.errors?.['minlength']">{{
+            "contact.Subject.min" | i18n | async
+          }}</small>
+        </div>
+      </div>
+    }
+
+    <div class="elements">
+      <label for="message">{{ "contact.message" | i18n | async }}</label>
+      <textarea
+        id="message"
+        formControlName="message"
+        rows="16"
+        [attr.aria-label]="'contact.message' | i18n | async"
+        [class.has-error]="
+          contactForm.get('message')?.invalid && contactForm.get('message')?.touched
+        "
+      ></textarea>
+      <div
+        class="warnings"
+        [class.untouched]="
+          !(contactForm.get('message')?.invalid && contactForm.get('message')?.touched)
+        "
+      >
+        <small *ngIf="contactForm.get('message')?.errors?.['required']">{{
+          "contact.message.required" | i18n | async
+        }}</small>
+        <small *ngIf="contactForm.get('message')?.errors?.['minlength']">{{
+          "contact.message.min" | i18n | async
+        }}</small>
+      </div>
     </div>
-  </div>
-  }
 
-  <div class="elements">
-    <label for="message">{{ "contact.message" | i18n | async }}</label>
-    <textarea
-      id="message"
-      formControlName="message"
-      rows="16"
-      [class.has-error]="
-        contactForm.get('message')?.invalid &&
-        contactForm.get('message')?.touched
-      "
-    ></textarea>
-    <div
-      class="warnings"
-      [class.untouched]="
-        !(
-          contactForm.get('message')?.invalid &&
-          contactForm.get('message')?.touched
-        )
-      "
-    >
-      <small *ngIf="contactForm.get('message')?.errors?.['required']">{{
-        "contact.message.required" | i18n | async
-      }}</small>
-      <small *ngIf="contactForm.get('message')?.errors?.['minlength']">{{
-        "contact.message.min" | i18n | async
-      }}</small>
+    <div class="">
+      <input
+        id="dsgvo"
+        formControlName="dsgvo"
+        type="checkbox"
+        [attr.aria-label]="'contact.dsgvo' | i18n | async"
+        [class.has-error]="
+          contactForm.get('dsgvo')?.invalid && contactForm.get('dsgvo')?.touched
+        "
+      />
+      <label for="dsgvo">
+        {{ "contact.dsgvo" | i18n | async }} 
+        <a [routerLink]="['/', (lang$ | async), 'privacy-policy']">
+          {{ "global.privacy.linktext" | i18n | async }}
+        </a>
+      </label>
     </div>
-  </div>
 
-  <div class="">
-    <input
-      id="dsgvo"
-      formControlName="dsgvo"
-      type="checkbox"
-      [class.has-error]="
-        contactForm.get('dsgvo')?.invalid && contactForm.get('dsgvo')?.touched
-      "
-    />
-    <label for="dsgvo">{{ "contact.dsgvo" | i18n | async }}</label>
-  </div>
-
-  <div class="submit-wrapper">
-    <button type="submit" [disabled]="!contactForm.controls['dsgvo'].value">
-      <app-frame appearance="button">
-        <div class="button">{{ "contact.send" | i18n | async }}</div>
-      </app-frame>
-    </button>
-  </div>
-</form>
+    <div class="submit-wrapper">
+      <button type="submit" [disabled]="!contactForm.controls['dsgvo'].value">
+        <app-frame appearance="button">
+          <div class="button">{{ "contact.send" | i18n | async }}</div>
+        </app-frame>
+      </button>
+    </div>
+  </form>
 }

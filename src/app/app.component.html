@@ -4,7 +4,9 @@
   <app-breadcrumbs></app-breadcrumbs>
   <router-outlet />
 </main>
-<footer></footer>
+<footer>
+  <i class="privacy">{{'global.privacy.text' | i18n | async}}<a [routerLink]="['/', (lang$ | async), 'privacy-policy']">{{'global.privacy.linktext' | i18n | async}}</a></i>
+</footer>
 @if(!(cookieSettings$ | async) && isClient) {
 <app-cookie-dialog></app-cookie-dialog>
 }

@@ -1,6 +1,11 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { Component, inject, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  ActivatedRoute,
+  Router,
+  RouterModule,
+  RouterOutlet,
+} from '@angular/router';
 import { Store } from '@ngxs/store';
 import { ApplicationService } from './core/services/application.service';
 import { BrowserSpecsService } from './core/services/browser-specs.service';
@@ -16,16 +21,19 @@ import { BreadcrumbsComponent } from './shared/components/breadcrumbs/breadcrumb
 import { CookieDialogComponent } from './shared/components/cookie-dialog/cookie-dialog.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
+import { Observable } from 'rxjs';
+import { LocalizationState } from './core/state/localization/localization.state';
+import { PipesModule } from './core/pipes/pipes.module';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [
     RouterOutlet,
     HeaderComponent,
-    SidebarComponent,
+    PipesModule,
     BreadcrumbsComponent,
     CookieDialogComponent,
+    RouterModule,
     CommonModule,
   ],
   providers: [
@@ -44,6 +52,10 @@ import { SidebarComponent } from './shared/components/sidebar/sidebar.component'
 export class AppComponent implements OnInit {
   title = 'xrthinktank';
   public cookieSettings$ = this.store.select(CookieState.getSettings);
+
+  lang$: Observable<'de' | 'en'> = inject(Store).select(
+    LocalizationState.getLanguage
+  );
 
   constructor(
     private route: ActivatedRoute,

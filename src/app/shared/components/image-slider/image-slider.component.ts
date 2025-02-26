@@ -3,11 +3,10 @@ import { EventImage } from '../../../../core/interfaces/cms.interfaces';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
-  selector: 'app-image-slider',
-  standalone: true,
-  imports: [],
-  templateUrl: './image-slider.component.html',
-  styleUrl: './image-slider.component.scss'
+    selector: 'app-image-slider',
+    imports: [],
+    templateUrl: './image-slider.component.html',
+    styleUrl: './image-slider.component.scss'
 })
 export class ImageSliderComponent implements OnInit, AfterViewInit {
   @Input() images!: EventImage[];

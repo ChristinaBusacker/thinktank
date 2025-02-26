@@ -117,3 +117,15 @@ img {
 }
 
 @import url("./scss/typography.scss");
+
+button {
+  & div.button {
+    color: black;
+  }
+}
+
+button:disabled {
+  & div.button {
+    color: grey;
+  }
+}

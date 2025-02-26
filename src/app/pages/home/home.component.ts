@@ -25,18 +25,17 @@ import { AccordionComponent } from '../../shared/components/accordion/accordion.
 import { FrameComponent } from '../../shared/components/frame/frame.component';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    DirectivesModule,
-    PipesModule,
-    AccordionComponent,
-    FrameComponent,
-  ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+    selector: 'app-home',
+    imports: [
+        CommonModule,
+        RouterModule,
+        DirectivesModule,
+        PipesModule,
+        AccordionComponent,
+        FrameComponent,
+    ],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   events$: Observable<CMSObject[]> = inject(Store).select(CMSState.getEvents);

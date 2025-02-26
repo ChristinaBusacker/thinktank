@@ -14,11 +14,10 @@ import { CMSState } from '../../core/state/cms/cms.state';
 import { LocalizationState } from '../../core/state/localization/localization.state';
 
 @Component({
-  selector: 'app-post',
-  standalone: true,
-  imports: [CommonModule, DirectivesModule, PipesModule],
-  templateUrl: './post.component.html',
-  styleUrl: './post.component.scss',
+    selector: 'app-post',
+    imports: [CommonModule, DirectivesModule, PipesModule],
+    templateUrl: './post.component.html',
+    styleUrl: './post.component.scss'
 })
 export class PostComponent implements OnInit {
   post?: CMSObject;

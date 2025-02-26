@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,14 +10,18 @@ import {
 import { PipesModule } from '../../../core/pipes/pipes.module';
 import { ContactService } from '../../../core/services/contact.service';
 import { FrameComponent } from '../frame/frame.component';
+import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { LocalizationState } from '../../../core/state/localization/localization.state';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-contact-form',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
     FrameComponent,
     PipesModule,
   ],
@@ -29,6 +33,10 @@ export class ContactFormComponent implements OnInit {
   contactForm!: FormGroup;
   submitted = false;
   successfull = false;
+
+  lang$: Observable<'de' | 'en'> = inject(Store).select(
+    LocalizationState.getLanguage
+  );
 
   constructor(private fb: FormBuilder, private contact: ContactService) {}
 

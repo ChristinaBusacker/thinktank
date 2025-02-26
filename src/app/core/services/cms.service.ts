@@ -3,6 +3,7 @@ import { Store } from '@ngxs/store';
 import { PaginatedApiResponse } from '../../../core/interfaces/apiresponse.interface';
 import {
   CMSObject,
+  CMSObjectType,
   Event,
   Localizations,
   Page,
@@ -84,6 +85,16 @@ export class CmsService {
       });
 
       const responseData = (await response.json()) as Training;
+
+      this.store.dispatch(
+        new SetEvents({
+          data: [{ type: CMSObjectType.training, data: responseData }],
+          hasMorePages: true,
+
+          page: -1,
+        })
+      );
+
       return responseData;
     } catch (error: any) {
       throw new Error(`Error on fetching event: ${error.message}`);
@@ -176,6 +187,15 @@ export class CmsService {
       });
 
       const responseData = (await response.json()) as Event;
+
+      this.store.dispatch(
+        new SetEvents({
+          data: [{ type: CMSObjectType.event, data: responseData }],
+          hasMorePages: true,
+
+          page: -1,
+        })
+      );
       return responseData;
     } catch (error: any) {
       throw new Error(`Error on fetching event: ${error.message}`);
@@ -229,6 +249,16 @@ export class CmsService {
         },
       });
       const responseData = (await response.json()) as Post;
+
+      this.store.dispatch(
+        new SetPosts({
+          data: [{ type: CMSObjectType.post, data: responseData }],
+          hasMorePages: true,
+
+          page: -1,
+        })
+      );
+
       return responseData;
     } catch (error: any) {
       throw new Error(`Error on fetching post: ${error.message}`);

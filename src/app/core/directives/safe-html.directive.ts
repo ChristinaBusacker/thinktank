@@ -2,7 +2,8 @@ import { Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, PLAT
 import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
-    selector: '[appSafeHtml]'
+    selector: '[appSafeHtml]',
+    standalone: false
 })
 export class SafeHtmlDirective implements OnChanges {
     @Input() appSafeHtml!: string;

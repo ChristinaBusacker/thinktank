@@ -10,18 +10,16 @@ import { LogoComponent } from '../logo/logo.component';
 import { MenuComponent } from '../menu/menu.component';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [
-    LogoComponent,
-    MenuComponent,
-    LanguagePickerComponent,
-    RouterModule,
-    FrameComponent,
-  ],
-
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+    selector: 'app-header',
+    imports: [
+        LogoComponent,
+        MenuComponent,
+        LanguagePickerComponent,
+        RouterModule,
+        FrameComponent,
+    ],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit {
   lang$: Observable<'de' | 'en'> = inject(Store).select(

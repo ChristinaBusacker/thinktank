@@ -1,8 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, inject, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-
 import { Store } from '@ngxs/store';
 import {
   CMSObject,
@@ -20,20 +18,20 @@ import { AccordionComponent } from '../../shared/components/accordion/accordion.
 import { ContactFormComponent } from '../../shared/components/contact-form/contact-form.component';
 import { ImageSliderComponent } from '../../shared/components/image-slider/image-slider.component';
 import { MapComponent } from '../../shared/components/map/map.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-training',
-  standalone: true,
   imports: [
     CommonModule,
     RouterModule,
     DirectivesModule,
     AccordionComponent,
     MapComponent,
-    ReactiveFormsModule,
     ImageSliderComponent,
     PipesModule,
     ContactFormComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './training.component.html',
   styleUrl: './training.component.scss',

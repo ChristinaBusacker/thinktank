@@ -7,6 +7,7 @@ import { LocalizationState } from '../state/localization/localization.state';
 
 @Pipe({
     name: 'i18n',
+    standalone: false
 })
 export class I18nPipe implements PipeTransform {
     localizations$: Observable<Localizations> = inject(Store).select(LocalizationState.getLocalizations);

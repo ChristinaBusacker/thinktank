@@ -9,11 +9,10 @@ import { LocalizationState } from '../../../core/state/localization/localization
 import { SetHeaderState } from '../../../core/state/search/search.actions';
 
 @Component({
-  selector: 'app-language-picker',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './language-picker.component.html',
-  styleUrl: './language-picker.component.scss',
+    selector: 'app-language-picker',
+    imports: [CommonModule, FormsModule, ReactiveFormsModule],
+    templateUrl: './language-picker.component.html',
+    styleUrl: './language-picker.component.scss'
 })
 export class LanguagePickerComponent implements OnInit {
   public control = new FormControl();

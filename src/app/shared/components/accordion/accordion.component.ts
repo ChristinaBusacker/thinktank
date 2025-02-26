@@ -12,11 +12,10 @@ import {
 import { FrameComponent } from '../frame/frame.component';
 
 @Component({
-  selector: 'app-accordion',
-  templateUrl: './accordion.component.html',
-  styleUrls: ['./accordion.component.scss'],
-  standalone: true,
-  imports: [CommonModule, FrameComponent],
+    selector: 'app-accordion',
+    templateUrl: './accordion.component.html',
+    styleUrls: ['./accordion.component.scss'],
+    imports: [CommonModule, FrameComponent]
 })
 export class AccordionComponent implements AfterViewInit {
   @Input() isOpen = false;

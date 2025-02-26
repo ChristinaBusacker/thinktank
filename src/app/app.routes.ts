@@ -11,6 +11,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { PageComponent } from './pages/page/page.component';
 import { PostComponent } from './pages/post/post.component';
 import { TrainingComponent } from './pages/training/training.component';
+import { postResolver } from './core/resolver/post.resolver';
 
 const generalResolver = {
   localizations: localizationResolver,
@@ -60,7 +61,11 @@ export const routes: Routes = [
       {
         path: 'news/:postUrl',
         component: PostComponent,
-        resolve: { ...generalResolver, posts: postsResolver },
+        resolve: {
+          ...generalResolver,
+          posts: postsResolver,
+          post: postResolver,
+        },
       },
       {
         path: 'trainings/:trainingUrl',

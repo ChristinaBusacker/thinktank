@@ -3,7 +3,8 @@ import { BrowserSpecsService } from '../services/browser-specs.service';
 
 
 @Directive({
-    selector: '[appHygraphImage]'
+    selector: '[appHygraphImage]',
+    standalone: false
 })
 export class HygraphImageDirective implements OnInit {
 

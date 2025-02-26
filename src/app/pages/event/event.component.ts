@@ -19,20 +19,19 @@ import { ImageSliderComponent } from '../../shared/components/image-slider/image
 import { MapComponent } from '../../shared/components/map/map.component';
 
 @Component({
-  selector: 'app-event',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    DirectivesModule,
-    AccordionComponent,
-    MapComponent,
-    ReactiveFormsModule,
-    ImageSliderComponent,
-    PipesModule,
-  ],
-  templateUrl: './event.component.html',
-  styleUrl: './event.component.scss',
+    selector: 'app-event',
+    imports: [
+        CommonModule,
+        RouterModule,
+        DirectivesModule,
+        AccordionComponent,
+        MapComponent,
+        ReactiveFormsModule,
+        ImageSliderComponent,
+        PipesModule,
+    ],
+    templateUrl: './event.component.html',
+    styleUrl: './event.component.scss'
 })
 export class EventComponent implements OnInit {
   event?: CMSObject;

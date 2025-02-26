@@ -1,17 +1,27 @@
-@import '../scss/import';
+@import "../scss/import";
 
 :host {
-    main {
-        max-width: 1900px;
-        width:95%;
-        display:block;
-        margin: 0 auto;
-        margin-top: 120px;
-        padding-bottom: 20px;
+  main {
+    max-width: 1900px;
+    width: 95%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 120px;
+    padding-bottom: 20px;
+    min-height: 84vh;
 
-
-        @include mobile {
-            margin-top: 100px;
-        }
+    @include mobile {
+      margin-top: 100px;
     }
+  }
+
+  footer {
+    i.privacy {
+      display: flex;
+      gap: 5px;
+      color: #888888 !important;
+      padding: 0px 5px;
+      float: right;
+    }
+  }
 }

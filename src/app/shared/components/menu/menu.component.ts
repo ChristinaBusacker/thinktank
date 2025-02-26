@@ -11,17 +11,16 @@ import { LanguagePickerComponent } from '../language-picker/language-picker.comp
 import { SearchComponent } from '../search/search.component';
 
 @Component({
-  selector: 'app-menu',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    SearchComponent,
-    LanguagePickerComponent,
-    PipesModule,
-  ],
-  templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss',
+    selector: 'app-menu',
+    imports: [
+        CommonModule,
+        RouterModule,
+        SearchComponent,
+        LanguagePickerComponent,
+        PipesModule,
+    ],
+    templateUrl: './menu.component.html',
+    styleUrl: './menu.component.scss'
 })
 export class MenuComponent implements OnInit {
   public opened = false;
