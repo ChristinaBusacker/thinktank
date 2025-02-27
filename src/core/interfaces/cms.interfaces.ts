@@ -16,6 +16,7 @@ export interface EventLocation {
 export interface EventImage {
   id: string;
   url: string;
+  webpUrl: string;
   mimeType: string;
   alt: string;
   title: string;

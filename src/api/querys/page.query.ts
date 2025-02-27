@@ -28,13 +28,19 @@ query PageQuery($url: String, $locales: [Locale!]!) {
     image {
         id
         url
+        webpUrl: url(
+          transformation: {image: {compress: {metadata: true}, quality: {value: 80}}, document: {output: {format: webp}}}
+        )
         mimeType
     }
     desktopImage {
         id
         url
+        webpUrl: url(
+          transformation: {image: {compress: {metadata: true}, quality: {value: 80}}, document: {output: {format: webp}}}
+        )
         mimeType
     }
     seoDescription
   }
-}`
+}`;

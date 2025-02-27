@@ -28,6 +28,9 @@ export const eventsQuery = `
     image {
       id
       url
+      webpUrl: url(
+        transformation: {image: {compress: {metadata: true}, quality: {value: 80}}, document: {output: {format: webp}}}
+      )
       mimeType
       alt
       title
@@ -35,8 +38,11 @@ export const eventsQuery = `
     desktopImage {
       id
       url
+      webpUrl: url(
+        transformation: {image: {compress: {metadata: true}, quality: {value: 80}}, document: {output: {format: webp}}}
+      )
       mimeType
-            alt
+      alt
       title
     }
     createdAt

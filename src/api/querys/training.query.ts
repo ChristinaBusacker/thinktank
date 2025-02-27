@@ -19,6 +19,9 @@ query Trainings($locales: [Locale!]!, $size: Int, $skip: Int) {
     image {
       id
       url
+      webpUrl: url(
+        transformation: {image: {compress: {metadata: true}, quality: {value: 80}}, document: {output: {format: webp}}}
+      )
       mimeType
       alt
       title
@@ -26,6 +29,9 @@ query Trainings($locales: [Locale!]!, $size: Int, $skip: Int) {
     desktopImage {
       id
       url
+      webpUrl: url(
+        transformation: {image: {compress: {metadata: true}, quality: {value: 80}}, document: {output: {format: webp}}}
+      )
       mimeType
       alt
       title

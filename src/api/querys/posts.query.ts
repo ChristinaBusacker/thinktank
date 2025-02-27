@@ -1,5 +1,4 @@
-export const postsQuery = `
-query Posts($locales: [Locale!]!, $size: Int, $skip: Int) {
+export const postsQuery = `query Posts($locales: [Locale!]!, $size: Int, $skip: Int) {
   posts(first: $size, skip: $skip, locales: $locales) {
     url
     title
@@ -8,6 +7,9 @@ query Posts($locales: [Locale!]!, $size: Int, $skip: Int) {
     image {
       mimeType
       url
+      webpUrl: url(
+        transformation: {image: {compress: {metadata: true}, quality: {value: 80}}, document: {output: {format: webp}}}
+      )
       id
       alt
       title
@@ -15,6 +17,9 @@ query Posts($locales: [Locale!]!, $size: Int, $skip: Int) {
     desktopImage {
       mimeType
       url
+      webpUrl: url(
+        transformation: {image: {compress: {metadata: true}, quality: {value: 80}}, document: {output: {format: webp}}}
+      )
       id
       alt
       title
@@ -32,11 +37,12 @@ query Posts($locales: [Locale!]!, $size: Int, $skip: Int) {
       raw
     }
     createdAt
-    publishedAt 
+    publishedAt
   }
-  postsConnection(first: $size, skip: $skip, locales:$locales) {
+  postsConnection(first: $size, skip: $skip, locales: $locales) {
     pageInfo {
       hasNextPage
     }
   }
-}`;
+}
+`;
