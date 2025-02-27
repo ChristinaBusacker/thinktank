@@ -1,18 +1,11 @@
 @if( post) {
 <div class="post">
   <div class="image">
-    <img
-      [src]="post.data.desktopImage?.url"
-      data-target="d"
-      [alt]="post.data.desktopImage?.alt || ''"
-      [title]="post.data.desktopImage?.title || ''"
-    />
-    <img
-      [src]="post.data.image?.url"
-      data-target="m"
-      [alt]="post.data.image?.alt || ''"
-      [title]="post.data.image?.title || ''"
-    />
+    <picture>
+      <source media="(min-width: 769px)" [srcset]="post.data.desktopImage.useImageUrl">
+      <source media="(max-width: 768px)" [srcset]="post.data.image.useImageUrl">
+      <img [src]="post.data.desktopImage.useImageUrl" alt="Responsive Image">
+    </picture>
     @if(post.data.caption) {
     <div class="caption-container">
       <button>

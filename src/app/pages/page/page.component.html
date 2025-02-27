@@ -2,11 +2,11 @@
 <div class="page">
   @if(page.desktopImage?.url) {
   <div class="image">
-    @if(page.desktopImage?.url) {
-    <img [src]="page.desktopImage?.url" data-target="d" />
-    } @if(page.image?.url) {
-    <img [src]="page.image?.url" data-target="m" />
-    }
+    <picture>
+      <source media="(min-width: 769px)" [srcset]="page.desktopImage?.useImageUrl">
+      <source media="(max-width: 768px)" [srcset]="page.image?.useImageUrl">
+      <img [src]="page.desktopImage?.useImageUrl" alt="Responsive Image">
+    </picture>
   </div>
   }
   <div class="text">

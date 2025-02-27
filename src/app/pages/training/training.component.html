@@ -1,18 +1,11 @@
 @if(training) {
 <div class="training">
   <div class="image">
-    <img
-      [src]="training.data.desktopImage?.url"
-      data-target="d"
-      [alt]="training.data.desktopImage?.alt || ''"
-      [title]="training.data.desktopImage?.title || ''"
-    />
-    <img
-      [src]="training.data.image?.url"
-      data-target="m"
-      [alt]="training.data.image?.alt || ''"
-      [title]="training.data.image?.title || ''"
-    />
+    <picture>
+      <source media="(min-width: 769px)" [srcset]="training.data.desktopImage.useImageUrl">
+      <source media="(max-width: 768px)" [srcset]="training.data.image.useImageUrl">
+      <img [src]="training.data.desktopImage.useImageUrl" alt="Responsive Image">
+    </picture>
     <span>
       {{ "general.published" | i18n | async }}:
       {{

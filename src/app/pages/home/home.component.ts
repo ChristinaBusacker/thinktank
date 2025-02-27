@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { map, Observable, Subscription } from 'rxjs';
+import { combineLatest, map, Observable, Subscription } from 'rxjs';
 import {
   CMSObject,
   CMSObjectType,
@@ -23,6 +23,7 @@ import { CMSState } from '../../core/state/cms/cms.state';
 import { LocalizationState } from '../../core/state/localization/localization.state';
 import { AccordionComponent } from '../../shared/components/accordion/accordion.component';
 import { FrameComponent } from '../../shared/components/frame/frame.component';
+import { AssetService } from '../../core/services/asset.service';
 
 @Component({
   selector: 'app-home',
@@ -72,6 +73,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
   public currentRoute: 'all' | 'news' | 'events' | 'trainings' = 'all';
+  public assetService = inject(AssetService);
 
   public get currentObjects(): Observable<CMSObject[]> {
     return this.stateSubscriptions[this.currentRoute];
@@ -132,14 +134,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.cdr.detectChanges();
-  }
-
-  optimizeHygraphAssetUrl(url?: string, quality: number = 75) {
-    if (!url) return url;
-
-    const transformationParams = `?q=${quality}&fm=webp`;
-
-    return `${url}${transformationParams}`;
   }
 
   loadMore() {

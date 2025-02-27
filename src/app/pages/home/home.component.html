@@ -4,18 +4,11 @@
   <a class="item" [routerLink]="generateUrl(object)">
     <div>
       @if(object.data.image) {
-      <img
-        [src]="optimizeHygraphAssetUrl(object.data.desktopImage?.url)"
-        data-target="d"
-        [alt]="object.data.desktopImage?.alt || ''"
-        [title]="object.data.desktopImage?.title || ''"
-      />
-      <img
-        [src]="optimizeHygraphAssetUrl(object.data.image?.url)"
-        data-target="m"
-        [alt]="object.data.image?.alt || ''"
-        [title]="object.data.image?.title || ''"
-      />
+        <picture>
+          <source media="(min-width: 769px)" [srcset]="object.data.desktopImage.useImageUrl">
+          <source media="(max-width: 768px)" [srcset]="object.data.image.useImageUrl">
+          <img [src]="object.data.desktopImage.useImageUrl" alt="Responsive Image">
+        </picture>
       }
     </div>
     <div class="text">

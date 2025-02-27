@@ -8,6 +8,7 @@ import {
   SetPosts,
   SetTrainings,
 } from './cms.actions';
+import { AssetService } from '../../services/asset.service';
 
 export interface CMSStateModel {
   events: CMSObject[];
@@ -45,6 +46,8 @@ const defaults = {
   defaults: defaults,
 })
 export class CMSState {
+  constructor(private assetService: AssetService) {}
+
   @Selector()
   static getEvents(state: CMSStateModel): CMSObject[] {
     return state.events;
@@ -88,44 +91,102 @@ export class CMSState {
   }
 
   @Action(SetEvents)
-  setEvents(ctx: StateContext<CMSStateModel>, action: SetEvents) {
+  async setEvents(ctx: StateContext<CMSStateModel>, action: SetEvents) {
     const state = ctx.getState();
     if (!action.events) {
       console.log('empty event');
       return;
     }
+
+    const uniqueData = action.events.data.filter(
+      (entry) =>
+        !state.objects.find((event) => event.data.url === entry.data.url)
+    );
+
+    for (let i = 0; i < uniqueData.length; i++) {
+      uniqueData[i].data.desktopImage.useImageUrl =
+        await this.assetService.getOptimizedImageUrl(
+          uniqueData[i].data.desktopImage
+        );
+      uniqueData[i].data.image.useImageUrl =
+        await this.assetService.getOptimizedImageUrl(uniqueData[i].data.image);
+    }
+
     ctx.patchState({
-      events: [...state.events, ...action.events.data],
+      events: [...state.events, ...uniqueData],
       hasMoreEvents: action.events.hasMorePages,
       eventsPage: action.events.page,
     });
   }
 
   @Action(SetObjects)
-  setObjects(ctx: StateContext<CMSStateModel>, action: SetObjects) {
+  async setObjects(ctx: StateContext<CMSStateModel>, action: SetObjects) {
     const state = ctx.getState();
+    const uniqueData = action.objects.data.filter(
+      (entry) =>
+        !state.objects.find((objects) => objects.data.url === entry.data.url)
+    );
+
+    for (let i = 0; i < uniqueData.length; i++) {
+      uniqueData[i].data.desktopImage.useImageUrl =
+        await this.assetService.getOptimizedImageUrl(
+          uniqueData[i].data.desktopImage
+        );
+      uniqueData[i].data.image.useImageUrl =
+        await this.assetService.getOptimizedImageUrl(uniqueData[i].data.image);
+    }
+
     ctx.patchState({
-      objects: [...state.objects, ...action.objects.data],
+      objects: [...state.objects, ...uniqueData],
       hasMoreObjects: action.objects.hasMorePages,
       objectsPage: action.objects.page,
     });
   }
 
   @Action(SetTrainings)
-  setTrainings(ctx: StateContext<CMSStateModel>, action: SetTrainings) {
+  async setTrainings(ctx: StateContext<CMSStateModel>, action: SetTrainings) {
     const state = ctx.getState();
+    const uniqueData = action.trainings.data.filter(
+      (entry) =>
+        !state.trainings.find(
+          (trainings) => trainings.data.url === entry.data.url
+        )
+    );
+
+    for (let i = 0; i < uniqueData.length; i++) {
+      uniqueData[i].data.desktopImage.useImageUrl =
+        await this.assetService.getOptimizedImageUrl(
+          uniqueData[i].data.desktopImage
+        );
+      uniqueData[i].data.image.useImageUrl =
+        await this.assetService.getOptimizedImageUrl(uniqueData[i].data.image);
+    }
+
     ctx.patchState({
-      trainings: [...state.trainings, ...action.trainings.data],
+      trainings: [...state.trainings, ...uniqueData],
       hasMoreTrainings: action.trainings.hasMorePages,
       trainingsPage: action.trainings.page,
     });
   }
 
   @Action(SetPosts)
-  setPosts(ctx: StateContext<CMSStateModel>, action: SetPosts) {
+  async setPosts(ctx: StateContext<CMSStateModel>, action: SetPosts) {
     const state = ctx.getState();
+    const uniqueData = action.posts.data.filter(
+      (entry) => !state.posts.find((post) => post.data.url === entry.data.url)
+    );
+
+    for (let i = 0; i < uniqueData.length; i++) {
+      uniqueData[i].data.desktopImage.useImageUrl =
+        await this.assetService.getOptimizedImageUrl(
+          uniqueData[i].data.desktopImage
+        );
+      uniqueData[i].data.image.useImageUrl =
+        await this.assetService.getOptimizedImageUrl(uniqueData[i].data.image);
+    }
+
     ctx.patchState({
-      posts: [...state.posts, ...action.posts.data],
+      posts: [...state.posts, ...uniqueData],
       hasMorePosts: action.posts.hasMorePages,
       postsPage: action.posts.page,
     });

@@ -20,18 +20,6 @@ img {
 
 @import "./scss/import";
 
-@include desktop {
-  img[data-target="m"] {
-    display: none !important;
-  }
-}
-
-@include mobile {
-  img[data-target="d"] {
-    display: none !important;
-  }
-}
-
 .decorations-small {
   position: relative;
   display: block;

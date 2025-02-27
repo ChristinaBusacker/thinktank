@@ -24,6 +24,7 @@ import { SidebarComponent } from './shared/components/sidebar/sidebar.component'
 import { Observable } from 'rxjs';
 import { LocalizationState } from './core/state/localization/localization.state';
 import { PipesModule } from './core/pipes/pipes.module';
+import { AssetService } from './core/services/asset.service';
 
 @Component({
   selector: 'app-root',
@@ -45,6 +46,7 @@ import { PipesModule } from './core/pipes/pipes.module';
     SeoService,
     ApplicationService,
     ContactService,
+    AssetService,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

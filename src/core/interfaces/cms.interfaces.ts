@@ -20,6 +20,7 @@ export interface EventImage {
   mimeType: string;
   alt: string;
   title: string;
+  useImageUrl?: string;
 }
 
 export interface TextAccordion {
@@ -90,7 +91,6 @@ export enum CMSObjectType {
 
 export interface CMSObject {
   type: CMSObjectType;
-
   data: Post | Event | Training;
 }
 
