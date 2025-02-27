@@ -12,6 +12,73 @@
 
 <body>
   <app-root></app-root>
+  <script>
+    (function() {
+      // Funktion zum Parsen des User Agents und Ermitteln von Browsername & Version
+      function parseUserAgent(ua) {
+        ua = ua || navigator.userAgent;
+        ua = ua.toLowerCase();
+        var match;
+        
+        // Prüfe zunächst auf Edge (Chromium-basiert) – identifiziert durch "edg/"
+        if (/edg\/(\d+)/.test(ua)) {
+          match = ua.match(/edg\/(\d+)/);
+          return { name: 'edge', version: parseInt(match[1], 10) };
+        }
+        // Prüfe auf Chrome (andere Chromium-basierte Browser sollten hier nicht reinfallen)
+        else if (/chrome\/(\d+)/.test(ua)) {
+          match = ua.match(/chrome\/(\d+)/);
+          return { name: 'chrome', version: parseInt(match[1], 10) };
+        }
+        // Prüfe auf Firefox
+        else if (/firefox\/(\d+)/.test(ua)) {
+          match = ua.match(/firefox\/(\d+)/);
+          return { name: 'firefox', version: parseInt(match[1], 10) };
+        }
+        // Prüfe auf Android Browser
+        else if (/android\s+(\d+)/.test(ua)) {
+          match = ua.match(/android\s+(\d+)/);
+          return { name: 'android', version: parseInt(match[1], 10) };
+        }
+        // Prüfe auf Safari (Desktop oder iOS) – erkennt Version anhand von "version/"
+        else if (/version\/(\d+(\.\d+)?).+safari/.test(ua)) {
+          match = ua.match(/version\/(\d+(\.\d+)?)/);
+          var version = parseFloat(match[1]);
+          // Wenn "mobile", "iphone" oder "ipad" im UA auftauchen, gehen wir von iOS Safari aus
+          if (ua.indexOf("mobile") !== -1 || ua.indexOf("iphone") !== -1 || ua.indexOf("ipad") !== -1) {
+            return { name: 'ios_saf', version: version };
+          } else {
+            return { name: 'safari', version: version };
+          }
+        }
+        return { name: 'unknown', version: 0 };
+      }
+    
+      // Funktion, die den Browser gegen die Mindestversionen überprüft und ggf. einen Alert anzeigt
+      function checkBrowserSupport() {
+        var browser = parseUserAgent(navigator.userAgent);
+        // Definiere hier die Mindestversionen basierend auf der Angular 19-Liste
+        var minVersions = {
+          chrome: 132,
+          edge: 131,
+          firefox: 128,
+          android: 132,
+          ios_saf: 17.0,
+          safari: 17.0
+        };
+    
+        if (minVersions[browser.name] !== undefined) {
+          if (browser.version < minVersions[browser.name]) {
+            alert("Dein Browser ist veraltet, das könnte dazu führen, dass die Webseite nicht ganz nutzbar ist");
+          }
+        }
+      }
+    
+      // Führt die Browser-Überprüfung direkt beim Laden der Seite aus
+      checkBrowserSupport();
+    })();
+    </script>
+    
   <script src="https://unpkg.com/@glidejs/glide@3.3.0/dist/glide.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"
     integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg=="
