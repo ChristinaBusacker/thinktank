@@ -33,6 +33,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ContactFormComponent,
     ReactiveFormsModule,
   ],
+  standalone: true,
   templateUrl: './training.component.html',
   styleUrl: './training.component.scss',
 })

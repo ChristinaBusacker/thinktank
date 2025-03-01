@@ -37,6 +37,7 @@ import { AssetService } from './core/services/asset.service';
     RouterModule,
     CommonModule,
   ],
+  standalone: true,
   providers: [
     CmsService,
     SearchService,

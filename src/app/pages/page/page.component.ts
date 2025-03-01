@@ -13,16 +13,17 @@ import { ContactFormComponent } from '../../shared/components/contact-form/conta
 import { ImageSliderComponent } from '../../shared/components/image-slider/image-slider.component';
 
 @Component({
-    selector: 'app-page',
-    imports: [
-        CommonModule,
-        RouterModule,
-        DirectivesModule,
-        ImageSliderComponent,
-        ContactFormComponent,
-    ],
-    templateUrl: './page.component.html',
-    styleUrl: './page.component.scss'
+  selector: 'app-page',
+  imports: [
+    CommonModule,
+    RouterModule,
+    DirectivesModule,
+    ImageSliderComponent,
+    ContactFormComponent,
+  ],
+  standalone: true,
+  templateUrl: './page.component.html',
+  styleUrl: './page.component.scss',
 })
 export class PageComponent implements OnInit {
   public page?: Page;

@@ -25,6 +25,7 @@ import { LocalizationState } from '../../core/state/localization/localization.st
   imports: [CommonModule, DirectivesModule, PipesModule],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
+  standalone: true,
 })
 export class PostComponent implements OnInit {
   post?: CMSObject;

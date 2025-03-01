@@ -7,10 +7,11 @@ import { FrameComponent } from '../frame/frame.component';
 import { LanguagePickerComponent } from '../language-picker/language-picker.component';
 
 @Component({
-    selector: 'app-cookie-dialog',
-    imports: [FrameComponent, CommonModule, PipesModule, LanguagePickerComponent],
-    templateUrl: './cookie-dialog.component.html',
-    styleUrl: './cookie-dialog.component.scss'
+  selector: 'app-cookie-dialog',
+  standalone: true,
+  imports: [FrameComponent, CommonModule, PipesModule, LanguagePickerComponent],
+  templateUrl: './cookie-dialog.component.html',
+  styleUrl: './cookie-dialog.component.scss',
 })
 export class CookieDialogComponent {
   constructor(public store: Store) {}

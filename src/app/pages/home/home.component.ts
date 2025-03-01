@@ -35,6 +35,7 @@ import { AssetService } from '../../core/services/asset.service';
     AccordionComponent,
     FrameComponent,
   ],
+  standalone: true,
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

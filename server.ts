@@ -1,25 +1,26 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { CommonEngine } from '@angular/ssr/node';
+
 import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
 import apiRouter from './src/api/api';
-import cors from 'cors'
+import cors from 'cors';
 import NodeCache from 'node-cache';
 import { preferCacheEntries } from './src/api/helpers/nodeCache.helper';
 import { fetchHygraphData } from './src/api/helpers/fetchHygraphData.helper';
+import { CommonEngine } from '@angular/ssr';
 
 interface CMSSitemapHelper {
   events: {
-    url: string
-  },
+    url: string;
+  };
   pages: {
-    url: string
-  },
+    url: string;
+  };
   posts: {
-    url: string
-  }
+    url: string;
+  };
 }
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -35,13 +36,13 @@ export function app(): express.Express {
   server.set('views', browserDistFolder);
 
   const cache = new NodeCache();
-  server.set('cache', cache)
+  server.set('cache', cache);
 
   var corsOptions = {
     origin: '*',
-  }
+  };
 
-  server.use(cors(corsOptions))
+  server.use(cors(corsOptions));
   server.use(express.json());
 
   server.use('/api', apiRouter);
@@ -55,11 +56,12 @@ export function app(): express.Express {
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
-  server.get('*.*', express.static(browserDistFolder, {
-    maxAge: '1y'
-  }));
-
-
+  server.get(
+    '*.*',
+    express.static(browserDistFolder, {
+      maxAge: '1y',
+    })
+  );
 
   // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {
@@ -94,45 +96,53 @@ async function generateSitemap(req: express.Request): Promise<string> {
       posts {
         url
       }
-    }`, {})
+    }`,
+      {}
+    );
 
     const routes = [
       { loc: '', changefreq: 'weekly', priority: 1 },
       { loc: 'blog', changefreq: 'weekly', priority: 0.4 },
-      { loc: 'events', changefreq: 'weekly', priority: 0.4 }
+      { loc: 'events', changefreq: 'weekly', priority: 0.4 },
     ];
 
     for (const page of response.data['pages']) {
-      routes.push({ loc: page.url, changefreq: 'monthly', priority: 0.2 })
+      routes.push({ loc: page.url, changefreq: 'monthly', priority: 0.2 });
     }
-
 
     for (const event of response.data['events']) {
-      routes.push({ loc: `events/${event.url}`, changefreq: 'monthly', priority: 0.8 })
+      routes.push({
+        loc: `events/${event.url}`,
+        changefreq: 'monthly',
+        priority: 0.8,
+      });
     }
-
 
     for (const post of response.data['posts']) {
-      routes.push({ loc: `blog/${post.url}`, changefreq: 'monthly', priority: 0.8 })
+      routes.push({
+        loc: `blog/${post.url}`,
+        changefreq: 'monthly',
+        priority: 0.8,
+      });
     }
 
-
-
-    const urls = routes.map(route => `
+    const urls = routes
+      .map(
+        (route) => `
     <url>
       <loc>${baseUrl}/${route.loc}</loc>
       <changefreq>${route.changefreq}</changefreq>
       <priority>${route.priority}</priority>
     </url>
-  `).join('');
+  `
+      )
+      .join('');
 
     return `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     ${urls}
   </urlset>`;
-
   }
-
 }
 
 function run(): void {

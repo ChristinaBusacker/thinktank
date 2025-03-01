@@ -25,6 +25,7 @@ import { RouterModule } from '@angular/router';
     FrameComponent,
     PipesModule,
   ],
+  standalone: true,
   templateUrl: './contact-form.component.html',
   styleUrl: './contact-form.component.scss',
 })

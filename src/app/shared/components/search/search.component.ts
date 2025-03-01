@@ -14,16 +14,17 @@ import { LocalizationState } from '../../../core/state/localization/localization
 import { SearchState } from '../../../core/state/search/search.state';
 
 @Component({
-    selector: 'app-search',
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
-        PipesModule,
-    ],
-    templateUrl: './search.component.html',
-    styleUrls: ['./search.component.scss']
+  selector: 'app-search',
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    PipesModule,
+  ],
+  standalone: true,
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
   searchControl = new FormControl();
