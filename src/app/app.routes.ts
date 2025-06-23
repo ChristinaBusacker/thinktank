@@ -12,6 +12,7 @@ import { PageComponent } from './pages/page/page.component';
 import { PostComponent } from './pages/post/post.component';
 import { TrainingComponent } from './pages/training/training.component';
 import { postResolver } from './core/resolver/post.resolver';
+import { eventResolver } from './core/resolver/event.resolver';
 
 const generalResolver = {
   localizations: localizationResolver,
@@ -56,7 +57,11 @@ export const routes: Routes = [
       {
         path: 'events/:eventUrl',
         component: EventComponent,
-        resolve: { ...generalResolver, events: eventsResolver },
+        resolve: {
+          ...generalResolver,
+          events: eventsResolver,
+          event: eventResolver,
+        },
       },
       {
         path: 'news/:postUrl',

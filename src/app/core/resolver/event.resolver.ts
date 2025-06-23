@@ -4,7 +4,7 @@ import { Event } from '../../../core/interfaces/cms.interfaces';
 import { ApplicationService } from '../services/application.service';
 import { CmsService } from '../services/cms.service';
 
-export const postResolver: ResolveFn<Object> = async (route, state) => {
+export const eventResolver: ResolveFn<Object> = async (route, state) => {
   const app = inject(ApplicationService);
   const url = route.paramMap.get('eventUrl');
   let event: Event | undefined = undefined;

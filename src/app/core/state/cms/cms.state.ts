@@ -93,14 +93,10 @@ export class CMSState {
   @Action(SetEvents)
   async setEvents(ctx: StateContext<CMSStateModel>, action: SetEvents) {
     const state = ctx.getState();
-    if (!action.events) {
-      console.log('empty event');
-      return;
-    }
 
     const uniqueData = action.events.data.filter(
       (entry) =>
-        !state.objects.find((event) => event.data.url === entry.data.url)
+        !state.events.find((event) => event.data.url === entry.data.url)
     );
 
     for (let i = 0; i < uniqueData.length; i++) {

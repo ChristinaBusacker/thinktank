@@ -25,6 +25,7 @@ import { Observable } from 'rxjs';
 import { LocalizationState } from './core/state/localization/localization.state';
 import { PipesModule } from './core/pipes/pipes.module';
 import { AssetService } from './core/services/asset.service';
+import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -63,7 +64,8 @@ export class AppComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private store: Store,
-    @Inject(PLATFORM_ID) private platformId: object
+    @Inject(PLATFORM_ID) private platformId: object,
+    private meta: Meta
   ) {}
 
   public get isClient() {
@@ -93,6 +95,8 @@ export class AppComponent implements OnInit {
         this.initializeGoogleAnalytics();
       }
     });
+
+    this.meta.updateTag({ name: 'robots', content: 'noindex, nofollow' });
 
     this.route.paramMap.subscribe((params) => {
       const lang = params.get('lang') || 'de';

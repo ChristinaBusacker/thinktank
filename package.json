@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve ",
     "build": "ng build",
     "build:staging": "ng build --configuration=staging",
     "watch": "ng build --watch --configuration development --project xrthinktank",
     "test": "ng test",
-    "serve:ssr:xrthinktank": "node dist/xrthinktank/server/server.mjs"
+    "run:server": "node dist/xrthinktank/server/server.mjs"
   },
   "private": true,
   "dependencies": {
@@ -46,6 +46,8 @@
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
     "@types/nodemailer": "^6.4.15",
+    "browser-sync": "^3.0.4",
+    "cross-env": "^7.0.3",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
