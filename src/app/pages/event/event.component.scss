@@ -1,50 +1,119 @@
-@import '../../../scss/mixins/viewport.scss';
+@import "../../../scss/mixins/viewport.scss";
 
 :host {
-    & .event {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 1rem;
+  & .event {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+
+    & .info {
+      & .info-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    & .image {
+      img {
+        width: 100%;
 
         @include mobile {
-            grid-template-columns: 1fr;
+          max-height: 500px;
+          object-fit: cover;
+          object-position: center center;
+        }
+      }
+
+      & .caption-container {
+        & button {
+          outline: none;
+          border: none;
+          background-color: transparent;
+          text-align: left;
         }
 
-        & .info {
-
-            & .info-wrapper {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-            }
+        & svg {
+          display: none;
         }
+      }
 
-        & .image {
-            img {
-                width: 100%;
+      @include mobile {
+        position: relative;
 
-                @include mobile {
-                    max-height: 500px;
-                    object-fit: cover;
-                    object-position: center center;
-                }
+        & .caption-container {
+          position: relative;
+          bottom: 0;
+          left: 0;
+
+          & button {
+            background-color: transparent;
+            border: none;
+            position: absolute;
+            left: 0px;
+            bottom: 10px;
+            display: flex;
+            width: 100%;
+            justify-content: flex-end;
+            height: 2rem;
+            margin: 0;
+            padding: 0 10px;
+
+            & svg {
+              width: 2rem;
+              height: 2rem;
+              fill: white;
+              position: relative;
+              z-index: 999;
+              display: block;
             }
+
+            & .caption {
+              max-height: 0px;
+              overflow: hidden;
+              width: 100%;
+              background-color: rgba(255, 255, 255, 0.8);
+              text-align: left;
+              transition: all 0.4s ease;
+              position: absolute;
+              bottom: -10px;
+              margin: 0px -10px;
+              color: #444444;
+              font-family: "D-Din";
+              font-style: italic;
+              font-size: 1rem;
+              padding: 0 20px;
+              & a {
+                color: #444444 !important;
+              }
+            }
+
+            &:hover {
+              & .caption {
+                max-height: 150px;
+              }
+            }
+          }
         }
-
-
-        @include tablet {
-            & .image {
-                order: 1;
-            }
-
-            & .text {
-                order: 2;
-            }
-
-            & .info {
-                order: 3;
-            }
-
-        }
+      }
     }
+
+    @include tablet {
+      & .image {
+        order: 1;
+      }
+
+      & .text {
+        order: 2;
+      }
+
+      & .info {
+        order: 3;
+      }
+    }
+  }
 }

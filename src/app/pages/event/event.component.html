@@ -2,10 +2,29 @@
 <div class="event">
   <div class="image">
     <picture>
-      <source media="(min-width: 769px)" [srcset]="event.data.desktopImage.useImageUrl">
-      <source media="(max-width: 768px)" [srcset]="event.data.image.useImageUrl">
-      <img [src]="event.data.desktopImage.useImageUrl" alt="Responsive Image">
+      <source
+        media="(min-width: 769px)"
+        [srcset]="event.data.desktopImage.useImageUrl"
+      />
+      <source
+        media="(max-width: 768px)"
+        [srcset]="event.data.image.useImageUrl"
+      />
+      <img [src]="event.data.desktopImage.useImageUrl" alt="Responsive Image" />
     </picture>
+    @if(event.data.caption) {
+    <div class="caption-container">
+      <button>
+        <div class="caption" [innerHTML]="captionTransformed"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM11 11V17H13V11H11ZM11 7V9H13V7H11Z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    }
     <span>
       {{ "general.published" | i18n | async }}:
       {{ localizationService.getFormattedDate(event.data.publishedAt) | async }}
