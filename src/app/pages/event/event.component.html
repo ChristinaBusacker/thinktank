@@ -10,7 +10,10 @@
         media="(max-width: 768px)"
         [srcset]="event.data.image.useImageUrl"
       />
-      <img [src]="event.data.desktopImage.useImageUrl" alt="Responsive Image" />
+      <img
+        [src]="event.data.desktopImage.useImageUrl"
+        [alt]="event.data.desktopImage.alt"
+      />
     </picture>
     @if(event.data.caption) {
     <div class="caption-container">
