@@ -1,3 +1,4 @@
+<h1 class="sr-only">XR-Thinktank - Aktuelle Beiträge</h1>
 <div class="grid">
   @for(object of currentObjects | async; track object.data.url) {
   @if(isCurrentType(object.type)) {
@@ -23,8 +24,8 @@
       }
     </div>
     <div class="text">
-      <h1 [appSafeHtml]="object.data.title"></h1>
-      <h2 [appSafeHtml]="object.data.subtitle"></h2>
+      <h2 [appSafeHtml]="object.data.title" class="headline"></h2>
+      <h3 [appSafeHtml]="object.data.subtitle" class="subline"></h3>
       <p [appSafeHtml]="object.data.excerpt.html"></p>
     </div>
   </a>

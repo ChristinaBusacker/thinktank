@@ -1,24 +1,25 @@
+@if(breadcrumbs.length > 0) {
 <nav [attr.aria-label]="'aria.breadcrumbs.title' | i18n | async">
   <ul class="breadcrumb" role="list">
     @for(breadcrumb of breadcrumbs; track breadcrumb.url; let first = $first,
     last = $last) { @if(breadcrumbs.length > 1) {
     <li class="breadcrumb-item" role="listitem">
       @if(!last) {
-        <a
-          [title]="breadcrumb.label"
-          [routerLink]="breadcrumb.url"
-          [attr.aria-label]="
-            breadcrumb.label + ' ' + ('aria.breadcrumb.link' | i18n | async)
-          "
+      <a
+        [title]="breadcrumb.label"
+        [routerLink]="breadcrumb.url"
+        [attr.aria-label]="
+          breadcrumb.label + ' ' + ('aria.breadcrumb.link' | i18n | async)
+        "
       >
         {{ breadcrumb.label }}
       </a>
       / } @else {
-        <a
-          [title]="breadcrumb.label"
-          [attr.aria-label]="
-            breadcrumb.label + ' ' + ('aria.breadcrumb.current' | i18n | async)
-          "
+      <a
+        [title]="breadcrumb.label"
+        [attr.aria-label]="
+          breadcrumb.label + ' ' + ('aria.breadcrumb.current' | i18n | async)
+        "
       >
         {{ breadcrumb.label }}
       </a>
@@ -27,3 +28,4 @@
     } }
   </ul>
 </nav>
+}
