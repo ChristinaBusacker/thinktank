@@ -14,6 +14,7 @@ export interface EventLocation {
 }
 
 export interface EventImage {
+  altText: any;
   id: string;
   url: string;
   webpUrl: string;
