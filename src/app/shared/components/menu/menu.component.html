@@ -1,6 +1,14 @@
-<nav [class.opened]="opened">
+<nav
+  [class.opened]="opened"
+  [attr.aria-label]="'aria.menu.title' | i18n | async"
+>
   <div class="icon">
-    <button class="menu" aria-expanded="false" (click)="toggleOverlay()">
+    <button
+      class="menu"
+      aria-expanded="false"
+      (click)="toggleOverlay()"
+      [attr.aria-label]="'aria.menu.toggle' | i18n | async"
+    >
       <svg
         [class.active]="opened"
         version="1.1"
@@ -15,6 +23,7 @@
         style="enable-background: new 0 0 30 30"
         xml:space="preserve"
         class=""
+        aria-hidden="true"
       >
         <polyline
           id="unten"
@@ -56,6 +65,7 @@
           (click)="opened = false"
           [routerLink]="['/', lang, 'news']"
           routerLinkActive="router-link-active"
+          [attr.aria-label]="'aria.menu.link.news' | i18n | async"
           >{{ "navigation.blog" | i18n | async }}</a
         >
       </li>
@@ -75,6 +85,7 @@
           (click)="opened = false"
           [routerLink]="['/', lang, 'events']"
           routerLinkActive="router-link-active"
+          [attr.aria-label]="'aria.menu.link.events' | i18n | async"
           >{{ "navigation.events" | i18n | async }}</a
         >
       </li>
@@ -83,6 +94,7 @@
           (click)="opened = false"
           [routerLink]="['/', lang, 'about']"
           routerLinkActive="router-link-active"
+          [attr.aria-label]="'aria.menu.link.about' | i18n | async"
           >{{ "navigation.about" | i18n | async }}</a
         >
       </li>
@@ -91,6 +103,7 @@
           (click)="opened = false"
           [routerLink]="['/', lang, 'contact']"
           routerLinkActive="router-link-active"
+          [attr.aria-label]="'aria.menu.link.contact' | i18n | async"
           >{{ "navigation.contact" | i18n | async }}</a
         >
       </li>
@@ -99,6 +112,7 @@
           (click)="opened = false"
           [routerLink]="['/', lang, 'imprint']"
           routerLinkActive="router-link-active"
+          [attr.aria-label]="'aria.menu.link.imprint' | i18n | async"
           >{{ "navigation.imprint" | i18n | async }}</a
         >
       </li>
@@ -116,6 +130,7 @@
           viewBox="0 0 30 30"
           style="enable-background: new 0 0 30 30"
           xml:space="preserve"
+          aria-hidden="true"
         >
           <line
             id="lupengriff"

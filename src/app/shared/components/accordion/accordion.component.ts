@@ -10,12 +10,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FrameComponent } from '../frame/frame.component';
+import { PipesModule } from '../../../core/pipes/pipes.module';
 
 @Component({
   selector: 'app-accordion',
   templateUrl: './accordion.component.html',
   styleUrls: ['./accordion.component.scss'],
-  imports: [CommonModule, FrameComponent],
+  imports: [CommonModule, FrameComponent, PipesModule],
   standalone: true,
 })
 export class AccordionComponent implements AfterViewInit {

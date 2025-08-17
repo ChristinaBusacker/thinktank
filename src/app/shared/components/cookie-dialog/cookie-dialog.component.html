@@ -1,19 +1,36 @@
 <div class="wrapper">
-  <dialog id="cookie-banner" open>
+  <dialog
+    id="cookie-banner"
+    open
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cookie-dialog-title"
+    aria-describedby="cookie-dialog-desc"
+  >
     <app-language-picker></app-language-picker>
     <article>
       <header>
-        <h2>{{ "general.cookie.title" | i18n | async }}</h2>
+        <h2 id="cookie-dialog-title">
+          {{ "general.cookie.title" | i18n | async }}
+        </h2>
       </header>
-      <p>
+      <p id="cookie-dialog-desc">
         {{ "general.cookie.text" | i18n | async }}
       </p>
       <footer>
-        <button class="reject" (click)="rejectCookie()">
+        <button
+          class="reject"
+          (click)="rejectCookie()"
+          [aria-label]="'aria.cookies.decline' | i18n | async"
+        >
           {{ "general.decline" | i18n | async }}
         </button>
         <app-frame appearance="button">
-          <button class="accept" (click)="acceptCookie()">
+          <button
+            class="accept"
+            (click)="acceptCookie()"
+            [aria-label]="'aria.cookies.accept' | i18n | async"
+          >
             {{ "general.accept" | i18n | async }}
           </button>
         </app-frame>

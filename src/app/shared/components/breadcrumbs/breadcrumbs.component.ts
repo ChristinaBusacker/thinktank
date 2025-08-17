@@ -9,6 +9,8 @@ import { Store } from '@ngxs/store';
 
 import { filter, Observable, Subscription } from 'rxjs';
 import { LocalizationState } from '../../../core/state/localization/localization.state';
+import { PipesModule } from '../../../core/pipes/pipes.module';
+import { CommonModule } from '@angular/common';
 
 interface Breadcrumb {
   label: string;
@@ -17,7 +19,7 @@ interface Breadcrumb {
 
 @Component({
   selector: 'app-breadcrumbs',
-  imports: [RouterModule],
+  imports: [RouterModule, PipesModule, CommonModule],
   standalone: true,
   templateUrl: './breadcrumbs.component.html',
   styleUrl: './breadcrumbs.component.scss',

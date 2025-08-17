@@ -7,11 +7,12 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { EventImage } from '../../../../core/interfaces/cms.interfaces';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { PipesModule } from '../../../core/pipes/pipes.module';
 
 @Component({
   selector: 'app-image-slider',
-  imports: [],
+  imports: [CommonModule, PipesModule],
   standalone: true,
   templateUrl: './image-slider.component.html',
   styleUrl: './image-slider.component.scss',

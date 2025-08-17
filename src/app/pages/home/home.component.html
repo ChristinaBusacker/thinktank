@@ -4,11 +4,22 @@
   <a class="item" [routerLink]="generateUrl(object)">
     <div>
       @if(object.data.image) {
-        <picture>
-          <source media="(min-width: 769px)" [srcset]="object.data.desktopImage.useImageUrl">
-          <source media="(max-width: 768px)" [srcset]="object.data.image.useImageUrl">
-          <img [src]="object.data.desktopImage.useImageUrl" alt="Responsive Image">
-        </picture>
+      <picture>
+        <source
+          media="(min-width: 769px)"
+          [srcset]="object.data.desktopImage.useImageUrl"
+        />
+        <source
+          media="(max-width: 768px)"
+          [srcset]="object.data.image.useImageUrl"
+        />
+        <img
+          [src]="object.data.desktopImage.useImageUrl"
+          [alt]="
+            object.data.desktopImage.alt || ('aria.post.image' | i18n | async)
+          "
+        />
+      </picture>
       }
     </div>
     <div class="text">
@@ -21,7 +32,11 @@
 </div>
 
 @if(hasMorePages | async) {
-<button type="submit" (click)="loadMore()">
+<button
+  type="submit"
+  (click)="loadMore()"
+  [attr.aria-label]="'aria.home.load_more' | i18n | async"
+>
   <app-frame appearance="invertButton">
     <div class="button">Mehr laden</div>
   </app-frame>

@@ -11,6 +11,7 @@ import { DirectivesModule } from '../../core/directives/directives.module';
 import { SeoService } from '../../core/services/seo.service';
 import { ContactFormComponent } from '../../shared/components/contact-form/contact-form.component';
 import { ImageSliderComponent } from '../../shared/components/image-slider/image-slider.component';
+import { PipesModule } from '../../core/pipes/pipes.module';
 
 @Component({
   selector: 'app-page',
@@ -20,6 +21,7 @@ import { ImageSliderComponent } from '../../shared/components/image-slider/image
     DirectivesModule,
     ImageSliderComponent,
     ContactFormComponent,
+    PipesModule,
   ],
   standalone: true,
   templateUrl: './page.component.html',

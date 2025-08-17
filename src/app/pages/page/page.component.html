@@ -3,9 +3,15 @@
   @if(page.desktopImage?.url) {
   <div class="image">
     <picture>
-      <source media="(min-width: 769px)" [srcset]="page.desktopImage?.useImageUrl">
-      <source media="(max-width: 768px)" [srcset]="page.image?.useImageUrl">
-      <img [src]="page.desktopImage?.useImageUrl" alt="Responsive Image">
+      <source
+        media="(min-width: 769px)"
+        [srcset]="page.desktopImage?.useImageUrl"
+      />
+      <source media="(max-width: 768px)" [srcset]="page.image?.useImageUrl" />
+      <img
+        [src]="page.desktopImage?.useImageUrl"
+        [alt]="page.desktopImage?.alt || ('aria.post.image' | i18n | async)"
+      />
     </picture>
   </div>
   }

@@ -7,10 +7,11 @@ import { Observable } from 'rxjs';
 import { CmsService } from '../../../core/services/cms.service';
 import { LocalizationState } from '../../../core/state/localization/localization.state';
 import { SetHeaderState } from '../../../core/state/search/search.actions';
+import { PipesModule } from '../../../core/pipes/pipes.module';
 
 @Component({
   selector: 'app-language-picker',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, PipesModule],
   standalone: true,
   templateUrl: './language-picker.component.html',
   styleUrl: './language-picker.component.scss',
