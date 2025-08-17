@@ -1,6 +1,7 @@
 const baseUrl = 'http://localhost:4000';
 
 export const environment = {
+  isProd: false,
   baseUrl: baseUrl,
   schemaOrg: {
     '@type': 'Organization',

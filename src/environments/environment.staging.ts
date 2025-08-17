@@ -1,6 +1,7 @@
 const baseUrl = 'https://cmbu.app';
 
 export const environment = {
+  isProd: true,
   baseUrl: baseUrl,
   schemaOrg: {
     '@type': 'Organization',
