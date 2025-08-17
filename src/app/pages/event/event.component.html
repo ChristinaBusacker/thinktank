@@ -46,7 +46,10 @@
         [isOpen]="openedAccordion === 'venue'"
         (opened)="setOpenedAccordion($event)"
       >
-        <div [appSafeHtml]="getEvent().eventLocation.informations.html"></div>
+        <div class="hygraphHTML">
+          <div [appSafeHtml]="getEvent().eventLocation.informations.html"></div>
+        </div>
+
         @if(isBrowser()) {
         <app-map
           [lat]="getEvent().eventLocation.geoLocation.latitude"
