@@ -21,6 +21,7 @@ import { CMSState } from '../state/cms/cms.state';
 import { SetLocalizations } from '../state/localization/localization.actions';
 import { LocalizationState } from '../state/localization/localization.state';
 import { TransferStateService } from './transfer-state.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -67,7 +68,9 @@ export class CmsService {
         return responseData;
       });
 
-      this.store.dispatch(new SetTrainings(trainingsResponse));
+      await firstValueFrom(
+        this.store.dispatch(new SetTrainings(trainingsResponse))
+      );
 
       return trainingsResponse.data;
     } catch (error: any) {
@@ -86,13 +89,15 @@ export class CmsService {
 
       const responseData = (await response.json()) as Training;
 
-      this.store.dispatch(
-        new SetEvents({
-          data: [{ type: CMSObjectType.training, data: responseData }],
-          hasMorePages: true,
+      await firstValueFrom(
+        this.store.dispatch(
+          new SetEvents({
+            data: [{ type: CMSObjectType.training, data: responseData }],
+            hasMorePages: true,
 
-          page: -1,
-        })
+            page: -1,
+          })
+        )
       );
 
       return responseData;
@@ -131,7 +136,7 @@ export class CmsService {
         return responseData;
       });
 
-      this.store.dispatch(new SetEvents(eventsResponse));
+      await firstValueFrom(this.store.dispatch(new SetEvents(eventsResponse)));
 
       return eventsResponse.data;
     } catch (error: any) {
@@ -169,7 +174,7 @@ export class CmsService {
         return responseData;
       });
 
-      this.store.dispatch(new SetObjects(objects));
+      await firstValueFrom(this.store.dispatch(new SetObjects(objects)));
 
       return objects.data;
     } catch (error: any) {
@@ -188,13 +193,15 @@ export class CmsService {
 
       const responseData = (await response.json()) as Event;
 
-      this.store.dispatch(
-        new SetEvents({
-          data: [{ type: CMSObjectType.event, data: responseData }],
-          hasMorePages: true,
+      await firstValueFrom(
+        this.store.dispatch(
+          new SetEvents({
+            data: [{ type: CMSObjectType.event, data: responseData }],
+            hasMorePages: true,
 
-          page: -1,
-        })
+            page: -1,
+          })
+        )
       );
       return responseData;
     } catch (error: any) {
@@ -232,7 +239,7 @@ export class CmsService {
         return responseData;
       });
 
-      this.store.dispatch(new SetPosts(posts));
+      await firstValueFrom(this.store.dispatch(new SetPosts(posts)));
 
       return posts.data;
     } catch (error: any) {
@@ -250,13 +257,15 @@ export class CmsService {
       });
       const responseData = (await response.json()) as Post;
 
-      this.store.dispatch(
-        new SetPosts({
-          data: [{ type: CMSObjectType.post, data: responseData }],
-          hasMorePages: true,
+      await firstValueFrom(
+        this.store.dispatch(
+          new SetPosts({
+            data: [{ type: CMSObjectType.post, data: responseData }],
+            hasMorePages: true,
 
-          page: -1,
-        })
+            page: -1,
+          })
+        )
       );
 
       return responseData;
@@ -308,7 +317,9 @@ export class CmsService {
         }
       );
 
-      this.store.dispatch(new SetLocalizations(localizations));
+      await firstValueFrom(
+        this.store.dispatch(new SetLocalizations(localizations))
+      );
 
       return localizations;
     } catch (error: any) {
