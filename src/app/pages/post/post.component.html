@@ -5,14 +5,17 @@
       <source
         media="(min-width: 769px)"
         [srcset]="post.data.desktopImage.useImageUrl"
+        [title]="post.data.desktopImage.title"
       />
       <source
         media="(max-width: 768px)"
         [srcset]="post.data.image.useImageUrl"
+        [title]="post.data.image.title"
       />
       <img
         [src]="post.data.desktopImage.useImageUrl"
         [alt]="post.data.desktopImage.alt"
+        [title]="post.data.desktopImage.title"
       />
     </picture>
     @if(post.data.caption) {
