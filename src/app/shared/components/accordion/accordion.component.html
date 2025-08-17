@@ -5,7 +5,7 @@
     aria-controls="content"
     id="accordionButton"
     (click)="toggle()"
-    [attr.aria-label]="'aria.accordion.toggle' | i18n | async"
+  [attr.aria-label]="'aria.accordion.toggle' | i18n | async"
   >
     @if (isOpen) {
     <svg
@@ -38,7 +38,7 @@
     id="content"
     role="region"
     [attr.aria-labelledby]="'accordionButton'"
-    [attr.aria-label]="'aria.accordion.region' | i18n | async"
+  [attr.aria-label]="'aria.accordion.region' | i18n | async"
     [hidden]="!isOpen"
     #content
   >

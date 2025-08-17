@@ -21,7 +21,7 @@
         <button
           class="reject"
           (click)="rejectCookie()"
-          [aria-label]="'aria.cookies.decline' | i18n | async"
+          [attr.aria-label]="'aria.cookies.decline' | i18n | async"
         >
           {{ "general.decline" | i18n | async }}
         </button>
@@ -29,7 +29,7 @@
           <button
             class="accept"
             (click)="acceptCookie()"
-            [aria-label]="'aria.cookies.accept' | i18n | async"
+            [attr.aria-label]="'aria.cookies.accept' | i18n | async"
           >
             {{ "general.accept" | i18n | async }}
           </button>
