@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.meta.updateTag({ name: 'robots', content: 'noindex, nofollow' });
+    this.meta.updateTag({ name: 'robots', content: 'index, follow' });
 
     this.route.paramMap.subscribe((params) => {
       const lang = params.get('lang') || 'de';
