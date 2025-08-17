@@ -1,27 +1,25 @@
 <div [ngClass]="{ open: open }">
-  <fieldset>
-    <div>
-      <input
-        id="de"
-        type="radio"
-        value="de"
-        [formControl]="control"
-        [attr.aria-label]="'aria.language_picker.de' | i18n | async"
-      />
-      <label for="de" [class.active]="lang === 'de'">
-        {{ "aria.language_picker.de_label" | i18n | async }}
-      </label>
-      |
-      <input
-        id="en"
-        type="radio"
-        value="en"
-        [formControl]="control"
-        [attr.aria-label]="'aria.language_picker.en' | i18n | async"
-      />
-      <label for="en" [class.active]="lang === 'en'">
-        {{ "aria.language_picker.en_label" | i18n | async }}
-      </label>
-    </div>
-  </fieldset>
+  <div>
+    <input
+      id="de"
+      type="radio"
+      value="de"
+      [formControl]="control"
+      [attr.aria-label]="'aria.language_picker.de' | i18n | async"
+    />
+    <label for="de" [class.active]="lang === 'de'">
+      {{ "aria.language_picker.de_label" | i18n | async }}
+    </label>
+    |
+    <input
+      id="en"
+      type="radio"
+      value="en"
+      [formControl]="control"
+      [attr.aria-label]="'aria.language_picker.en' | i18n | async"
+    />
+    <label for="en" [class.active]="lang === 'en'">
+      {{ "aria.language_picker.en_label" | i18n | async }}
+    </label>
+  </div>
 </div>
