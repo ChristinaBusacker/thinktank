@@ -1,11 +1,17 @@
-import { CommonModule } from '@angular/common';
+import {
+  CommonModule,
+  isPlatformBrowser,
+  isPlatformServer,
+} from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  Inject,
   inject,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   SecurityContext,
 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -75,6 +81,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     all: this.objects$,
   };
 
+  public isServer: boolean;
+  public isBrowser: boolean;
+
   public currentRoute: 'all' | 'news' | 'events' | 'trainings' = 'all';
   public assetService = inject(AssetService);
 
@@ -94,9 +103,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private seo: SeoService,
+    @Inject(PLATFORM_ID) platformId: Object,
     private cmsService: CmsService,
     private s: DomSanitizer
-  ) {}
+  ) {
+    this.isServer = isPlatformServer(platformId);
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
     if (this.route.snapshot.url.length > 0) {
