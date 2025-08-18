@@ -1,11 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  Input,
-  OnChanges,
-  Renderer2,
-  SimpleChanges,
-} from '@angular/core';
+import { Directive, Input, OnChanges, HostBinding } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SecurityContext } from '@angular/core';
 
@@ -13,19 +6,16 @@ import { SecurityContext } from '@angular/core';
   selector: '[appSafeHtml]',
 })
 export class SafeHtmlDirective implements OnChanges {
-  @Input() appSafeHtml: string | null = '';
+  @Input() appSafeHtml: string | null = null;
 
-  constructor(
-    private el: ElementRef<HTMLElement>,
-    private renderer: Renderer2,
-    private sanitizer: DomSanitizer
-  ) {}
+  @HostBinding('innerHTML')
+  sanitizedHtml = '';
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!('appSafeHtml' in changes)) return;
+  constructor(private sanitizer: DomSanitizer) {}
 
-    const raw = changes['appSafeHtml'].currentValue ?? '';
-    const sanitized = this.sanitizer.sanitize(SecurityContext.HTML, raw) ?? '';
-    this.renderer.setProperty(this.el.nativeElement, 'innerHTML', sanitized);
+  ngOnChanges(): void {
+    const raw = this.appSafeHtml ?? '';
+    this.sanitizedHtml =
+      this.sanitizer.sanitize(SecurityContext.HTML, raw) ?? '';
   }
 }
