@@ -9,7 +9,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { SecurityContext } from '@angular/core';
 import { filter, take } from 'rxjs/operators';
-import { isPlatformServer, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 @Directive({
   selector: '[appSafeHtml]',
@@ -17,38 +17,44 @@ import { isPlatformServer, isPlatformBrowser } from '@angular/common';
 })
 export class SafeHtmlDirective {
   @Input() appSafeHtml: string | null = null;
+
   @HostBinding('innerHTML') sanitizedHtml = '';
 
-  private hydrated = false;
+  private isServer: boolean;
+  private isBrowser: boolean;
 
   constructor(
     private s: DomSanitizer,
     @Inject(PLATFORM_ID) platformId: Object,
     appRef: ApplicationRef
   ) {
-    if (isPlatformServer(platformId)) {
-      // Server: sofort rendern
-      this.apply();
-    } else if (isPlatformBrowser(platformId)) {
-      // Client: exakt NACH Stabilisierung einmal setzen
+    this.isServer = isPlatformServer(platformId);
+    this.isBrowser = isPlatformBrowser(platformId);
+
+    if (this.isBrowser) {
       appRef.isStable.pipe(filter(Boolean), take(1)).subscribe(() => {
-        this.hydrated = true;
-        this.apply(); // ← ohne readyState/Window-Checks
+        this.apply();
       });
     }
   }
 
   ngOnChanges() {
-    // Bei Input-Änderungen erneut anwenden:
-    // - Server: sofort
-    // - Client: nur wenn Hydration abgeschlossen
     this.apply();
   }
 
   private apply() {
     const raw = this.appSafeHtml ?? '';
     const next = this.s.sanitize(SecurityContext.HTML, raw) ?? '';
-    if (!this.hydrated && typeof window !== 'undefined') return; // warten bis isStable
-    if (this.sanitizedHtml !== next) this.sanitizedHtml = next;
+
+    if (this.isServer) {
+      this.sanitizedHtml = next;
+      return;
+    }
+
+    if (this.isBrowser) {
+      if (document.readyState === 'complete' || (window as any).ngHydrated) {
+        if (next !== this.sanitizedHtml) this.sanitizedHtml = next;
+      }
+    }
   }
 }
