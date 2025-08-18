@@ -5,29 +5,28 @@ import {
   Inject,
   PLATFORM_ID,
   ApplicationRef,
-  ElementRef,
+  ElementRef, // ← neu
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SecurityContext } from '@angular/core';
 import { filter, take } from 'rxjs/operators';
-import { isPlatformServer, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 @Directive({
   selector: '[appSafeHtml]',
-  host: { ngSkipHydration: '' }, // Hydration für dieses Element überspringen
+  host: { ngSkipHydration: '' },
 })
 export class SafeHtmlDirective {
   @Input() appSafeHtml: string | null = null;
 
   @HostBinding('innerHTML') sanitizedHtml = '';
 
-  private readonly isServer: boolean;
-  private readonly isBrowser: boolean;
-  private hydrated = false;
+  private isServer: boolean;
+  private isBrowser: boolean;
 
   constructor(
     private s: DomSanitizer,
-    private hostEl: ElementRef<HTMLElement>,
+    private hostEl: ElementRef<HTMLElement>, // ← neu
     @Inject(PLATFORM_ID) platformId: Object,
     appRef: ApplicationRef
   ) {
@@ -35,9 +34,7 @@ export class SafeHtmlDirective {
     this.isBrowser = isPlatformBrowser(platformId);
 
     if (this.isBrowser) {
-      // Warten, bis die App stabil ist (Hydration/Boot abgeschlossen)
       appRef.isStable.pipe(filter(Boolean), take(1)).subscribe(() => {
-        this.hydrated = true;
         this.apply();
       });
     }
@@ -52,24 +49,27 @@ export class SafeHtmlDirective {
     const next = this.s.sanitize(SecurityContext.HTML, raw) ?? '';
 
     if (this.isServer) {
-      // Server darf immer schreiben (SSR-Snapshot erzeugen)
+      // SSR: immer setzen (kommt in den HTML-Snapshot)
       this.sanitizedHtml = next;
       return;
     }
 
     if (this.isBrowser) {
-      // Vor Hydration nichts tun (wird nach isStable erneut aufgerufen)
-      if (!this.hydrated) return;
+      // dein vorhandener Guard:
+      if (document.readyState !== 'complete' && !(window as any).ngHydrated)
+        return;
 
       // NUR schreiben, wenn das Host-Element aktuell leer ist
-      const current = (this.hostEl.nativeElement.innerHTML || '')
-        .replace(/&nbsp;/g, ' ')
+      const el = this.hostEl.nativeElement;
+      const current = (el.innerHTML || '')
+        .replace(/<!--[\s\S]*?-->/g, '') // HTML-Kommentare ignorieren
+        .replace(/&nbsp;/g, ' ') // geschützte Leerzeichen normalisieren
         .trim();
 
       if (current.length === 0 && next !== this.sanitizedHtml) {
         this.sanitizedHtml = next;
       }
-      // Falls bereits Inhalt vorhanden ist: NICHT überschreiben
+      // Falls schon Inhalt vorhanden ist: NICHT überschreiben (verhindert Duplikate)
     }
   }
 }
