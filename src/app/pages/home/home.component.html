@@ -24,8 +24,8 @@
       }
     </div>
     <div class="text">
-      <h2 [appSafeHtml]="object.data.title" class="headline"></h2>
-      <h3 [appSafeHtml]="object.data.subtitle" class="subheader"></h3>
+      <h2 class="headline">{{ object.data.title }}</h2>
+      <h3 class="subheader">{{ object.data.subtitle }}</h3>
       <p [appSafeHtml]="object.data.excerpt.html"></p>
     </div>
   </a>
