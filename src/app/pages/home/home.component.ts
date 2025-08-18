@@ -6,6 +6,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  SecurityContext,
 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -24,6 +25,7 @@ import { LocalizationState } from '../../core/state/localization/localization.st
 import { AccordionComponent } from '../../shared/components/accordion/accordion.component';
 import { FrameComponent } from '../../shared/components/frame/frame.component';
 import { AssetService } from '../../core/services/asset.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -92,7 +94,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private seo: SeoService,
-    private cmsService: CmsService
+    private cmsService: CmsService,
+    private s: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -177,6 +180,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   generateUrl(object: CMSObject) {
     return ['/', this.lang, object.type, object.data.url];
+  }
+
+  sanitize(value: string | null | undefined): SafeHtml | '' {
+    if (!value) return '';
+
+    const cleaned = this.s.sanitize(SecurityContext.HTML, value) ?? '';
+    return this.s.bypassSecurityTrustHtml(cleaned);
   }
 
   ngAfterViewInit(): void {
