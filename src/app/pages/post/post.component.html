@@ -49,8 +49,8 @@
         localizationService.getFormattedDate(post.data.publishedAt) | async
       }}</span
     >
-    <h1 [appSafeHtml]="post.data.title"></h1>
-    <h2 [appSafeHtml]="post.data.subtitle"></h2>
+    <h1>{{ post.data.title }}</h1>
+    <h2>{{ post.data.subtitle }}</h2>
     <div [innerHTML]="transformedHtml" class="content"></div>
   </div>
   <div class="info"></div>

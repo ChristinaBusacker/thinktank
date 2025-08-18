@@ -40,9 +40,9 @@
     </span>
   </div>
   <div class="text">
-    <h1 [appSafeHtml]="event.data.title"></h1>
-    <h2 [appSafeHtml]="event.data.subtitle"></h2>
-    <div [appSafeHtml]="event.data.text.html"></div>
+    <h1>{{ event.data.title }}</h1>
+    <h2>{{ event.data.subtitle }}</h2>
+    <div [innerHTML]="transformedHtml" class="content"></div>
   </div>
   <div class="info">
     <div class="info-wrapper">
