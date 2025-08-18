@@ -9,59 +9,46 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { SecurityContext } from '@angular/core';
 import { filter, take } from 'rxjs/operators';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { isPlatformServer, isPlatformBrowser } from '@angular/common';
 
 @Directive({
   selector: '[appSafeHtml]',
-  host: { ngSkipHydration: '' }, // ← Hydration für dieses Element überspringen
+  host: { ngSkipHydration: '' },
 })
 export class SafeHtmlDirective {
   @Input() appSafeHtml: string | null = null;
-
   @HostBinding('innerHTML') sanitizedHtml = '';
 
-  private isServer: boolean;
-  private isBrowser: boolean;
+  private hydrated = false;
 
   constructor(
     private s: DomSanitizer,
     @Inject(PLATFORM_ID) platformId: Object,
     appRef: ApplicationRef
   ) {
-    this.isServer = isPlatformServer(platformId);
-    this.isBrowser = isPlatformBrowser(platformId);
-
-    // WICHTIG: Erst NACH erfolgreicher Hydration clientseitig schreiben
-    if (this.isBrowser) {
+    if (isPlatformServer(platformId)) {
+      // Server: sofort rendern
+      this.apply();
+    } else if (isPlatformBrowser(platformId)) {
+      // Client: exakt NACH Stabilisierung einmal setzen
       appRef.isStable.pipe(filter(Boolean), take(1)).subscribe(() => {
-        // einmal nach Hydration anwenden (falls Input schon da)
-        this.apply();
+        this.hydrated = true;
+        this.apply(); // ← ohne readyState/Window-Checks
       });
     }
   }
 
   ngOnChanges() {
+    // Bei Input-Änderungen erneut anwenden:
+    // - Server: sofort
+    // - Client: nur wenn Hydration abgeschlossen
     this.apply();
   }
 
   private apply() {
     const raw = this.appSafeHtml ?? '';
     const next = this.s.sanitize(SecurityContext.HTML, raw) ?? '';
-
-    if (this.isServer) {
-      // Server: sofort setzen (geht in SSR-HTML-Snapshot)
-      this.sanitizedHtml = next;
-      return;
-    }
-
-    if (this.isBrowser) {
-      // Client: nur NACH Hydration schreiben (siehe ctor)
-      // wenn isStable noch nicht erreicht: nichts tun
-      // (HostBinding wird dann im subscribe oben gesetzt)
-      // hier ein kleiner Guard:
-      if (document.readyState === 'complete' || (window as any).ngHydrated) {
-        if (next !== this.sanitizedHtml) this.sanitizedHtml = next;
-      }
-    }
+    if (!this.hydrated && typeof window !== 'undefined') return; // warten bis isStable
+    if (this.sanitizedHtml !== next) this.sanitizedHtml = next;
   }
 }
