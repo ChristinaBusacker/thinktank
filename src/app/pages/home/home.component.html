@@ -26,11 +26,10 @@
     <div class="text">
       <h2 class="headline">{{ object.data.title }}</h2>
       <h3 class="subheader">{{ object.data.subtitle }}</h3>
-      @if(isServer) {
-      <p [appSafeHtml]="object.data.excerpt.html"></p>
-      } @else if (isBrowser) {
-      <p [appSafeHtml]="object.data.excerpt.html"></p>
-      }
+      <div
+        [innerHTML]="sanitize(object.data.excerpt.html)"
+        class="content"
+      ></div>
     </div>
   </a>
   } }
