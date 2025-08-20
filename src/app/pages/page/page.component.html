@@ -16,9 +16,10 @@
   </div>
   }
   <div class="text">
-    <h1 [appSafeHtml]="page.title"></h1>
+    <h1>{{ page.title }}</h1>
     @for(content of page.content; track content.id) {
     @if(isContentComponent(content); as text) {
+    <div [innerHTML]="sanitize(text.content.html)" class="content"></div>
     <div [appSafeHtml]="text.content.html"></div>
     } @if(isImageCarousel(content); as carousel) { } @if(isContactForm(content);
     as form) {
