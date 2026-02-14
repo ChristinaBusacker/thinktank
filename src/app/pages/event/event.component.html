@@ -50,7 +50,7 @@
         <app-accordion
           [title]="'aria.event.venue' | i18n | async"
           id="venue"
-          [isOpen]="openedAccordion === 'venue'"
+          [isOpen]="openAccordions.includes('venue')"
           (opened)="setOpenedAccordion($event)"
         >
           <div class="hygraphHTML">
@@ -72,7 +72,7 @@
             [title]="addit.title"
             [id]="addit.id"
             (opened)="setOpenedAccordion($event)"
-            [isOpen]="openedAccordion === addit.id"
+            [isOpen]="openAccordions.includes(addit.id)"
           >
             @if (isImageCarousel(addit); as images) {
               <app-image-slider [images]="images.images"></app-image-slider>

@@ -2,6 +2,10 @@
   .accordion {
     position: relative;
 
+    &.hide {
+      display: none !important;
+    }
+
     button {
       cursor: pointer;
       background-color: white;

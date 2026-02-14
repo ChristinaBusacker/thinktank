@@ -49,12 +49,13 @@ export class EventComponent implements OnInit {
   lang$: Observable<'de' | 'en'> = inject(Store).select(
     LocalizationState.getLanguage,
   );
-  openedAccordion: string = 'venue';
 
   transformedHtml!: SafeHtml;
   captionTransformed!: SafeHtml;
 
   route = inject(ActivatedRoute);
+
+  openAccordions: string[] = ['venue'];
 
   constructor(
     private store: Store,
@@ -105,14 +106,24 @@ export class EventComponent implements OnInit {
         this.captionTransformed = this.ensureATagsToTargetBlank(
           this.event.data.caption?.html || '',
         );
+
+        const eventData = this.event.data as Event;
+
+        this.openAccordions = [
+          'venue',
+          ...eventData.additionalInformation.map((addInf) => addInf.id),
+        ];
       }
     });
-
-    console.log(this.event);
   }
 
   setOpenedAccordion(id: string) {
-    this.openedAccordion = id;
+    const alreadyOpen = this.openAccordions.includes(id);
+    if (alreadyOpen) {
+      this.openAccordions = this.openAccordions.filter((aic) => aic != id);
+    } else {
+      this.openAccordions.push(id);
+    }
   }
 
   @HostListener('click', ['$event'])
