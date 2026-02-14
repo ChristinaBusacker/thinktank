@@ -1,101 +1,120 @@
-@if(event) {
-<div class="event">
-  <div class="image">
-    <picture>
-      <source
-        media="(min-width: 769px)"
-        [srcset]="event.data.desktopImage.useImageUrl"
-      />
-      <source
-        media="(max-width: 768px)"
-        [srcset]="event.data.image.useImageUrl"
-      />
-      <img
-        [src]="event.data.desktopImage.useImageUrl"
-        [alt]="
-          event.data.desktopImage.alt || ('aria.event.image' | i18n | async)
-        "
-      />
-    </picture>
-    @if(event.data.caption) {
-    <div class="caption-container">
-      <button [attr.aria-label]="'aria.event.caption' | i18n | async">
-        <div class="caption" [innerHTML]="captionTransformed"></div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path
-            d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM11 11V17H13V11H11ZM11 7V9H13V7H11Z"
-          />
-        </svg>
-      </button>
-    </div>
-
-    }
-    <span>
-      {{ "general.published" | i18n | async }}:
-      {{ localizationService.getFormattedDate(event.data.publishedAt) | async }}
-    </span>
-  </div>
-  <div class="text">
-    <h1>{{ event.data.title }}</h1>
-    <h2>{{ event.data.subtitle }}</h2>
-    <div [innerHTML]="transformedHtml" class="content"></div>
-  </div>
-  <div class="info">
-    <div class="info-wrapper">
-      <app-accordion
-        [title]="'aria.event.venue' | i18n | async"
-        id="venue"
-        [isOpen]="openedAccordion === 'venue'"
-        (opened)="setOpenedAccordion($event)"
-      >
-        <div class="hygraphHTML">
-          <div [appSafeHtml]="getEvent().eventLocation.informations.html"></div>
+@if (event) {
+  <div class="event">
+    <div class="image">
+      <picture>
+        <source
+          media="(min-width: 769px)"
+          [srcset]="event.data.desktopImage.useImageUrl"
+        />
+        <source
+          media="(max-width: 768px)"
+          [srcset]="event.data.image.useImageUrl"
+        />
+        <img
+          [src]="event.data.desktopImage.useImageUrl"
+          [alt]="
+            event.data.desktopImage.alt || ('aria.event.image' | i18n | async)
+          "
+        />
+      </picture>
+      @if (event.data.caption) {
+        <div class="caption-container">
+          <button [attr.aria-label]="'aria.event.caption' | i18n | async">
+            <div class="caption" [innerHTML]="captionTransformed"></div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM11 11V17H13V11H11ZM11 7V9H13V7H11Z"
+              />
+            </svg>
+          </button>
         </div>
+      }
+      <span>
+        {{ "general.published" | i18n | async }}:
+        {{
+          localizationService.getFormattedDate(event.data.publishedAt) | async
+        }}
+      </span>
+    </div>
+    <div class="text">
+      <h1>{{ event.data.title }}</h1>
+      <h2>{{ event.data.subtitle }}</h2>
+      <div [innerHTML]="transformedHtml" class="content"></div>
+    </div>
+    <div class="info">
+      <div class="info-wrapper">
+        <app-accordion
+          [title]="'aria.event.venue' | i18n | async"
+          id="venue"
+          [isOpen]="openedAccordion === 'venue'"
+          (opened)="setOpenedAccordion($event)"
+        >
+          <div class="hygraphHTML">
+            <div
+              [appSafeHtml]="getEvent().eventLocation.informations.html"
+            ></div>
+          </div>
 
-        @if(isBrowser()) {
-        <app-map
-          [lat]="getEvent().eventLocation.geoLocation.latitude"
-          [lon]="getEvent().eventLocation.geoLocation.longitude"
-        ></app-map>
+          @if (isBrowser()) {
+            <app-map
+              [lat]="getEvent().eventLocation.geoLocation.latitude"
+              [lon]="getEvent().eventLocation.geoLocation.longitude"
+            ></app-map>
+          }
+        </app-accordion>
+
+        @for (addit of getEvent().additionalInformation; track $index) {
+          <app-accordion
+            [title]="addit.title"
+            [id]="addit.id"
+            (opened)="setOpenedAccordion($event)"
+            [isOpen]="openedAccordion === addit.id"
+          >
+            @if (isImageCarousel(addit); as images) {
+              <app-image-slider [images]="images.images"></app-image-slider>
+            }
+            @if (isTextAccordion(addit); as text) {
+              <div class="hygraphHTML" [appSafeHtml]="text.text.html"></div>
+            }
+          </app-accordion>
         }
-      </app-accordion>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- JSON-LD Script -->
-<script type="application/ld+json">
-  {{
-    {
-      "@context": "https://schema.org",
-      "@type": "Event",
-      "name": event.data.title,
-      "description": event.data.subtitle,
-      "startDate": event.data.startDate,
-      "endDate": event.data.endDate,
-      "image": [
-        event.data.desktopImage?.url,
-        event.data.image?.url
-      ],
-      "location": {
-        "@type": "Place",
-        "name": getEvent().eventLocation.name,
-        "address": getEvent().eventLocation.informations.html,
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": getEvent().eventLocation.geoLocation.latitude,
-          "longitude": getEvent().eventLocation.geoLocation.longitude
-        }
-      },
-      "additionalInformation": getEvent().additionalInformation.map(info => ({
-        "title": info.title,
-        "content": info.text?.html || ""
-      }))
-    } | json
-  }}
-</script>
+  <!-- JSON-LD Script -->
+  <script type="application/ld+json">
+    {{
+      {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": event.data.title,
+        "description": event.data.subtitle,
+        "startDate": event.data.startDate,
+        "endDate": event.data.endDate,
+        "image": [
+          event.data.desktopImage?.url,
+          event.data.image?.url
+        ],
+        "location": {
+          "@type": "Place",
+          "name": getEvent().eventLocation.name,
+          "address": getEvent().eventLocation.informations.html,
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": getEvent().eventLocation.geoLocation.latitude,
+            "longitude": getEvent().eventLocation.geoLocation.longitude
+          }
+        },
+        "additionalInformation": getEvent().additionalInformation.map(info => ({
+          "title": info.title,
+          "content": info.text?.html || ""
+        }))
+      } | json
+    }}
+  </script>
 }
