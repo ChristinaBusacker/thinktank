@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -79,7 +79,7 @@
           if (minVersions[browser.name] !== undefined) {
             if (browser.version < minVersions[browser.name]) {
               alert(
-                "Dein Browser ist veraltet, das könnte dazu führen, dass die Webseite nicht ganz nutzbar ist"
+                "Dein Browser ist veraltet, das könnte dazu führen, dass die Webseite nicht ganz nutzbar ist",
               );
             }
           }
@@ -97,5 +97,19 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-W51023H9D3"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-W51023H9D3");
+    </script>
   </body>
 </html>
